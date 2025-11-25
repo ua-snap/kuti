@@ -13,7 +13,6 @@
               class="button is-info is-large mx-3"
               style="min-width: 200px; min-height: 80px"
             >
-              <span class="icon is-large"> 📍 </span>
               <span class="is-size-4">Craig</span>
             </button>
 
@@ -22,7 +21,6 @@
               class="button is-success is-large mx-3"
               style="min-width: 200px; min-height: 80px"
             >
-              <span class="icon is-large"> 📍 </span>
               <span class="is-size-4">Kassan</span>
             </button>
           </div>
@@ -35,7 +33,6 @@
             <div class="level-left">
               <div class="level-item">
                 <h1 class="title is-2">
-                  <span class="icon is-large mr-2"> 📍 </span>
                   {{ mapStore.selectedLocation }}, Alaska
                 </h1>
               </div>
