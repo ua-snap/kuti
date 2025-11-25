@@ -50,8 +50,8 @@
           </div>
 
           <RiskLevel />
-          <!-- Map Display Component -->
           <Map />
+          <Resources />
         </div>
       </div>
     </div>
