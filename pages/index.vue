@@ -3,13 +3,13 @@
     <div class="hero-body">
       <div class="container">
         <!-- Location Selection (shown when no location is selected) -->
-        <div v-if="!selectedLocation" class="has-text-centered">
+        <div v-if="!mapStore.selectedLocation" class="has-text-centered">
           <h1 class="title is-1 mb-6">Welcome to Kuti</h1>
           <p class="subtitle is-3 mb-6">Select your Alaska location</p>
 
           <div class="buttons is-centered">
             <button
-              @click="selectLocation('Craig')"
+              @click="mapStore.selectLocation('Craig')"
               class="button is-info is-large mx-3"
               style="min-width: 200px; min-height: 80px"
             >
@@ -20,7 +20,7 @@
             </button>
 
             <button
-              @click="selectLocation('Kassan')"
+              @click="mapStore.selectLocation('Kassan')"
               class="button is-success is-large mx-3"
               style="min-width: 200px; min-height: 80px"
             >
@@ -42,18 +42,23 @@
                   <span class="icon is-large mr-2">
                     <i class="fas fa-map-marker-alt"></i>
                   </span>
-                  {{ selectedLocation }}, Alaska
+                  {{ mapStore.selectedLocation }}, Alaska
                 </h1>
               </div>
             </div>
             <div class="level-right">
               <div class="level-item">
-                <button @click="switchLocation" class="button is-light">
+                <button
+                  @click="mapStore.switchLocation"
+                  class="button is-light"
+                >
                   Switch Location
                 </button>
               </div>
             </div>
           </div>
+          <!-- Map Display Component -->
+          <Map />
         </div>
       </div>
     </div>
@@ -61,19 +66,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { useMapStore } from "../stores/map";
+import Map from "../components/Map.vue";
 
-definePageMeta({
-  title: "Kuti - Alaska Locations",
-});
-
-const selectedLocation = ref(null);
-
-const selectLocation = (location) => {
-  selectedLocation.value = location;
-};
-
-const switchLocation = () => {
-  selectedLocation.value = null;
-};
+const mapStore = useMapStore();
 </script>
