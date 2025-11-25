@@ -1,6 +1,5 @@
 <template>
   <div class="container is-max-desktop p-6">
-    <!-- Current Risk Status -->
     <div class="box has-text-centered mb-6 current-risk">
       <div class="risk-icon" :class="currentRisk.level">
         <span class="is-size-1 has-text-weight-bold">
@@ -16,7 +15,6 @@
       </h2>
     </div>
 
-    <!-- 24 Hour Forecast -->
     <div class="forecast-section mb-6">
       <h3 class="title is-4 mb-4">24 hour forecast</h3>
       <div class="box has-background-light">
@@ -37,7 +35,6 @@
       </div>
     </div>
 
-    <!-- 3 Day Forecast -->
     <div class="forecast-section mb-6">
       <h3 class="title is-4 mb-4">3 day forecast</h3>
       <div class="columns is-mobile">
@@ -64,7 +61,6 @@
       </div>
     </div>
 
-    <!-- Last Updated -->
     <div class="has-text-grey has-text-centered is-size-7 mt-6">
       Last updated {{ lastUpdated }}
     </div>
@@ -74,19 +70,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-// Current risk status
 const currentRisk = ref({
   level: "low",
   description: "Low risk conditions currently observed.",
 });
 
-// 24 hour forecast
 const forecast24h = ref({
   level: "medium",
   description: "Medium risk for the next 24 hours.",
 });
 
-// 3 day forecast
 const forecast3day = ref([
   { day: "Today", level: "low" },
   { day: "Wednesday", level: "medium" },
@@ -97,12 +90,10 @@ const lastUpdated = ref("7 minutes ago");
 </script>
 
 <style scoped>
-/* Custom gradient background for current risk */
 .current-risk {
   background: linear-gradient(135deg, #f8f9fa, #e9ecef);
 }
 
-/* Custom circular risk icon */
 .risk-icon {
   display: inline-flex;
   align-items: center;
@@ -113,7 +104,6 @@ const lastUpdated = ref("7 minutes ago");
   margin-bottom: 1rem;
 }
 
-/* Risk level colors */
 .risk-icon.low {
   background: #d4edda;
   color: #28a745;

@@ -1,9 +1,5 @@
 <template>
-  <div
-    :key="mapStore.selectedLocation"
-    id="map"
-    style="height: 500px; width: 100%"
-  ></div>
+  <div :key="mapStore.selectedLocation" id="map"></div>
 </template>
 
 <script setup lang="ts">

@@ -2,7 +2,6 @@
   <div class="hero is-fullheight">
     <div class="hero-body">
       <div class="container">
-        <!-- Location Selection (shown when no location is selected) -->
         <div v-if="!mapStore.selectedLocation" class="has-text-centered">
           <h1 class="title is-1 mb-6">Welcome to the Kuti First Draft</h1>
           <p class="subtitle is-3 mb-6">Select your Alaska location</p>
@@ -26,9 +25,7 @@
           </div>
         </div>
 
-        <!-- Main Application (shown when location is selected) -->
         <div v-else>
-          <!-- Header with location info and switch option -->
           <div class="level mb-6">
             <div class="level-left">
               <div class="level-item">
