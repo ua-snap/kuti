@@ -4,7 +4,7 @@
       <div class="container">
         <!-- Location Selection (shown when no location is selected) -->
         <div v-if="!mapStore.selectedLocation" class="has-text-centered">
-          <h1 class="title is-1 mb-6">Welcome to Kuti</h1>
+          <h1 class="title is-1 mb-6">Welcome to the Kuti First Draft</h1>
           <p class="subtitle is-3 mb-6">Select your Alaska location</p>
 
           <div class="buttons is-centered">
@@ -13,9 +13,7 @@
               class="button is-info is-large mx-3"
               style="min-width: 200px; min-height: 80px"
             >
-              <span class="icon is-large">
-                <i class="fas fa-map-marker-alt"></i>
-              </span>
+              <span class="icon is-large"> 📍 </span>
               <span class="is-size-4">Craig</span>
             </button>
 
@@ -24,9 +22,7 @@
               class="button is-success is-large mx-3"
               style="min-width: 200px; min-height: 80px"
             >
-              <span class="icon is-large">
-                <i class="fas fa-map-marker-alt"></i>
-              </span>
+              <span class="icon is-large"> 📍 </span>
               <span class="is-size-4">Kassan</span>
             </button>
           </div>
@@ -39,9 +35,7 @@
             <div class="level-left">
               <div class="level-item">
                 <h1 class="title is-2">
-                  <span class="icon is-large mr-2">
-                    <i class="fas fa-map-marker-alt"></i>
-                  </span>
+                  <span class="icon is-large mr-2"> 📍 </span>
                   {{ mapStore.selectedLocation }}, Alaska
                 </h1>
               </div>
@@ -57,6 +51,8 @@
               </div>
             </div>
           </div>
+
+          <RiskLevel />
           <!-- Map Display Component -->
           <Map />
         </div>
