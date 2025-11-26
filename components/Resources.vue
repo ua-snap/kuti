@@ -1,8 +1,8 @@
 <template>
   <div class="container is-max-desktop p-6">
     <h2 class="title is-2 mb-6">Resources</h2>
-
-    <div class="columns is-multiline">
+    <div>This is where Resources will go</div>
+    <!-- <div class="columns is-multiline">
       <div class="column is-half">
         <div class="card">
           <div class="card-content">
@@ -132,6 +132,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
