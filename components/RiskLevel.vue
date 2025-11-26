@@ -1,41 +1,87 @@
 <template>
-  <h2>
-    {{ currentRisk.level.charAt(0).toUpperCase() + currentRisk.level.slice(1) }}
-    risk of landslide now
-  </h2>
-  <p>Last updated {{ lastUpdated }}</p>
+  <!-- Loading state -->
+  <div v-if="dataStore.loading">
+    <p>Loading landslide risk data...</p>
+  </div>
 
-  <h3>24 hour forecast</h3>
-  <p>
-    {{ forecast24h.level.charAt(0).toUpperCase() + forecast24h.level.slice(1) }}
-    risk for the next 24 hours
-  </p>
+  <!-- Error state -->
+  <div v-else-if="dataStore.error">
+    <p>{{ dataStore.error }}</p>
+  </div>
 
-  <h3>3 day forecast</h3>
-  <div v-for="day in forecast3day" :key="day.day">
-    <h4>{{ day.day }}</h4>
-    <span>{{ day.level.charAt(0).toUpperCase() + day.level.slice(1) }}</span>
+  <!-- Data loaded successfully -->
+  <div v-else-if="dataStore.data">
+    <h2>
+      {{ dataStore.getRiskLevelText(dataStore.data.risk_level) }}
+      risk of landslide now
+    </h2>
+    <p v-if="dataStore.data.risk_is_elevated_from_previous">
+      ⚠️ Risk has increased from previous reading
+    </p>
+    <p>
+      Last updated {{ dataStore.formatTimestamp(dataStore.data.timestamp) }}
+    </p>
+
+    <h3>24 hour forecast</h3>
+    <p>
+      {{ dataStore.getRiskLevelText(dataStore.data.risk_24hr) }}
+      risk for the next 24 hours
+    </p>
+    <p>
+      Precipitation: {{ dataStore.data.precipitation_24hr }}mm ({{
+        dataStore.data.precipitation_inches.toFixed(2)
+      }}")
+    </p>
+
+    <h3>3 day forecast</h3>
+    <div>
+      <h4>24 hours</h4>
+      <span>{{ dataStore.getRiskLevelText(dataStore.data.risk_24hr) }}</span>
+    </div>
+    <div>
+      <h4>2 days</h4>
+      <span>{{ dataStore.getRiskLevelText(dataStore.data.risk_2days) }}</span>
+    </div>
+    <div>
+      <h4>3 days</h4>
+      <span>{{ dataStore.getRiskLevelText(dataStore.data.risk_3days) }}</span>
+    </div>
+
+    <p>2-day precipitation: {{ dataStore.data.precipitation_2days }}mm</p>
+    <p>3-day precipitation: {{ dataStore.data.precipitation_3days }}mm</p>
+    <p>Data for {{ dataStore.data.place_name }}</p>
+    <p>
+      Risk probability:
+      {{ (dataStore.data.risk_probability * 100).toFixed(6) }}%
+    </p>
+  </div>
+
+  <!-- No data state -->
+  <div v-else>
+    <p>
+      No landslide risk data available. Please select a community to view data.
+    </p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { useDataStore } from "~/stores/data";
+import { useMapStore } from "~/stores/map";
+import { watch } from "vue";
 
-const currentRisk = ref({
-  level: "low",
-  description: "Low risk conditions currently observed.",
-});
+const dataStore = useDataStore();
+const mapStore = useMapStore();
 
-const forecast24h = ref({
-  level: "medium",
-  description: "Medium risk for the next 24 hours.",
-});
-
-const forecast3day = ref([
-  { day: "Today", level: "low" },
-  { day: "Wednesday", level: "medium" },
-  { day: "Thursday", level: "high" },
-]);
-
-const lastUpdated = ref("7 minutes ago");
+// Watch for changes in selected location and fetch data accordingly
+watch(
+  () => mapStore.selectedLocation,
+  async (newLocation) => {
+    if (newLocation) {
+      await dataStore.fetchLandslideData(newLocation);
+    } else {
+      dataStore.clearData();
+    }
+  },
+  { immediate: true },
+);
 </script>

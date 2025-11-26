@@ -9,7 +9,7 @@ export const useMapStore = defineStore("map", () => {
   const locations: Record<string, { lat: number; lng: number; zoom: number }> =
     {
       Craig: { lat: 55.476389, lng: -133.147778, zoom: 13 },
-      Kassan: { lat: 55.541667, lng: -132.401944, zoom: 13 },
+      Kasaan: { lat: 55.541667, lng: -132.401944, zoom: 13 },
     };
 
   const setLocation = (name: string) => {
