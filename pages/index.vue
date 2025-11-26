@@ -8,7 +8,7 @@
 
           <div class="buttons is-centered">
             <button
-              @click="mapStore.selectLocation('Craig')"
+              @click="mapStore.setLocation('Craig')"
               class="button is-info is-large mx-3"
               style="min-width: 200px; min-height: 80px"
             >
@@ -16,7 +16,7 @@
             </button>
 
             <button
-              @click="mapStore.selectLocation('Kassan')"
+              @click="mapStore.setLocation('Kassan')"
               class="button is-success is-large mx-3"
               style="min-width: 200px; min-height: 80px"
             >

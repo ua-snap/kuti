@@ -12,7 +12,7 @@ export const useMapStore = defineStore("map", () => {
       Kassan: { lat: 55.541667, lng: -132.401944, zoom: 13 },
     };
 
-  const selectLocation = (name: string) => {
+  const setLocation = (name: string) => {
     selectedLocation.value = name;
   };
 
@@ -53,7 +53,7 @@ export const useMapStore = defineStore("map", () => {
 
   return {
     selectedLocation,
-    selectLocation,
+    setLocation,
     switchLocation,
     initializeMap,
   };
