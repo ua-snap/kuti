@@ -1,34 +1,18 @@
 <template>
-  <div>
-    <div>
-      <div v-if="!mapStore.selectedLocation">
-        <h1>Welcome to the Kuti First Draft</h1>
-        <p>Select your Alaska location</p>
+  <div v-if="!mapStore.selectedLocation">
+    <h1>Landslide Risk for Alaskan Communities</h1>
+    <h3>Where are you?</h3>
+    <a @click.prevent="mapStore.setLocation('Craig')" href="#">Craig</a>
+    &nbsp;
+    <a @click.prevent="mapStore.setLocation('Kassan')" href="#">Kassan</a>
+  </div>
 
-        <div>
-          <a @click.prevent="mapStore.setLocation('Craig')" href="#">Craig</a>
-          &nbsp;
-          <a @click.prevent="mapStore.setLocation('Kassan')" href="#">Kassan</a>
-        </div>
-      </div>
-
-      <div v-else>
-        <div>
-          <div>
-            <h1>{{ mapStore.selectedLocation }}, Alaska</h1>
-          </div>
-          <div>
-            <a @click.prevent="mapStore.switchLocation" href="#"
-              >Switch Location</a
-            >
-          </div>
-        </div>
-
-        <RiskLevel />
-        <Map />
-        <Resources />
-      </div>
-    </div>
+  <div v-else>
+    <h1>Landslide risk at {{ mapStore.selectedLocation }}</h1>
+    <a @click.prevent="mapStore.switchLocation" href="#">Switch Location</a>
+    <RiskLevel />
+    <Map />
+    <Resources />
   </div>
 </template>
 
