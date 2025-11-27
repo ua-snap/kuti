@@ -24,6 +24,10 @@ export const useDataStore = defineStore("data", () => {
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
 
+  // Get API URL from Nuxt runtime config
+  const { $config } = useNuxtApp();
+  const apiUrl = $config.public.snapApiUrl;
+
   const fetchLandslideData = async (community: string): Promise<void> => {
     if (!community || (community !== "Kasaan" && community !== "Craig")) {
       error.value =
@@ -36,7 +40,7 @@ export const useDataStore = defineStore("data", () => {
 
     try {
       const response = await $fetch<LandslideData>(
-        `http://localhost:5000/landslide/${community}`,
+        `${apiUrl}/landslide/${community}`,
       );
       data.value = response;
     } catch (err) {
