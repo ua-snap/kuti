@@ -52,6 +52,7 @@ export const useMapStore = defineStore("map", () => {
   };
 
   return {
+    clearMap,
     selectedLocation,
     setLocation,
     switchLocation,
