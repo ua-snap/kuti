@@ -42,7 +42,34 @@ export const useDataStore = defineStore("data", () => {
       const response = await $fetch<LandslideData>(
         `${apiUrl}/landslide/${community}`,
       );
-      data.value = response;
+
+      const now = new Date();
+      const expiresAt = new Date(response.expires_at);
+
+      if (now > expiresAt) {
+        const lastUpdate = new Date(response.timestamp);
+        const timeSinceUpdate = now.getTime() - lastUpdate.getTime();
+        const hoursSince = Math.floor(timeSinceUpdate / (1000 * 60 * 60));
+        const minutesSince = Math.floor(
+          (timeSinceUpdate % (1000 * 60 * 60)) / (1000 * 60),
+        );
+
+        let timeString;
+        if (hoursSince > 0) {
+          timeString = `${hoursSince} hour${hoursSince > 1 ? "s" : ""}${
+            minutesSince > 0
+              ? ` and ${minutesSince} minute${minutesSince > 1 ? "s" : ""}`
+              : ""
+          }`;
+        } else {
+          timeString = `${minutesSince} minute${minutesSince > 1 ? "s" : ""}`;
+        }
+
+        error.value = `The upstream datasources were unable to be updated. It has been ${timeString} since the last update.`;
+        data.value = null;
+      } else {
+        data.value = response;
+      }
     } catch (err) {
       console.error("Failed to fetch landslide data:", err);
       error.value = "Failed to fetch landslide data. Please try again.";
