@@ -4,7 +4,7 @@
     <h3>Where are you?</h3>
     <a @click.prevent="mapStore.setLocation('Craig')" href="#">Craig</a>
     &nbsp;
-    <a @click.prevent="mapStore.setLocation('Kassan')" href="#">Kassan</a>
+    <a @click.prevent="mapStore.setLocation('Kasaan')" href="#">Kasaan</a>
   </div>
 
   <div v-else>

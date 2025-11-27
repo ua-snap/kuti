@@ -47,13 +47,10 @@
       <span>{{ dataStore.getRiskLevelText(dataStore.data.risk_3days) }}</span>
     </div>
 
-    <p>2-day precipitation: {{ dataStore.data.precipitation_2days }}mm</p>
-    <p>3-day precipitation: {{ dataStore.data.precipitation_3days }}mm</p>
-    <p>Data for {{ dataStore.data.place_name }}</p>
-    <p>
-      Risk probability:
-      {{ (dataStore.data.risk_probability * 100).toFixed(6) }}%
-    </p>
+    <h3>2-day precipitation</h3>
+    <span>{{ dataStore.data.precipitation_2days }}mm</span>
+    <h3>3-day precipitation</h3>
+    <span>{{ dataStore.data.precipitation_3days }}mm</span>
   </div>
 
   <!-- No data state -->
