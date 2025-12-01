@@ -28,6 +28,31 @@ export const useDataStore = defineStore("data", () => {
   const { $config } = useNuxtApp();
   const apiUrl = $config.public.snapApiUrl;
 
+  // Shared helper function for formatting time differences
+  const formatTimeDifference = (diffMs: number): string => {
+    const diffMins = Math.floor(diffMs / 60000);
+
+    if (diffMins < 1) {
+      return "Just now";
+    } else if (diffMins < 60) {
+      return `${diffMins} minute${diffMins > 1 ? "s" : ""}`;
+    } else if (diffMins < 1440) {
+      const hours = Math.floor(diffMins / 60);
+      const remainingMins = diffMins % 60;
+
+      if (remainingMins > 0) {
+        return `${hours} hour${
+          hours > 1 ? "s" : ""
+        } and ${remainingMins} minute${remainingMins > 1 ? "s" : ""}`;
+      } else {
+        return `${hours} hour${hours > 1 ? "s" : ""}`;
+      }
+    } else {
+      const days = Math.floor(diffMins / 1440);
+      return `${days} day${days > 1 ? "s" : ""}`;
+    }
+  };
+
   const fetchLandslideData = async (community: string): Promise<void> => {
     if (!community || (community !== "Kasaan" && community !== "Craig")) {
       error.value =
@@ -57,24 +82,10 @@ export const useDataStore = defineStore("data", () => {
       if (now > expiresAt) {
         const lastUpdate = new Date(response.timestamp);
         const timeSinceUpdate = now.getTime() - lastUpdate.getTime();
-        const hoursSince = Math.floor(timeSinceUpdate / (1000 * 60 * 60));
-        const minutesSince = Math.floor(
-          (timeSinceUpdate % (1000 * 60 * 60)) / (1000 * 60),
-        );
-
-        let timeString;
-        if (hoursSince > 0) {
-          timeString = `${hoursSince} hour${hoursSince > 1 ? "s" : ""}${
-            minutesSince > 0
-              ? ` and ${minutesSince} minute${minutesSince > 1 ? "s" : ""}`
-              : ""
-          }`;
-        } else {
-          timeString = `${minutesSince} minute${minutesSince > 1 ? "s" : ""}`;
-        }
+        const timeString = formatTimeDifference(timeSinceUpdate);
 
         error.value = `The upstream datasources were unable to be updated. It has been ${timeString} since the last update.`;
-        data.value = null;
+        data.value = response; // Still store the data so it can be displayed with the error
       } else {
         data.value = response;
       }
@@ -95,19 +106,13 @@ export const useDataStore = defineStore("data", () => {
 
   const formatTimestamp = (timestamp: string): string => {
     try {
-      // Parse the UTC timestamp
       const date = new Date(timestamp);
       const now = new Date();
       const diffMs = now.getTime() - date.getTime();
-      const diffMins = Math.floor(diffMs / 60000);
 
-      if (diffMins < 1) {
-        return "Just now";
-      } else if (diffMins < 60) {
-        return `${diffMins} minute${diffMins > 1 ? "s" : ""} ago`;
-      } else if (diffMins < 1440) {
-        const hours = Math.floor(diffMins / 60);
-        return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+      if (diffMs < 1440 * 60 * 1000) {
+        // Less than a day
+        return formatTimeDifference(diffMs) + " ago";
       } else {
         // For dates older than a day, show the local time
         return date.toLocaleString();
@@ -128,12 +133,9 @@ export const useDataStore = defineStore("data", () => {
   };
 
   return {
-    // State
     data: readonly(data),
     loading: readonly(loading),
     error: readonly(error),
-
-    // Actions
     fetchLandslideData,
     clearData,
     formatTimestamp,
