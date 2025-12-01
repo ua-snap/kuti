@@ -4,8 +4,6 @@ import { VALID_COMMUNITIES, isValidCommunity } from "~/utils/luts";
 
 export interface LandslideData {
   expires_at: string;
-  hour: string;
-  place_name: string;
   precipitation_24hr: number;
   precipitation_2days: number;
   precipitation_3days: number;
