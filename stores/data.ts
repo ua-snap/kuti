@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { VALID_COMMUNITIES, isValidCommunity } from "~/utils/luts";
 
 export interface LandslideData {
   expires_at: string;
@@ -53,9 +54,10 @@ export const useDataStore = defineStore("data", () => {
   };
 
   const fetchLandslideData = async (community: string): Promise<void> => {
-    if (!community || (community !== "Kasaan" && community !== "Craig")) {
-      error.value =
-        "Invalid community selected. Please choose 'Kasaan' or 'Craig'.";
+    if (!community || !isValidCommunity(community)) {
+      error.value = `Invalid community selected. Please choose ${VALID_COMMUNITIES.join(
+        " or ",
+      )}.`;
       return;
     }
 

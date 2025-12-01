@@ -16,19 +16,20 @@
 </template>
 
 <script setup lang="ts">
-import { useMapStore } from "../stores/map";
+import { useMapStore } from "~/stores/map";
+import { VALID_COMMUNITIES, isValidCommunity } from "~/utils/luts";
 
 const route = useRoute();
 const mapStore = useMapStore();
 
-const validCommunities = ["Craig", "Kasaan"];
 const community = route.params.community as string;
 
-if (!validCommunities.includes(community)) {
+if (!isValidCommunity(community)) {
   throw createError({
     statusCode: 404,
-    statusMessage:
-      "Community not found. Valid communities are Craig and Kasaan.",
+    statusMessage: `Community not found. Valid communities are ${VALID_COMMUNITIES.join(
+      " and ",
+    )}.`,
   });
 }
 

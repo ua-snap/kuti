@@ -1,16 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { COMMUNITY_LOCATIONS } from "~/utils/luts";
 
 export const useMapStore = defineStore("map", () => {
   const { $L } = useNuxtApp();
   const selectedLocation = ref<string | null>(null);
   const map = ref<any>(null);
-
-  const locations: Record<string, { lat: number; lng: number; zoom: number }> =
-    {
-      Craig: { lat: 55.476389, lng: -133.147778, zoom: 13 },
-      Kasaan: { lat: 55.541667, lng: -132.401944, zoom: 13 },
-    };
 
   const setLocation = (name: string) => {
     selectedLocation.value = name;
@@ -31,7 +26,13 @@ export const useMapStore = defineStore("map", () => {
   const initializeMap = () => {
     clearMap();
 
-    const location = locations[selectedLocation.value];
+    if (!selectedLocation.value) return;
+
+    const location =
+      COMMUNITY_LOCATIONS[
+        selectedLocation.value as keyof typeof COMMUNITY_LOCATIONS
+      ];
+    if (!location) return;
 
     map.value = $L.map("map", {
       zoom: location.zoom,
