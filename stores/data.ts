@@ -81,7 +81,7 @@ export const useDataStore = defineStore("data", () => {
         const timeSinceUpdate = now.getTime() - lastUpdate.getTime();
         const timeString = formatTimeDifference(timeSinceUpdate);
 
-        error.value = `The upstream datasources were unable to be updated. It has been ${timeString} since the last update.`;
+        error.value = `The upstream data sources were unable to be updated. It has been ${timeString} since the last update.`;
         data.value = null;
       } else {
         data.value = response;
