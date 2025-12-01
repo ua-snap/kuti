@@ -41,6 +41,14 @@ export const useDataStore = defineStore("data", () => {
     try {
       const response = await $fetch<LandslideData>(
         `${apiUrl}/landslide/${community}`,
+        {
+          // Disable browser caching
+          headers: {
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            Pragma: "no-cache",
+            Expires: "0",
+          },
+        },
       );
 
       const now = new Date();
