@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>Welcome to the Kuti First Draft</h1>
-    <p>Select your Alaska location</p>
+    <h1>Landslide Risk for Alaskan Communities</h1>
+    <h3>Where are you?</h3>
 
     <div>
       <NuxtLink to="/Craig">Craig</NuxtLink>
