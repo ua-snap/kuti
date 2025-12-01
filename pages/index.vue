@@ -11,13 +11,4 @@
   </div>
 </template>
 
-<script setup>
-import { useMapStore } from "../stores/map";
-
-const mapStore = useMapStore();
-
-onMounted(() => {
-  mapStore.clearMap();
-  mapStore.selectedLocation = null;
-});
-</script>
+<script setup></script>
