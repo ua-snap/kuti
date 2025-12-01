@@ -14,7 +14,6 @@ export interface LandslideData {
   risk_3days: number;
   risk_is_elevated_from_previous: boolean;
   risk_level: number;
-  risk_probability: number;
   timestamp: string;
 }
 
