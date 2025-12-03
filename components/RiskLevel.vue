@@ -63,22 +63,6 @@
 
 <script setup lang="ts">
 import { useDataStore } from "~/stores/data";
-import { useMapStore } from "~/stores/map";
-import { watch } from "vue";
 
 const dataStore = useDataStore();
-const mapStore = useMapStore();
-
-// Watch for changes in selected location and fetch data accordingly
-watch(
-  () => mapStore.selectedLocation,
-  async (newLocation) => {
-    if (newLocation) {
-      await dataStore.fetchLandslideData(newLocation);
-    } else {
-      dataStore.clearData();
-    }
-  },
-  { immediate: true },
-);
 </script>

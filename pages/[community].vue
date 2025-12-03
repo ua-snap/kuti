@@ -2,7 +2,7 @@
   <div>
     <div>
       <div>
-        <h1>{{ community }}, Alaska</h1>
+        <h1>{{ communityName }}, Alaska</h1>
       </div>
       <div>
         <NuxtLink to="/">Switch Location</NuxtLink>
@@ -17,23 +17,33 @@
 
 <script setup lang="ts">
 import { useMapStore } from "~/stores/map";
-import { VALID_COMMUNITIES, isValidCommunity } from "~/utils/luts";
+import { useDataStore } from "~/stores/data";
+import {
+  VALID_COMMUNITIES,
+  getCommunityName,
+  type Community,
+} from "~/utils/luts";
 
 const route = useRoute();
 const mapStore = useMapStore();
+const dataStore = useDataStore();
 
-const community = route.params.community as string;
+definePageMeta({
+  validate: (route) => {
+    return VALID_COMMUNITIES.includes(route.params.community as Community);
+  },
+});
 
-if (!isValidCommunity(community)) {
-  throw createError({
-    statusCode: 404,
-    statusMessage: `Community not found. Valid communities are ${VALID_COMMUNITIES.join(
-      " and ",
-    )}.`,
-  });
-}
+const communityId = route.params.community as Community;
+const communityName = getCommunityName(communityId);
 
-onMounted(() => {
-  mapStore.setLocation(community);
+onMounted(async () => {
+  mapStore.setLocation(communityName);
+
+  await dataStore.fetchLandslideData(communityId);
+});
+
+useHead({
+  title: `${communityName}, Alaska`,
 });
 </script>

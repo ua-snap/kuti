@@ -28,15 +28,19 @@ export const useMapStore = defineStore("map", () => {
 
     if (!selectedLocation.value) return;
 
-    const location =
-      COMMUNITY_LOCATIONS[
-        selectedLocation.value as keyof typeof COMMUNITY_LOCATIONS
-      ];
-    if (!location) return;
+    let communityData = null;
+    for (const community of Object.values(COMMUNITY_LOCATIONS)) {
+      if (community.name === selectedLocation.value) {
+        communityData = community;
+        break;
+      }
+    }
+
+    if (!communityData) return;
 
     map.value = $L.map("map", {
-      zoom: location.zoom,
-      center: $L.latLng(location.lat, location.lng),
+      zoom: communityData.zoom,
+      center: $L.latLng(communityData.lat, communityData.lng),
       scrollWheelZoom: false,
       zoomControl: false,
       doubleClickZoom: false,

@@ -4,11 +4,15 @@
     <h3>Where are you?</h3>
 
     <div>
-      <NuxtLink to="/Craig">Craig</NuxtLink>
+      <NuxtLink to="/AK91">Craig</NuxtLink>
       &nbsp;
-      <NuxtLink to="/Kasaan">Kasaan</NuxtLink>
+      <NuxtLink to="/AK182">Kasaan</NuxtLink>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+useHead({
+  title: `Landslide Risk for Alaskan Communities`,
+});
+</script>
