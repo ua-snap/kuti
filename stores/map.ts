@@ -53,105 +53,30 @@ export const useMapStore = defineStore("map", () => {
 
     baseLayer.addTo(map.value);
 
-    const craigHillshadeLayer = $L.tileLayer.wms(
-      "https://gs.earthmaps.io/geoserver/kuti/wms",
-      {
-        layers: "kuti:craig_hillshade",
-        format: "image/png",
-        transparent: true,
-        version: "1.1.0",
-        crs: $L.CRS.EPSG3857,
-        opacity: 1.0,
-      },
-    );
+    const kutiLayersConfig = [
+      { name: "kuti:craig_hillshade", opacity: 1.0 },
+      { name: "kuti:kasaan_hillshade", opacity: 1.0 },
+      { name: "kuti:streams", opacity: 1.0 },
+      { name: "kuti:runout", opacity: 0.5 },
+      { name: "kuti:initiation", opacity: 1.0 },
+      { name: "kuti:tongass", opacity: 1.0 },
+      { name: "kuti:roads_and_paths", opacity: 1.0 },
+    ];
 
-    const kasaanHillshadeLayer = $L.tileLayer.wms(
-      "https://gs.earthmaps.io/geoserver/kuti/wms",
-      {
-        layers: "kuti:kasaan_hillshade",
-        format: "image/png",
-        transparent: true,
-        version: "1.1.0",
-        crs: $L.CRS.EPSG3857,
-        opacity: 1.0,
-      },
-    );
-
-    craigHillshadeLayer.addTo(map.value);
-    kasaanHillshadeLayer.addTo(map.value);
-
-    const streamsLayer = $L.tileLayer.wms(
-      "https://gs.earthmaps.io/geoserver/kuti/wms",
-      {
-        layers: "kuti:streams",
-        format: "image/png",
-        transparent: true,
-        version: "1.1.0",
-        crs: $L.CRS.EPSG3857,
-        opacity: 1.0,
-      },
-    );
-
-    streamsLayer.addTo(map.value);
-
-    // Add runout layer from Geoserver
-    const runoutLayer = $L.tileLayer.wms(
-      "https://gs.earthmaps.io/geoserver/kuti/wms",
-      {
-        layers: "kuti:runout",
-        format: "image/png",
-        transparent: true,
-        version: "1.1.0",
-        crs: $L.CRS.EPSG3857,
-        opacity: 0.5,
-      },
-    );
-
-    runoutLayer.addTo(map.value);
-    // Add initiation layer from Geoserver
-    const initiationLayer = $L.tileLayer.wms(
-      "https://gs.earthmaps.io/geoserver/kuti/wms",
-      {
-        layers: "kuti:initiation",
-        format: "image/png",
-        transparent: true,
-        version: "1.1.0",
-        crs: $L.CRS.EPSG3857,
-        opacity: 1.0,
-      },
-    );
-
-    initiationLayer.addTo(map.value);
-
-    // Add tongass layer from Geoserver
-    const tongassLayer = $L.tileLayer.wms(
-      "https://gs.earthmaps.io/geoserver/kuti/wms",
-      {
-        layers: "kuti:tongass",
-        format: "image/png",
-        transparent: true,
-        version: "1.1.0",
-        crs: $L.CRS.EPSG3857,
-        opacity: 1.0,
-      },
-    );
-
-    tongassLayer.addTo(map.value);
-
-    // Add water bodies layer from Geoserver
-    const roadAndPathsLayer = $L.tileLayer.wms(
-      "https://gs.earthmaps.io/geoserver/kuti/wms",
-      {
-        layers: "kuti:roads_and_paths",
-        format: "image/png",
-        transparent: true,
-        version: "1.1.0",
-        crs: $L.CRS.EPSG3857,
-        opacity: 1.0,
-      },
-    );
-
-    roadAndPathsLayer.addTo(map.value);
+    kutiLayersConfig.forEach((layerConfig) => {
+      const wmsLayer = $L.tileLayer.wms(
+        "https://gs.earthmaps.io/geoserver/kuti/wms",
+        {
+          layers: layerConfig.name,
+          format: "image/png",
+          transparent: true,
+          version: "1.1.0",
+          crs: $L.CRS.EPSG3857,
+          opacity: layerConfig.opacity,
+        },
+      );
+      wmsLayer.addTo(map.value);
+    });
   };
 
   return {
