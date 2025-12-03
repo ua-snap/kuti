@@ -1,11 +1,5 @@
 <template>
-  <!-- Loading state -->
-  <div v-if="dataStore.loading">
-    <p>Loading landslide risk data...</p>
-  </div>
-
-  <!-- Error state -->
-  <div v-else-if="dataStore.error">
+  <div v-if="dataStore.error">
     <p>{{ dataStore.error }}</p>
   </div>
 
