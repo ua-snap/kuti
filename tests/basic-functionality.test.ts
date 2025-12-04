@@ -1,11 +1,36 @@
 import { test, expect } from "@playwright/test";
-import { TestUtils, TEST_COMMUNITIES } from "./utils";
+import {
+  TestUtils,
+  TEST_COMMUNITIES,
+  createValidLandslideData,
+  ApiMocker,
+} from "./utils";
 
 test.describe("Basic App Functionality", () => {
   let testUtils: TestUtils;
+  let apiMocker: ApiMocker;
 
   test.beforeEach(async ({ page }) => {
     testUtils = new TestUtils(page);
+    apiMocker = new ApiMocker(page);
+
+    // Clear any existing mocks first
+    await apiMocker.clearMocks();
+
+    // Set up basic mocks for navigation tests to avoid external API dependencies
+    await apiMocker.mockSuccessfulResponse(
+      TEST_COMMUNITIES.CRAIG,
+      createValidLandslideData(),
+    );
+    await apiMocker.mockSuccessfulResponse(
+      TEST_COMMUNITIES.KASAAN,
+      createValidLandslideData(),
+    );
+  });
+
+  test.afterEach(async ({ page }) => {
+    // Clean up mocks after each test
+    await apiMocker.clearMocks();
   });
 
   test("should load the homepage successfully", async ({ page }) => {
@@ -50,8 +75,9 @@ test.describe("Basic App Functionality", () => {
     // Click the Kasaan link
     await page.click('a[href="/AK182"]');
 
-    // Wait for navigation and app to load
+    // Wait for navigation and data to load
     await testUtils.waitForAppToLoad();
+    await testUtils.waitForDataLoad();
 
     // Check that we're on the Kasaan page
     await expect(page.url()).toContain("/AK182");
@@ -66,13 +92,14 @@ test.describe("Basic App Functionality", () => {
   }) => {
     // Start on a community page
     await testUtils.navigateToCommunity(TEST_COMMUNITIES.CRAIG);
+    await testUtils.waitForDataLoad();
 
     // Click "Switch Location"
     await page.click('a[href="/"]');
     await testUtils.waitForAppToLoad();
 
     // Verify we're back on the homepage
-    await expect(page.url()).toBe(page.url().split("/")[0] + "/");
+    await expect(page.url()).toBe(new URL(page.url()).origin + "/");
     await expect(page.locator("h1")).toContainText(
       "Landslide Risk for Alaskan Communities",
     );
@@ -142,15 +169,15 @@ test.describe("Basic App Functionality", () => {
     page,
   }) => {
     await testUtils.navigateToCommunity(TEST_COMMUNITIES.CRAIG);
+    await testUtils.waitForDataLoad();
 
-    // Look for resources component
-    const resourcesComponent = page
-      .locator('[data-testid="resources"]')
-      .or(page.locator(".resources"))
-      .first();
+    // Look for resources section heading - this indicates the component is present
+    await expect(
+      page.locator("h2").filter({ hasText: "Resources" }),
+    ).toBeVisible();
 
-    // The component should be present
-    await expect(resourcesComponent).toBeVisible();
+    // Verify the resources content is present
+    await expect(page.locator("text=Placeholder for resources")).toBeVisible();
   });
 
   test("should handle direct navigation to community pages", async ({

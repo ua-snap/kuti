@@ -205,6 +205,20 @@ export class TestUtils {
   }
 
   /**
+   * Wait for error to be displayed, with retries for timing issues
+   */
+  async waitForError(expectedError?: string, timeout: number = 5000) {
+    const start = Date.now();
+    while (Date.now() - start < timeout) {
+      if (await this.isErrorDisplayed(expectedError)) {
+        return true;
+      }
+      await this.page.waitForTimeout(100);
+    }
+    return false;
+  }
+
+  /**
    * Check if an error message is displayed
    */
   async isErrorDisplayed(expectedError?: string) {
@@ -219,8 +233,12 @@ export class TestUtils {
       'p:has-text("Failed to fetch")',
       'p:has-text("unable to be updated")',
       'p:has-text("Invalid community")',
+      'p:has-text("Network error occurred")',
+      'p:has-text("data received from the server is corrupted")',
       'div:has(p:has-text("Failed to fetch"))',
       'div:has(p:has-text("unable to be updated"))',
+      'div:has(p:has-text("Network error occurred"))',
+      'div:has(p:has-text("data received from the server is corrupted"))',
     ];
 
     for (const selector of errorSelectors) {
@@ -244,6 +262,8 @@ export class TestUtils {
         "Failed to fetch landslide data",
         "upstream data sources were unable to be updated",
         "Invalid community selected",
+        "data received from the server is corrupted",
+        "Network error occurred while fetching data",
       ];
 
       for (const text of errorTexts) {
@@ -290,15 +310,55 @@ export class TestUtils {
   }
 
   /**
+   * Wait for successful data to load and be displayed
+   */
+  async waitForDataSuccess(timeout: number = 5000) {
+    const start = Date.now();
+    while (Date.now() - start < timeout) {
+      const riskLevel = await this.getCurrentRiskLevel();
+      const hasError = await this.isErrorDisplayed();
+
+      if (riskLevel && !hasError) {
+        return true;
+      }
+      await this.page.waitForTimeout(100);
+    }
+    return false;
+  }
+
+  /**
    * Get the current risk level displayed
    */
   async getCurrentRiskLevel() {
-    const riskElement = this.page
-      .locator('[data-testid="risk-level"], .risk-level')
-      .first();
-    if (await riskElement.isVisible()) {
-      return await riskElement.textContent();
+    // Wait a moment for page to stabilize
+    await this.page.waitForTimeout(200);
+
+    // Try to find any h2 elements that contain risk level info
+    const allH2s = await this.page.locator("h2").all();
+
+    for (const h2 of allH2s) {
+      const text = await h2.textContent();
+      if (text && text.includes("risk of landslide now")) {
+        return text;
+      }
     }
+
+    // Fallback: try specific selectors
+    const fallbackSelectors = [
+      '[data-testid="risk-level"]',
+      ".risk-level",
+      'text="Low risk of landslide now"',
+      'text="Medium risk of landslide now"',
+      'text="High risk of landslide now"',
+    ];
+
+    for (const selector of fallbackSelectors) {
+      const element = this.page.locator(selector).first();
+      if (await element.isVisible()) {
+        return await element.textContent();
+      }
+    }
+
     return null;
   }
 

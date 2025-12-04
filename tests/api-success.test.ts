@@ -135,9 +135,12 @@ test.describe("API Success Scenarios", () => {
     await testUtils.navigateToCommunity(TEST_COMMUNITIES.CRAIG);
     await testUtils.waitForDataLoad();
 
-    // Check for timestamp display (look for "ago" text indicating recent update)
+    // Check for timestamp display - look for "Last updated" text specifically
     await expect(
-      page.locator("text=/ago|Just now|minutes?|hours?/"),
+      page.locator("p").filter({ hasText: "Last updated" }),
+    ).toBeVisible();
+    await expect(
+      page.locator("p").filter({ hasText: /ago|Just now/ }),
     ).toBeVisible();
   });
 
@@ -176,10 +179,16 @@ test.describe("API Success Scenarios", () => {
     await testUtils.navigateToCommunity(TEST_COMMUNITIES.CRAIG);
     await testUtils.waitForDataLoad();
 
-    // Check that different time period data is displayed
-    await expect(page.locator("text=/24.*hour/i")).toBeVisible();
-    await expect(page.locator("text=/2.*day/i")).toBeVisible();
-    await expect(page.locator("text=/3.*day/i")).toBeVisible();
+    // Check that different time period headings are displayed
+    await expect(
+      page.locator("h3").filter({ hasText: "24 hour forecast" }),
+    ).toBeVisible();
+    await expect(
+      page.locator("h3").filter({ hasText: "2-day precipitation" }),
+    ).toBeVisible();
+    await expect(
+      page.locator("h3").filter({ hasText: "3-day precipitation" }),
+    ).toBeVisible();
 
     // Check that the values are displayed
     await expect(page.locator("text=/15.2/")).toBeVisible();
@@ -191,6 +200,7 @@ test.describe("API Success Scenarios", () => {
     page,
   }) => {
     const mockData = createValidLandslideData({
+      precipitation_24hr: 88.9, // This is what gets displayed in the 24hr forecast
       precipitation_inches: 3.5,
       precipitation_mm: 88.9,
     });
@@ -200,9 +210,13 @@ test.describe("API Success Scenarios", () => {
     await testUtils.navigateToCommunity(TEST_COMMUNITIES.CRAIG);
     await testUtils.waitForDataLoad();
 
-    // Check that both inches and mm values are displayed
-    await expect(page.locator("text=/3.5.*inch/i")).toBeVisible();
-    await expect(page.locator("text=/88.9.*mm/i")).toBeVisible();
+    // Check that both mm and inches values are displayed in the 24hr forecast
+    // Format should be: "Precipitation: 88.9mm (3.50")"
+    await expect(
+      page.locator("p").filter({ hasText: "Precipitation:" }),
+    ).toBeVisible();
+    await expect(page.locator("text=/88.9mm/")).toBeVisible();
+    await expect(page.locator("text=/3.50/")).toBeVisible(); // The inches value
   });
 
   test("should handle rapid navigation between communities", async ({
