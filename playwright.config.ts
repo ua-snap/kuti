@@ -27,7 +27,7 @@ export default defineConfig({
     env: {
       NUXT_TELEMETRY_DISABLED: "1",
       NUXT_TYPECHECK: "0",
-      SNAP_API_URL: "https://localhost:5000",
+      SNAP_API_URL: "http://localhost:5000",
     },
   },
   projects: [

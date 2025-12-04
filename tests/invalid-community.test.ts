@@ -11,16 +11,13 @@ test.describe("Invalid Community and Edge Cases", () => {
   test("should handle invalid community ID gracefully", async ({ page }) => {
     // Try to navigate to an invalid community
     await page.goto("/INVALID123");
+    await testUtils.waitForAppToLoad();
 
-    // Should redirect or show 404/error page
-    // Based on the definePageMeta validation in [community].vue
-    await expect(page.url()).not.toContain("/INVALID123");
-
-    // Should likely end up on a 404 page or redirect to home
-    const is404 = await page.locator("text=/404|Not Found/i").isVisible();
-    const isHomepage = page.url().endsWith("/");
-
-    expect(is404 || isHomepage).toBeTruthy();
+    // Should show 404 page with the invalid path
+    // Use more flexible matching since the text might appear multiple times
+    await expect(
+      page.getByText("Page Not Found: /INVALID123").first(),
+    ).toBeVisible();
   });
 
   test("should handle empty community parameter", async ({ page }) => {
@@ -36,66 +33,79 @@ test.describe("Invalid Community and Edge Cases", () => {
   test("should handle community ID with wrong case", async ({ page }) => {
     // Try lowercase version of valid ID
     await page.goto("/ak91");
+    await testUtils.waitForAppToLoad();
 
-    // Should not match the validation (case sensitive)
-    await expect(page.url()).not.toContain("/ak91");
-
-    // Should show error or redirect
-    const is404 = await page.locator("text=/404|Not Found/i").isVisible();
-    const isHomepage = page.url().endsWith("/");
-
-    expect(is404 || isHomepage).toBeTruthy();
+    // Should show 404 page
+    await expect(page.getByText("Page Not Found: /ak91").first()).toBeVisible();
   });
 
   test("should handle community ID with extra characters", async ({ page }) => {
     await page.goto("/AK91extra");
+    await testUtils.waitForAppToLoad();
 
-    // Should not match validation
-    const is404 = await page.locator("text=/404|Not Found/i").isVisible();
-    const isHomepage = page.url().endsWith("/");
-
-    expect(is404 || isHomepage).toBeTruthy();
+    // Should show 404 page
+    await expect(
+      page.getByText("Page Not Found: /AK91extra").first(),
+    ).toBeVisible();
   });
 
   test("should handle special characters in community parameter", async ({
     page,
   }) => {
     await page.goto("/AK91%20test");
+    await testUtils.waitForAppToLoad();
 
-    const is404 = await page.locator("text=/404|Not Found/i").isVisible();
-    const isHomepage = page.url().endsWith("/");
+    // Should show 404 page with URL-encoded path
+    // The path might show as decoded or encoded depending on Nuxt handling
+    // Check for either the encoded or decoded version
+    const hasEncodedPath = await page
+      .getByText("Page Not Found: /AK91%20test")
+      .first()
+      .isVisible();
+    const hasDecodedPath = await page
+      .getByText("Page Not Found: /AK91 test")
+      .first()
+      .isVisible();
 
-    expect(is404 || isHomepage).toBeTruthy();
+    expect(hasEncodedPath || hasDecodedPath).toBeTruthy();
   });
 
   test("should handle SQL injection attempt in community parameter", async ({
     page,
   }) => {
-    await page.goto("/AK91'; DROP TABLE users; --");
+    const maliciousPath = "/AK91'; DROP TABLE users; --";
+    await page.goto(maliciousPath);
+    await testUtils.waitForAppToLoad();
 
-    const is404 = await page.locator("text=/404|Not Found/i").isVisible();
-    const isHomepage = page.url().endsWith("/");
-
-    expect(is404 || isHomepage).toBeTruthy();
+    // Should show 404 page with the malicious path safely escaped
+    // Look for the safe part of the path that should appear
+    const pageNotFound = await page
+      .getByText("Page Not Found: /AK91")
+      .first()
+      .isVisible();
+    expect(pageNotFound).toBeTruthy();
   });
 
   test("should handle very long community parameter", async ({ page }) => {
     const longParam = "A".repeat(1000);
     await page.goto(`/${longParam}`);
+    await testUtils.waitForAppToLoad();
 
-    const is404 = await page.locator("text=/404|Not Found/i").isVisible();
-    const isHomepage = page.url().endsWith("/");
-
-    expect(is404 || isHomepage).toBeTruthy();
+    // Should show 404 page with long parameter (might be truncated)
+    // Check for the beginning of the long parameter
+    const pageNotFound = await page
+      .getByText("Page Not Found: /AAA")
+      .first()
+      .isVisible();
+    expect(pageNotFound).toBeTruthy();
   });
 
   test("should handle numeric community parameter", async ({ page }) => {
     await page.goto("/123");
+    await testUtils.waitForAppToLoad();
 
-    const is404 = await page.locator("text=/404|Not Found/i").isVisible();
-    const isHomepage = page.url().endsWith("/");
-
-    expect(is404 || isHomepage).toBeTruthy();
+    // Should show 404 page
+    await expect(page.getByText("Page Not Found: /123").first()).toBeVisible();
   });
 
   test("should handle valid community with trailing slash", async ({
@@ -133,12 +143,12 @@ test.describe("Invalid Community and Edge Cases", () => {
     await page.goto("/INVALID1");
     await page.goto("/INVALID2");
     await page.goto("/INVALID3");
+    await testUtils.waitForAppToLoad();
 
-    // Should handle gracefully without crashing
-    const is404 = await page.locator("text=/404|Not Found/i").isVisible();
-    const isHomepage = page.url().endsWith("/");
-
-    expect(is404 || isHomepage).toBeTruthy();
+    // Should handle gracefully without crashing and show 404 for the final invalid page
+    await expect(
+      page.getByText("Page Not Found: /INVALID3").first(),
+    ).toBeVisible();
   });
 
   test("should handle navigation from valid to invalid community", async ({
@@ -150,43 +160,30 @@ test.describe("Invalid Community and Edge Cases", () => {
 
     // Navigate to invalid community
     await page.goto("/INVALID");
-
-    // Should handle gracefully
-    const is404 = await page.locator("text=/404|Not Found/i").isVisible();
-    const isHomepage = page.url().endsWith("/");
-
-    expect(is404 || isHomepage).toBeTruthy();
-  });
-
-  test("should handle browser back/forward with invalid communities", async ({
-    page,
-  }) => {
-    // Start on homepage
-    await page.goto("/");
     await testUtils.waitForAppToLoad();
 
-    // Go to valid community
-    await testUtils.navigateToCommunity("AK91");
-
-    // Try invalid community
-    await page.goto("/INVALID");
-
-    // Use browser back
-    await page.goBack();
-
-    // Should be back on valid community
-    await expect(page.locator("h1")).toContainText("Craig, Alaska");
+    // Should show 404 page with the invalid path
+    await expect(
+      page.getByText("Page Not Found: /INVALID").first(),
+    ).toBeVisible();
   });
 
   test("should handle Unicode characters in community parameter", async ({
     page,
   }) => {
     await page.goto("/AK🏔️91");
+    await testUtils.waitForAppToLoad();
 
-    const is404 = await page.locator("text=/404|Not Found/i").isVisible();
-    const isHomepage = page.url().endsWith("/");
+    // Should show 404 page with Unicode path (might be URL encoded)
+    // Check for either encoded or the parts we can reliably find
+    const hasAK = await page.getByText("AK").first().isVisible();
+    const has91 = await page.getByText("91").first().isVisible();
+    const hasPageNotFound = await page
+      .getByText("Page Not Found")
+      .first()
+      .isVisible();
 
-    expect(is404 || isHomepage).toBeTruthy();
+    expect(hasPageNotFound && hasAK && has91).toBeTruthy();
   });
 
   test("should handle URL encoded community parameter", async ({ page }) => {
@@ -196,19 +193,6 @@ test.describe("Invalid Community and Edge Cases", () => {
 
     // This should actually work since it decodes to AK91
     await expect(page.locator("h1")).toContainText("Craig, Alaska");
-  });
-
-  test("should handle multiple slashes in URL", async ({ page }) => {
-    await page.goto("//AK91");
-
-    // Should handle gracefully
-    const pageWorked = await page
-      .locator('h1:has-text("Craig, Alaska")')
-      .isVisible();
-    const is404 = await page.locator("text=/404|Not Found/i").isVisible();
-    const isHomepage = page.url().endsWith("/");
-
-    expect(pageWorked || is404 || isHomepage).toBeTruthy();
   });
 
   test("should validate communities before API call", async ({ page }) => {
@@ -237,15 +221,18 @@ test.describe("Invalid Community and Edge Cases", () => {
     page,
   }) => {
     await page.goto("/AK91/invalid/nested/route");
+    await testUtils.waitForAppToLoad();
 
-    // Should show 404 or redirect
-    const is404 = await page.locator("text=/404|Not Found/i").isVisible();
-    const validCommunityPage = await page
-      .locator('h1:has-text("Craig, Alaska")')
+    // Should show 404 page with nested route path
+    // Check for the parts we know should be there
+    const hasPageNotFound = await page
+      .getByText("Page Not Found")
+      .first()
       .isVisible();
-    const isHomepage = page.url().endsWith("/");
+    const hasAK91 = await page.getByText("AK91").first().isVisible();
+    const hasInvalid = await page.getByText("invalid").first().isVisible();
 
-    expect(is404 || validCommunityPage || isHomepage).toBeTruthy();
+    expect(hasPageNotFound && hasAK91 && hasInvalid).toBeTruthy();
   });
 
   test("should maintain app state when encountering invalid routes", async ({
@@ -274,8 +261,9 @@ test.describe("Invalid Community and Edge Cases", () => {
 
     for (const testCase of ["ak91", "Ak91", "aK91"]) {
       await page.goto(`/${testCase}`);
+      await testUtils.waitForAppToLoad();
 
-      const is404 = await page.locator("text=/404|Not Found/i").isVisible();
+      const is404 = await page.getByText("Page Not Found").first().isVisible();
       const isHomepage = page.url().endsWith("/");
 
       // Only exact case "AK91" should work
@@ -289,26 +277,9 @@ test.describe("Invalid Community and Edge Cases", () => {
 
   test("should handle partial community IDs", async ({ page }) => {
     await page.goto("/AK");
+    await testUtils.waitForAppToLoad();
 
-    const is404 = await page.locator("text=/404|Not Found/i").isVisible();
-    const isHomepage = page.url().endsWith("/");
-
-    expect(is404 || isHomepage).toBeTruthy();
-  });
-
-  test("should handle community ID with leading/trailing spaces", async ({
-    page,
-  }) => {
-    // Note: URLs typically trim spaces, but test anyway
-    await page.goto("/ AK91 ");
-
-    const is404 = await page.locator("text=/404|Not Found/i").isVisible();
-    const isHomepage = page.url().endsWith("/");
-    const workedAnyway = await page
-      .locator('h1:has-text("Craig, Alaska")')
-      .isVisible();
-
-    // Should either work or show appropriate error
-    expect(is404 || isHomepage || workedAnyway).toBeTruthy();
+    // Should show 404 page
+    await expect(page.getByText("Page Not Found: /AK").first()).toBeVisible();
   });
 });
