@@ -57,7 +57,7 @@ export const useMapStore = defineStore("map", () => {
       { name: "kuti:craig_hillshade", opacity: 1.0 },
       { name: "kuti:kasaan_hillshade", opacity: 1.0 },
       { name: "kuti:streams", opacity: 1.0 },
-      { name: "kuti:runout", opacity: 0.5 },
+      { name: "kuti:runout", opacity: 1.0 },
       { name: "kuti:initiation", opacity: 1.0 },
       { name: "kuti:tongass", opacity: 1.0 },
       { name: "kuti:roads_and_paths", opacity: 1.0 },
