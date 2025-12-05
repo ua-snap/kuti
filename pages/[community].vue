@@ -21,11 +21,7 @@
 <script setup lang="ts">
 import { useMapStore } from "~/stores/map";
 import { useDataStore } from "~/stores/data";
-import {
-  VALID_COMMUNITIES,
-  getCommunityName,
-  type Community,
-} from "~/utils/luts";
+import { VALID_COMMUNITIES, type CommunityId } from "~/types/custom";
 
 const route = useRoute();
 const mapStore = useMapStore();
@@ -33,15 +29,15 @@ const dataStore = useDataStore();
 
 definePageMeta({
   validate: (route) => {
-    return VALID_COMMUNITIES.includes(route.params.community as Community);
+    return VALID_COMMUNITIES.includes(route.params.community as CommunityId);
   },
 });
 
-const communityId = route.params.community as Community;
-const communityName = getCommunityName(communityId);
+const communityId = route.params.community as CommunityId;
+const communityName = dataStore.getCommunityName(communityId);
 
 onMounted(async () => {
-  mapStore.setLocation(communityName);
+  mapStore.setLocation(communityId);
 
   await dataStore.fetchLandslideData(communityId);
 });

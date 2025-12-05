@@ -1,6 +1,14 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { VALID_COMMUNITIES, isValidCommunity } from "~/utils/luts";
+import { VALID_COMMUNITIES, type CommunityId } from "~/types/custom";
+
+const COMMUNITY_LOCATIONS: Record<
+  CommunityId,
+  { name: string; lat: number; lng: number; zoom: number }
+> = {
+  AK91: { name: "Craig", lat: 55.476389, lng: -133.147778, zoom: 13 },
+  AK182: { name: "Kasaan", lat: 55.541667, lng: -132.401944, zoom: 13 },
+};
 
 export interface LandslideData {
   expires_at: string;
@@ -12,7 +20,6 @@ export interface LandslideData {
   risk_24hr: number;
   risk_2days: number;
   risk_3days: number;
-  risk_is_elevated_from_previous: boolean;
   risk_level: number;
   timestamp: string;
 }
@@ -50,9 +57,9 @@ export const useDataStore = defineStore("data", () => {
     }
   };
 
-  const fetchLandslideData = async (community: string): Promise<void> => {
-    if (!community || !isValidCommunity(community)) {
-      error.value = `Invalid community selected. Please choose ${VALID_COMMUNITIES.join(
+  const fetchLandslideData = async (community: CommunityId): Promise<void> => {
+    if (!community) {
+      error.value = `No community selected. Please choose ${VALID_COMMUNITIES.join(
         " or ",
       )}.`;
       return;
@@ -95,12 +102,6 @@ export const useDataStore = defineStore("data", () => {
     }
   };
 
-  const clearData = (): void => {
-    data.value = null;
-    error.value = null;
-    loading.value = false;
-  };
-
   const formatTimestamp = (timestamp: string): string => {
     try {
       const date = new Date(timestamp);
@@ -128,13 +129,22 @@ export const useDataStore = defineStore("data", () => {
     return riskLevels[riskLevel] || "Unknown";
   };
 
+  const getCommunityName = (communityId: CommunityId): string => {
+    return COMMUNITY_LOCATIONS[communityId].name;
+  };
+
+  const getCommunityLocation = (communityId: CommunityId) => {
+    return COMMUNITY_LOCATIONS[communityId];
+  };
+
   return {
     data: readonly(data),
     loading: readonly(loading),
     error: readonly(error),
     fetchLandslideData,
-    clearData,
     formatTimestamp,
     getRiskLevelText,
+    getCommunityName,
+    getCommunityLocation,
   };
 });

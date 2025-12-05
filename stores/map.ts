@@ -1,14 +1,16 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { COMMUNITY_LOCATIONS } from "~/utils/luts";
+import { useDataStore } from "~/stores/data";
+import { type CommunityId } from "~/types/custom";
 
 export const useMapStore = defineStore("map", () => {
   const { $L } = useNuxtApp();
-  const selectedLocation = ref<string | null>(null);
+  const dataStore = useDataStore();
+  const selectedCommunity = ref<CommunityId | null>(null);
   const map = ref<any>(null);
 
-  const setLocation = (name: string) => {
-    selectedLocation.value = name;
+  const setLocation = (communityId: CommunityId) => {
+    selectedCommunity.value = communityId;
   };
 
   const clearMap = () => {
@@ -20,21 +22,17 @@ export const useMapStore = defineStore("map", () => {
 
   const switchLocation = () => {
     clearMap();
-    selectedLocation.value = null;
+    selectedCommunity.value = null;
   };
 
   const initializeMap = () => {
     clearMap();
 
-    if (!selectedLocation.value) return;
+    if (!selectedCommunity.value) return;
 
-    let communityData = null;
-    for (const community of Object.values(COMMUNITY_LOCATIONS)) {
-      if (community.name === selectedLocation.value) {
-        communityData = community;
-        break;
-      }
-    }
+    const communityData = dataStore.getCommunityLocation(
+      selectedCommunity.value,
+    );
 
     if (!communityData) return;
 
@@ -57,7 +55,7 @@ export const useMapStore = defineStore("map", () => {
   };
 
   return {
-    selectedLocation,
+    selectedCommunity,
     setLocation,
     switchLocation,
     initializeMap,
