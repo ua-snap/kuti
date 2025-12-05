@@ -1,41 +1,50 @@
 <template>
-  <h2>
-    {{ currentRisk.level.charAt(0).toUpperCase() + currentRisk.level.slice(1) }}
-    risk of landslide now
-  </h2>
-  <p>Last updated {{ lastUpdated }}</p>
+  <div v-if="dataStore.error">
+    <p>{{ dataStore.error }}</p>
+  </div>
 
-  <h3>24 hour forecast</h3>
-  <p>
-    {{ forecast24h.level.charAt(0).toUpperCase() + forecast24h.level.slice(1) }}
-    risk for the next 24 hours
-  </p>
+  <!-- Data loaded successfully -->
+  <div v-else-if="dataStore.data">
+    <h2>
+      {{ dataStore.getRiskLevelText(dataStore.data.risk_level) }}
+      risk of landslide now
+    </h2>
+    <p>
+      Last updated {{ dataStore.formatTimestamp(dataStore.data.timestamp) }}
+    </p>
 
-  <h3>3 day forecast</h3>
-  <div v-for="day in forecast3day" :key="day.day">
-    <h4>{{ day.day }}</h4>
-    <span>{{ day.level.charAt(0).toUpperCase() + day.level.slice(1) }}</span>
+    <h3>24 hour forecast</h3>
+    <p>
+      {{ dataStore.getRiskLevelText(dataStore.data.risk_24hr) }}
+      risk for the next 24 hours
+    </p>
+    <p>Precipitation: {{ dataStore.data.precipitation_inches.toFixed(2) }}"</p>
+
+    <h3>3 day forecast</h3>
+    <div>
+      <h4>24 hours</h4>
+      <span>{{ dataStore.getRiskLevelText(dataStore.data.risk_24hr) }}</span>
+    </div>
+    <div>
+      <h4>2 days</h4>
+      <span>{{ dataStore.getRiskLevelText(dataStore.data.risk_2days) }}</span>
+    </div>
+    <div>
+      <h4>3 days</h4>
+      <span>{{ dataStore.getRiskLevelText(dataStore.data.risk_3days) }}</span>
+    </div>
+  </div>
+
+  <!-- No data state -->
+  <div v-else>
+    <p>
+      No landslide risk data available. Please select a community to view data.
+    </p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { useDataStore } from "~/stores/data";
 
-const currentRisk = ref({
-  level: "low",
-  description: "Low risk conditions currently observed.",
-});
-
-const forecast24h = ref({
-  level: "medium",
-  description: "Medium risk for the next 24 hours.",
-});
-
-const forecast3day = ref([
-  { day: "Today", level: "low" },
-  { day: "Wednesday", level: "medium" },
-  { day: "Thursday", level: "high" },
-]);
-
-const lastUpdated = ref("7 minutes ago");
+const dataStore = useDataStore();
 </script>

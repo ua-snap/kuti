@@ -8,6 +8,7 @@ Make sure to install dependencies:
 
 ```bash
 # npm
+nvm use lts/jod
 npm install
 ```
 

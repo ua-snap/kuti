@@ -1,24 +1,18 @@
 <template>
-  <div v-if="!mapStore.selectedLocation">
+  <div>
     <h1>Landslide Risk for Alaskan Communities</h1>
     <h3>Where are you?</h3>
-    <a @click.prevent="mapStore.setLocation('Craig')" href="#">Craig</a>
-    &nbsp;
-    <a @click.prevent="mapStore.setLocation('Kassan')" href="#">Kassan</a>
-  </div>
 
-  <div v-else>
-    <h1>Landslide risk at {{ mapStore.selectedLocation }}</h1>
-    <a @click.prevent="mapStore.switchLocation" href="#">Switch Location</a>
-    <RiskLevel />
-    <Map />
-    <Resources />
+    <div>
+      <NuxtLink to="/AK91">Craig</NuxtLink>
+      &nbsp;
+      <NuxtLink to="/AK182">Kasaan</NuxtLink>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { useMapStore } from "../stores/map";
-import Map from "../components/Map.vue";
-
-const mapStore = useMapStore();
+useHead({
+  title: `Landslide Risk for Alaskan Communities`,
+});
 </script>
