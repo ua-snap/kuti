@@ -9,9 +9,6 @@
       {{ dataStore.getRiskLevelText(dataStore.data.risk_level) }}
       risk of landslide now
     </h2>
-    <p v-if="dataStore.data.risk_is_elevated_from_previous">
-      ⚠️ Risk has increased from previous reading
-    </p>
     <p>
       Last updated {{ dataStore.formatTimestamp(dataStore.data.timestamp) }}
     </p>
@@ -21,11 +18,7 @@
       {{ dataStore.getRiskLevelText(dataStore.data.risk_24hr) }}
       risk for the next 24 hours
     </p>
-    <p>
-      Precipitation: {{ dataStore.data.precipitation_24hr }}mm ({{
-        dataStore.data.precipitation_inches.toFixed(2)
-      }}")
-    </p>
+    <p>Precipitation: {{ dataStore.data.precipitation_inches.toFixed(2) }}"</p>
 
     <h3>3 day forecast</h3>
     <div>
@@ -40,11 +33,6 @@
       <h4>3 days</h4>
       <span>{{ dataStore.getRiskLevelText(dataStore.data.risk_3days) }}</span>
     </div>
-
-    <h3>2-day precipitation</h3>
-    <span>{{ dataStore.data.precipitation_2days }}mm</span>
-    <h3>3-day precipitation</h3>
-    <span>{{ dataStore.data.precipitation_3days }}mm</span>
   </div>
 
   <!-- No data state -->
