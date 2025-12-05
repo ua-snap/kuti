@@ -16,8 +16,8 @@ test.describe("API Error Conditions", () => {
     await testUtils.navigateToCommunity(TEST_COMMUNITIES.CRAIG);
     await testUtils.waitForDataLoad();
 
-    // Add a small delay to allow error state to propagate
-    await page.waitForTimeout(100);
+    // Add a longer delay to allow error state to propagate properly
+    await page.waitForTimeout(500);
 
     // Check that error message is displayed
     expect(await testUtils.isErrorDisplayed()).toBeTruthy();

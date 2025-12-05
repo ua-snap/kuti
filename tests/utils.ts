@@ -51,9 +51,10 @@ export function createExpiredLandslideData(
   const pastExpiry = new Date(Date.now() - 1 * 60 * 60 * 1000); // 1 hour ago
 
   return {
-    ...createValidLandslideData(overrides),
+    ...createValidLandslideData(),
     expires_at: pastExpiry.toISOString(),
     timestamp: pastTime.toISOString(),
+    ...overrides, // Apply overrides AFTER setting the expired defaults
   };
 }
 
@@ -85,14 +86,18 @@ export class ApiMocker {
   }
 
   /**
-   * Mock API returning expired data
+   * Mock expired API response
    */
   async mockExpiredResponse(
     community: string,
     data?: Partial<MockLandslideData>,
   ) {
     await this.page.route(`**/landslide/${community}`, async (route: Route) => {
-      const response = createExpiredLandslideData(data);
+      // If full data is provided, use it directly, otherwise create expired data
+      const response =
+        data && "expires_at" in data
+          ? { ...createValidLandslideData(), ...data }
+          : createExpiredLandslideData(data);
       await route.fulfill({
         status: 200,
         contentType: "application/json",
@@ -297,6 +302,7 @@ export class TestUtils {
    * Wait for data to load (loading disappears)
    */
   async waitForDataLoad(timeout: number = 10000) {
+    // First wait for any loading indicators to disappear
     await this.page.waitForFunction(
       () => {
         const loadingElement = document.querySelector(
@@ -307,6 +313,9 @@ export class TestUtils {
       {},
       { timeout },
     );
+
+    // Add a small delay to ensure the app has time to process the API response
+    await this.page.waitForTimeout(500);
   }
 
   /**

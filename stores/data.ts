@@ -93,6 +93,10 @@ export const useDataStore = defineStore("data", () => {
       const now = new Date();
       const expiresAt = new Date(response.expires_at);
 
+      if (isNaN(expiresAt.getTime())) {
+        throw new Error("Invalid expires_at date format in response data");
+      }
+
       if (now > expiresAt) {
         const lastUpdate = new Date(response.timestamp);
         const timeSinceUpdate = now.getTime() - lastUpdate.getTime();

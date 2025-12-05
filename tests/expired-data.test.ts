@@ -51,16 +51,13 @@ test.describe("Expired Data Scenarios", () => {
     await testUtils.navigateToCommunity(TEST_COMMUNITIES.CRAIG);
     await testUtils.waitForDataLoad();
 
-    // Check that error message includes time information
-    expect(
-      await testUtils.isErrorDisplayed("since the last update"),
-    ).toBeTruthy();
+    // Wait for error to appear and check it contains time information
+    await testUtils.waitForError("since the last update");
 
-    // Look for time-related words in the error message
-    const errorElement = page
-      .locator('[data-testid="error-message"], .error, .alert-error')
-      .first();
-    const errorText = await errorElement.textContent();
+    // Get error text using the page content (since error is displayed as paragraph)
+    const errorText = await page
+      .locator('p:has-text("upstream data sources were unable to be updated")')
+      .textContent();
 
     expect(errorText).toMatch(/(minutes?|hours?|days?)/);
   });
@@ -80,13 +77,13 @@ test.describe("Expired Data Scenarios", () => {
     await testUtils.navigateToCommunity(TEST_COMMUNITIES.CRAIG);
     await testUtils.waitForDataLoad();
 
-    expect(await testUtils.isErrorDisplayed()).toBeTruthy();
+    // Wait for error to appear and check it contains minute information
+    await testUtils.waitForError("since the last update");
 
-    // Should show a short time period
-    const errorElement = page
-      .locator('[data-testid="error-message"], .error, .alert-error')
-      .first();
-    const errorText = await errorElement.textContent();
+    // Get error text using the page content
+    const errorText = await page
+      .locator('p:has-text("upstream data sources were unable to be updated")')
+      .textContent();
     expect(errorText).toMatch(/minutes?/);
   });
 
@@ -103,13 +100,13 @@ test.describe("Expired Data Scenarios", () => {
     await testUtils.navigateToCommunity(TEST_COMMUNITIES.CRAIG);
     await testUtils.waitForDataLoad();
 
-    expect(await testUtils.isErrorDisplayed()).toBeTruthy();
+    // Wait for error to appear and check it contains hour information
+    await testUtils.waitForError("since the last update");
 
-    // Should show hours in the error message
-    const errorElement = page
-      .locator('[data-testid="error-message"], .error, .alert-error')
-      .first();
-    const errorText = await errorElement.textContent();
+    // Get error text using the page content
+    const errorText = await page
+      .locator('p:has-text("upstream data sources were unable to be updated")')
+      .textContent();
     expect(errorText).toMatch(/hours?/);
   });
 
@@ -128,13 +125,13 @@ test.describe("Expired Data Scenarios", () => {
     await testUtils.navigateToCommunity(TEST_COMMUNITIES.CRAIG);
     await testUtils.waitForDataLoad();
 
-    expect(await testUtils.isErrorDisplayed()).toBeTruthy();
+    // Wait for error to appear and check it contains day information
+    await testUtils.waitForError("since the last update");
 
-    // Should show days in the error message
-    const errorElement = page
-      .locator('[data-testid="error-message"], .error, .alert-error')
-      .first();
-    const errorText = await errorElement.textContent();
+    // Get error text using the page content
+    const errorText = await page
+      .locator('p:has-text("upstream data sources were unable to be updated")')
+      .textContent();
     expect(errorText).toMatch(/days?/);
   });
 
@@ -171,23 +168,21 @@ test.describe("Expired Data Scenarios", () => {
     // Test Craig (hours)
     await testUtils.navigateToCommunity(TEST_COMMUNITIES.CRAIG);
     await testUtils.waitForDataLoad();
+    await testUtils.waitForError("since the last update");
 
-    expect(await testUtils.isErrorDisplayed()).toBeTruthy();
-    let errorElement = page
-      .locator('[data-testid="error-message"], .error, .alert-error')
-      .first();
-    let errorText = await errorElement.textContent();
+    let errorText = await page
+      .locator('p:has-text("upstream data sources were unable to be updated")')
+      .textContent();
     expect(errorText).toMatch(/hours?/);
 
     // Test Kasaan (days)
     await testUtils.navigateToCommunity(TEST_COMMUNITIES.KASAAN);
     await testUtils.waitForDataLoad();
+    await testUtils.waitForError("since the last update");
 
-    expect(await testUtils.isErrorDisplayed()).toBeTruthy();
-    errorElement = page
-      .locator('[data-testid="error-message"], .error, .alert-error')
-      .first();
-    errorText = await errorElement.textContent();
+    errorText = await page
+      .locator('p:has-text("upstream data sources were unable to be updated")')
+      .textContent();
     expect(errorText).toMatch(/days?/);
   });
 
@@ -277,13 +272,13 @@ test.describe("Expired Data Scenarios", () => {
     await testUtils.navigateToCommunity(TEST_COMMUNITIES.CRAIG);
     await testUtils.waitForDataLoad();
 
-    expect(await testUtils.isErrorDisplayed()).toBeTruthy();
+    // Wait for error to appear and check it shows "Just now"
+    await testUtils.waitForError("since the last update");
 
-    // Should show "Just now" for very recent updates
-    const errorElement = page
-      .locator('[data-testid="error-message"], .error, .alert-error')
-      .first();
-    const errorText = await errorElement.textContent();
+    // Get error text using the page content
+    const errorText = await page
+      .locator('p:has-text("upstream data sources were unable to be updated")')
+      .textContent();
     expect(errorText).toMatch(/Just now/);
   });
 
@@ -334,6 +329,7 @@ test.describe("Expired Data Scenarios", () => {
     await testUtils.waitForDataLoad();
 
     // Should handle malformed expires_at gracefully
+    await testUtils.waitForError();
     expect(await testUtils.isErrorDisplayed()).toBeTruthy();
   });
 

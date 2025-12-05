@@ -114,7 +114,9 @@ test.describe("API Success Scenarios", () => {
 
     let riskText = await testUtils.getCurrentRiskLevel();
     expect(riskText).toContain("Low");
-    await expect(page.locator("text=/1.0|25.4/")).toBeVisible();
+    await expect(
+      page.locator("p").filter({ hasText: /Precipitation:.*1\.0/ }),
+    ).toBeVisible();
 
     // Navigate to Kasaan
     await testUtils.navigateToCommunity(TEST_COMMUNITIES.KASAAN);
