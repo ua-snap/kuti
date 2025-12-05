@@ -5,4 +5,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@pinia/nuxt"],
   pages: true,
+  runtimeConfig: {
+    public: {
+      snapApiUrl: process.env.SNAP_API_URL || "https://earthmaps.io",
+    },
+  },
 });

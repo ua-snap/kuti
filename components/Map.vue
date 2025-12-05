@@ -1,5 +1,5 @@
 <template>
-  <div :key="mapStore.selectedLocation" id="map"></div>
+  <div :key="mapStore.selectedCommunity" id="map"></div>
 </template>
 
 <script setup lang="ts">
@@ -9,7 +9,7 @@ import { useMapStore } from "~/stores/map";
 const mapStore = useMapStore();
 
 const initializeMap = async () => {
-  if (mapStore.selectedLocation) {
+  if (mapStore.selectedCommunity) {
     await nextTick();
     setTimeout(() => {
       mapStore.initializeMap();
@@ -18,7 +18,7 @@ const initializeMap = async () => {
 };
 
 watch(
-  () => mapStore.selectedLocation,
+  () => mapStore.selectedCommunity,
   () => {
     initializeMap();
   },

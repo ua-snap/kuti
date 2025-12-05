@@ -1,19 +1,16 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { useDataStore } from "~/stores/data";
+import { type CommunityId } from "~/types/custom";
 
 export const useMapStore = defineStore("map", () => {
   const { $L } = useNuxtApp();
-  const selectedLocation = ref<string | null>(null);
+  const dataStore = useDataStore();
+  const selectedCommunity = ref<CommunityId | null>(null);
   const map = ref<any>(null);
 
-  const locations: Record<string, { lat: number; lng: number; zoom: number }> =
-    {
-      Craig: { lat: 55.476389, lng: -133.147778, zoom: 13 },
-      Kassan: { lat: 55.541667, lng: -132.401944, zoom: 13 },
-    };
-
-  const setLocation = (name: string) => {
-    selectedLocation.value = name;
+  const setLocation = (communityId: CommunityId) => {
+    selectedCommunity.value = communityId;
   };
 
   const clearMap = () => {
@@ -25,17 +22,23 @@ export const useMapStore = defineStore("map", () => {
 
   const switchLocation = () => {
     clearMap();
-    selectedLocation.value = null;
+    selectedCommunity.value = null;
   };
 
   const initializeMap = () => {
     clearMap();
 
-    const location = locations[selectedLocation.value];
+    if (!selectedCommunity.value) return;
+
+    const communityData = dataStore.getCommunityLocation(
+      selectedCommunity.value,
+    );
+
+    if (!communityData) return;
 
     map.value = $L.map("map", {
-      zoom: location.zoom,
-      center: $L.latLng(location.lat, location.lng),
+      zoom: communityData.zoom,
+      center: $L.latLng(communityData.lat, communityData.lng),
       scrollWheelZoom: false,
       zoomControl: false,
       doubleClickZoom: false,
@@ -52,7 +55,7 @@ export const useMapStore = defineStore("map", () => {
   };
 
   return {
-    selectedLocation,
+    selectedCommunity,
     setLocation,
     switchLocation,
     initializeMap,
