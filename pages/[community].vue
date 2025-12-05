@@ -47,6 +47,6 @@ onMounted(async () => {
 });
 
 useHead({
-  title: `${communityName}, Alaska`,
+  title: `Landslide risk for ${communityName}, Alaska`,
 });
 </script>
