@@ -52,6 +52,31 @@ export const useMapStore = defineStore("map", () => {
     );
 
     baseLayer.addTo(map.value);
+
+    const kutiLayersConfig = [
+      { name: "kuti:craig_hillshade", opacity: 1.0 },
+      { name: "kuti:kasaan_hillshade", opacity: 1.0 },
+      { name: "kuti:streams", opacity: 1.0 },
+      { name: "kuti:runout", opacity: 1.0 },
+      { name: "kuti:initiation", opacity: 1.0 },
+      { name: "kuti:tongass", opacity: 1.0 },
+      { name: "kuti:roads_and_paths", opacity: 1.0 },
+    ];
+
+    kutiLayersConfig.forEach((layerConfig) => {
+      const wmsLayer = $L.tileLayer.wms(
+        "https://gs.earthmaps.io/geoserver/kuti/wms",
+        {
+          layers: layerConfig.name,
+          format: "image/png",
+          transparent: true,
+          version: "1.1.0",
+          crs: $L.CRS.EPSG3857,
+          opacity: layerConfig.opacity,
+        },
+      );
+      wmsLayer.addTo(map.value);
+    });
   };
 
   return {
