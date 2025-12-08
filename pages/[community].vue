@@ -33,15 +33,21 @@ definePageMeta({
   },
 });
 
-const communityId = route.params.community as CommunityId;
-const communityName = dataStore.getCommunityName(communityId);
+const communityId = computed(() => route.params.community as CommunityId);
+const communityName = computed(() =>
+  dataStore.getCommunityName(communityId.value),
+);
 
-onMounted(async () => {
-  mapStore.setLocation(communityId);
-  await dataStore.fetchLandslideData(communityId);
-});
+watch(
+  communityId,
+  async (newCommunityId) => {
+    mapStore.setLocation(newCommunityId);
+    await dataStore.fetchLandslideData(newCommunityId);
+  },
+  { immediate: true },
+);
 
 useHead({
-  title: `Landslide risk for ${communityName}, Alaska`,
+  title: computed(() => `Landslide risk for ${communityName.value}, Alaska`),
 });
 </script>
