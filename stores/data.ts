@@ -62,6 +62,9 @@ export const useDataStore = defineStore("data", () => {
         data.value = null;
         return;
       }
+
+      data.value = response;
+      error.value = null;
     } catch (err: any) {
       console.error("Failed to fetch landslide data:", err);
 

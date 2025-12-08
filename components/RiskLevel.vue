@@ -10,7 +10,8 @@
       risk of landslide now
     </h2>
     <p>
-      Last updated {{ dataStore.formatTimestamp(dataStore.data.timestamp) }}
+      Last updated
+      {{ formatDistanceToNow(new Date(dataStore.data.timestamp)) }} ago
     </p>
 
     <h3>24 hour forecast</h3>
@@ -44,6 +45,7 @@
 </template>
 
 <script setup lang="ts">
+import { formatDistanceToNow } from "date-fns";
 import { useDataStore } from "~/stores/data";
 
 const dataStore = useDataStore();
