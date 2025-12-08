@@ -1,3 +1,15 @@
-export const VALID_COMMUNITIES = ["AK91", "AK182"] as const;
+export type CommunityId = "AK91" | "AK182";
 
-export type CommunityId = (typeof VALID_COMMUNITIES)[number];
+export interface LandslideData {
+  expires_at: string;
+  precipitation_24hr: number;
+  precipitation_2days: number;
+  precipitation_3days: number;
+  precipitation_inches: number;
+  precipitation_mm: number;
+  risk_24hr: number;
+  risk_2days: number;
+  risk_3days: number;
+  risk_level: number;
+  timestamp: string;
+}

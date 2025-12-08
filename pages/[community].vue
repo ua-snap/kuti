@@ -20,8 +20,8 @@
 
 <script setup lang="ts">
 import { useMapStore } from "~/stores/map";
-import { useDataStore } from "~/stores/data";
-import { VALID_COMMUNITIES, type CommunityId } from "~/types/custom";
+import { useDataStore, isCommunityId } from "~/stores/data";
+import { type CommunityId } from "~/types/custom";
 
 const route = useRoute();
 const mapStore = useMapStore();
@@ -29,7 +29,7 @@ const dataStore = useDataStore();
 
 definePageMeta({
   validate: (route) => {
-    return VALID_COMMUNITIES.includes(route.params.community as CommunityId);
+    return isCommunityId(route.params.community);
   },
 });
 
