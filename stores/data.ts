@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { formatDistanceToNow } from "date-fns";
 import { type CommunityId, type LandslideData } from "~/types/custom";
 
 export function isCommunityId(value: unknown): value is CommunityId {
@@ -22,30 +23,6 @@ export const useDataStore = defineStore("data", () => {
   // Get API URL from Nuxt runtime config
   const { $config } = useNuxtApp();
   const apiUrl = $config.public.snapApiUrl;
-
-  const formatTimeDifference = (diffMs: number): string => {
-    const diffMins = Math.floor(diffMs / 60000);
-
-    if (diffMins < 1) {
-      return "Just now";
-    } else if (diffMins < 60) {
-      return `${diffMins} minute${diffMins > 1 ? "s" : ""}`;
-    } else if (diffMins < 1440) {
-      const hours = Math.floor(diffMins / 60);
-      const remainingMins = diffMins % 60;
-
-      if (remainingMins > 0) {
-        return `${hours} hour${
-          hours > 1 ? "s" : ""
-        } and ${remainingMins} minute${remainingMins > 1 ? "s" : ""}`;
-      } else {
-        return `${hours} hour${hours > 1 ? "s" : ""}`;
-      }
-    } else {
-      const days = Math.floor(diffMins / 1440);
-      return `${days} day${days > 1 ? "s" : ""}`;
-    }
-  };
 
   const fetchLandslideData = async (community: CommunityId): Promise<void> => {
     if (!community) {
@@ -76,10 +53,8 @@ export const useDataStore = defineStore("data", () => {
         // Calculate time since last update if timestamp is provided
         const timestamp = (response as any).timestamp;
         if (timestamp) {
-          const now = new Date();
           const lastUpdate = new Date(timestamp);
-          const timeSinceUpdate = now.getTime() - lastUpdate.getTime();
-          const timeString = formatTimeDifference(timeSinceUpdate);
+          const timeString = formatDistanceToNow(lastUpdate);
           error.value = `The data is out of sync. It has been ${timeString} since the last update.`;
         } else {
           error.value = "The data is out of sync";
@@ -118,7 +93,7 @@ export const useDataStore = defineStore("data", () => {
       const diffMs = now.getTime() - date.getTime();
 
       if (diffMs < 1440 * 60 * 1000) {
-        return formatTimeDifference(diffMs) + " ago";
+        return formatDistanceToNow(date) + " ago";
       } else {
         // For dates older than a day, show the local time
         return date.toLocaleString();
