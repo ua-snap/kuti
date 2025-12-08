@@ -1,7 +1,13 @@
 import { Page, Route } from "@playwright/test";
 
 export interface MockLandslideData {
+  community: {
+    name: string;
+    latitude: number;
+    longitude: number;
+  };
   expires_at: string;
+  hour: string;
   precipitation_24hr: number;
   precipitation_2days: number;
   precipitation_3days: number;
@@ -10,7 +16,9 @@ export interface MockLandslideData {
   risk_24hr: number;
   risk_2days: number;
   risk_3days: number;
+  risk_is_elevated_from_previous: boolean;
   risk_level: number;
+  risk_probability: number;
   timestamp: string;
 }
 
@@ -24,6 +32,11 @@ export function createValidLandslideData(
   const futureExpiry = new Date(now.getTime() + 3 * 60 * 60 * 1000);
 
   return {
+    community: {
+      name: "Craig",
+      latitude: 55.4764,
+      longitude: -133.148,
+    },
     expires_at: futureExpiry.toISOString(),
     precipitation_24hr: 10.5,
     precipitation_2days: 25.2,
