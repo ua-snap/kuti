@@ -1,6 +1,10 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { VALID_COMMUNITIES, type CommunityId } from "~/types/custom";
+import { type CommunityId, type LandslideData } from "~/types/custom";
+
+export function isCommunityId(value: unknown): value is CommunityId {
+  return typeof value === "string" && (value === "AK91" || value === "AK182");
+}
 
 const COMMUNITY_LOCATIONS: Record<
   CommunityId,
@@ -9,20 +13,6 @@ const COMMUNITY_LOCATIONS: Record<
   AK91: { name: "Craig", lat: 55.476389, lng: -133.147778, zoom: 13 },
   AK182: { name: "Kasaan", lat: 55.541667, lng: -132.401944, zoom: 13 },
 };
-
-export interface LandslideData {
-  expires_at: string;
-  precipitation_24hr: number;
-  precipitation_2days: number;
-  precipitation_3days: number;
-  precipitation_inches: number;
-  precipitation_mm: number;
-  risk_24hr: number;
-  risk_2days: number;
-  risk_3days: number;
-  risk_level: number;
-  timestamp: string;
-}
 
 export const useDataStore = defineStore("data", () => {
   const data = ref<LandslideData | null>(null);
@@ -59,9 +49,7 @@ export const useDataStore = defineStore("data", () => {
 
   const fetchLandslideData = async (community: CommunityId): Promise<void> => {
     if (!community) {
-      error.value = `No community selected. Please choose ${VALID_COMMUNITIES.join(
-        " or ",
-      )}.`;
+      error.value = "No community selected. Please choose Craig or Kasaan.";
       return;
     }
 
