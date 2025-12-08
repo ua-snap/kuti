@@ -86,6 +86,16 @@ export const useDataStore = defineStore("data", () => {
         );
       }
 
+      if (
+        response &&
+        typeof response === "object" &&
+        (response as any).error_code === 409
+      ) {
+        error.value = "The data is out of sync";
+        data.value = null;
+        return;
+      }
+
       if (!response || typeof response !== "object" || !response.expires_at) {
         throw new Error("Invalid response format from server");
       }
@@ -110,6 +120,20 @@ export const useDataStore = defineStore("data", () => {
       }
     } catch (err: any) {
       console.error("Failed to fetch landslide data:", err);
+
+      if (err.statusCode === 500) {
+        error.value =
+          "Unable to format the data from the database. Please try again later.";
+        data.value = null;
+        return;
+      }
+
+      if (err.statusCode === 502) {
+        error.value =
+          "The database is currently inaccessible. Please try again later.";
+        data.value = null;
+        return;
+      }
 
       const isJsonError =
         err instanceof Error &&

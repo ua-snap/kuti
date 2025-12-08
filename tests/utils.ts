@@ -120,6 +120,22 @@ export class ApiMocker {
   }
 
   /**
+   * Mock response with error_code 409 indicating data is out of sync
+   */
+  async mockOutOfSyncResponse(community: string) {
+    await this.page.route(`**/landslide/${community}`, async (route: Route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          error_code: 409,
+          error_msg: "Data is stale",
+        }),
+      });
+    });
+  }
+
+  /**
    * Mock network failure
    */
   async mockNetworkFailure(community: string) {
@@ -240,10 +256,16 @@ export class TestUtils {
       'p:has-text("Invalid community")',
       'p:has-text("Network error occurred")',
       'p:has-text("data received from the server is corrupted")',
+      'p:has-text("The data is out of sync")',
+      'p:has-text("Unable to format the data from the database")',
+      'p:has-text("The database is currently inaccessible")',
       'div:has(p:has-text("Failed to fetch"))',
       'div:has(p:has-text("unable to be updated"))',
       'div:has(p:has-text("Network error occurred"))',
       'div:has(p:has-text("data received from the server is corrupted"))',
+      'div:has(p:has-text("The data is out of sync"))',
+      'div:has(p:has-text("Unable to format the data from the database"))',
+      'div:has(p:has-text("The database is currently inaccessible"))',
     ];
 
     for (const selector of errorSelectors) {
@@ -269,6 +291,9 @@ export class TestUtils {
         "Invalid community selected",
         "data received from the server is corrupted",
         "Network error occurred while fetching data",
+        "The data is out of sync",
+        "Unable to format the data from the database",
+        "The database is currently inaccessible",
       ];
 
       for (const text of errorTexts) {
