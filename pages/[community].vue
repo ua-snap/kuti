@@ -38,7 +38,6 @@ const communityName = dataStore.getCommunityName(communityId);
 
 onMounted(async () => {
   mapStore.setLocation(communityId);
-
   await dataStore.fetchLandslideData(communityId);
 });
 

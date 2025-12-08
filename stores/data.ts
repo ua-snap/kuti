@@ -7,14 +7,6 @@ export function isCommunityId(value: unknown): value is CommunityId {
   return typeof value === "string" && (value === "AK91" || value === "AK182");
 }
 
-const COMMUNITY_LOCATIONS: Record<
-  CommunityId,
-  { name: string; lat: number; lng: number; zoom: number }
-> = {
-  AK91: { name: "Craig", lat: 55.476389, lng: -133.147778, zoom: 13 },
-  AK182: { name: "Kasaan", lat: 55.541667, lng: -132.401944, zoom: 13 },
-};
-
 export const useDataStore = defineStore("data", () => {
   const data = ref<LandslideData | null>(null);
   const loading = ref<boolean>(false);
@@ -26,9 +18,7 @@ export const useDataStore = defineStore("data", () => {
 
   const fetchLandslideData = async (community: CommunityId): Promise<void> => {
     if (!community) {
-      error.value = `No community selected. Please choose ${VALID_COMMUNITIES.join(
-        " or ",
-      )}.`;
+      error.value = "No community selected. Please choose Craig or Kasaan.";
       return;
     }
 
@@ -52,7 +42,6 @@ export const useDataStore = defineStore("data", () => {
         typeof response === "object" &&
         (response as any).error_code === 409
       ) {
-        // Calculate time since last update if timestamp is provided
         const timestamp = (response as any).timestamp;
         if (timestamp) {
           const lastUpdate = new Date(timestamp);
@@ -101,12 +90,24 @@ export const useDataStore = defineStore("data", () => {
     return riskLevels[riskLevel] || "Unknown";
   };
 
-  const getCommunityName = (communityId: CommunityId): string => {
-    return COMMUNITY_LOCATIONS[communityId].name;
+  const getCommunityName = (communityId: CommunityId): string | null => {
+    // This is to allow for the community name to still be returned
+    // for the title even if the API data fails to load.
+    return (
+      data.value?.community?.name ||
+      ("AK91" === communityId ? "Craig" : "Kasaan")
+    );
   };
 
   const getCommunityLocation = (communityId: CommunityId) => {
-    return COMMUNITY_LOCATIONS[communityId];
+    if (data.value?.community) {
+      return {
+        name: data.value.community.name,
+        lat: data.value.community.latitude,
+        lng: data.value.community.longitude,
+      };
+    }
+    return null;
   };
 
   return {
