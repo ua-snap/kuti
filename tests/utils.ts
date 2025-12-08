@@ -84,12 +84,16 @@ export class ApiMocker {
    */
   async mockOutOfSyncResponse(community: string) {
     await this.page.route(`**/landslide/${community}`, async (route: Route) => {
+      // Create a timestamp from 4 hours ago to simulate stale data
+      const staleTimestamp = new Date(Date.now() - 4 * 60 * 60 * 1000);
+
       await route.fulfill({
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
           error_code: 409,
           error_msg: "Data is stale",
+          timestamp: staleTimestamp.toISOString(),
         }),
       });
     });
