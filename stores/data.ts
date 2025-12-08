@@ -45,8 +45,8 @@ export const useDataStore = defineStore("data", () => {
         const timestamp = (response as any).timestamp;
         if (timestamp) {
           const lastUpdate = new Date(timestamp);
-          const timeString = formatDistanceToNow(lastUpdate);
-          error.value = `The data is out of sync. It has been ${timeString} since the last update.`;
+          const sinceLastUpdate = formatDistanceToNow(lastUpdate);
+          error.value = `The data is out of sync. It has been ${sinceLastUpdate} since the last update.`;
         } else {
           error.value = "The data is out of sync";
         }
