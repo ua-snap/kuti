@@ -22,7 +22,7 @@
           <span class="swatch inventory"></span>
           <span class="label"
             >Landslide Inventory<br /><small
-              >(Tongass Nat’l Forest)</small
+              >(Tongass National Forest)</small
             ></span
           >
         </li>
@@ -34,14 +34,6 @@
         <li class="legend-item">
           <span class="line main-road"></span>
           <span class="label">Main Road</span>
-        </li>
-        <li class="legend-item">
-          <span class="line secondary-road"></span>
-          <span class="label">Secondary Road</span>
-        </li>
-        <li class="legend-item">
-          <span class="line trail"></span>
-          <span class="label">Trail</span>
         </li>
       </ul>
     </section>
@@ -57,10 +49,7 @@
   </aside>
 </template>
 
-<script setup lang="ts">
-// No props needed, purely presentational.
-// If you prefer, you could expose colors/thickness via props later.
-</script>
+<script setup lang="ts"></script>
 
 <style scoped>
 .legend-card {
@@ -77,7 +66,7 @@
 
 .legend-title {
   font-size: 28px;
-  font-weight: 800; /* bold like the screenshot */
+  font-weight: 800;
   margin: 0 0 8px 0;
 }
 
@@ -115,7 +104,6 @@
   color: #555;
 }
 
-/* Color boxes (modeled landslides) */
 .swatch.box {
   width: 22px;
   height: 22px;
@@ -125,12 +113,11 @@
 }
 .red {
   background: #e53935;
-} /* strong red for Initiation */
+}
 .yellow {
   background: #e6b24a;
-} /* warm sun/yellow for Runout */
+}
 
-/* Inventory: hollow square */
 .inventory {
   width: 22px;
   height: 22px;
@@ -140,7 +127,6 @@
   display: inline-block;
 }
 
-/* Lines */
 .line {
   width: 54px;
   height: 0;
@@ -149,22 +135,9 @@
 }
 
 .main-road {
-  border-top: 4px solid #b98933; /* gold-ish */
-}
-.secondary-road {
-  border-top: 3px solid #bdbdbd; /* light gray */
-}
-.trail {
-  border-top: 3px dashed #000; /* dashed trail */
+  border-top: 4px solid #666666;
 }
 .fish-stream {
-  border-top: 4px solid #1e88e5; /* blue stream */
-}
-
-/* Layout on small screens */
-@media (max-width: 380px) {
-  .legend-card {
-    width: 100%;
-  }
+  border-top: 4px solid #1e88e5;
 }
 </style>
