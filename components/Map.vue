@@ -1,10 +1,14 @@
 <template>
-  <div :key="mapStore.selectedCommunity" id="map"></div>
+  <div class="map-container">
+    <div :key="mapStore.selectedCommunity" id="map"></div>
+    <MapLegend />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, watch, nextTick } from "vue";
 import { useMapStore } from "~/stores/map";
+import MapLegend from "./MapLegend.vue";
 
 const mapStore = useMapStore();
 
@@ -30,8 +34,22 @@ onMounted(() => {
 </script>
 
 <style scoped>
-#map {
+.map-container {
+  position: relative;
   min-height: 50vh;
   width: 100%;
+}
+
+#map {
+  height: 100vh;
+  aspect-ratio: 1 / 1;
+}
+
+.map-legend-overlay {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  z-index: 1000;
+  pointer-events: auto;
 }
 </style>
