@@ -37,11 +37,7 @@ export const useMapStore = defineStore("map", () => {
     if (!communityData) return;
 
     map.value = $L.map("map", {
-<<<<<<< HEAD
       zoom: 14,
-=======
-      zoom: 13,
->>>>>>> 6154e3f (Pulls community name, lat, and lon from returned API response rather than hard coding.)
       center: $L.latLng(communityData.lat, communityData.lng),
       scrollWheelZoom: false,
       zoomControl: true,
