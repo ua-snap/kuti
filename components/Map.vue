@@ -43,8 +43,8 @@ onMounted(() => {
 }
 
 #map {
-  min-height: 50vh;
-  width: 100%;
+  height: 100vh;
+  aspect-ratio: 1 / 1;
 }
 
 .map-legend-overlay {

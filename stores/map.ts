@@ -37,7 +37,7 @@ export const useMapStore = defineStore("map", () => {
     if (!communityData) return;
 
     map.value = $L.map("map", {
-      zoom: communityData.zoom,
+      zoom: 14,
       center: $L.latLng(communityData.lat, communityData.lng),
       scrollWheelZoom: false,
       zoomControl: true,
