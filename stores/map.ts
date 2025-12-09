@@ -40,7 +40,7 @@ export const useMapStore = defineStore("map", () => {
       zoom: communityData.zoom,
       center: $L.latLng(communityData.lat, communityData.lng),
       scrollWheelZoom: false,
-      zoomControl: false,
+      zoomControl: true,
       doubleClickZoom: false,
       touchZoom: false,
       dragging: true,
