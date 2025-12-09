@@ -3,6 +3,13 @@
     <div v-if="dataStore.loading">
       <p>Loading landslide risk data...</p>
     </div>
+
+    <div v-else-if="is500Error">
+      <div>
+        <p>{{ dataStore.error }}</p>
+      </div>
+    </div>
+
     <div v-else>
       <div>
         <h1>{{ communityName }}, Alaska</h1>
@@ -37,6 +44,10 @@ const communityId = computed(() => route.params.community as CommunityId);
 const communityName = computed(() =>
   dataStore.getCommunityName(communityId.value),
 );
+
+const is500Error = computed(() => {
+  return dataStore.errorType === "critical";
+});
 
 watch(
   communityId,

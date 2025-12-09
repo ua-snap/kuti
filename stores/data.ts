@@ -11,8 +11,8 @@ export const useDataStore = defineStore("data", () => {
   const data = ref<LandslideData | null>(null);
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
+  const errorType = ref<"critical" | "data" | null>(null);
 
-  // Get API URL from Nuxt runtime config
   const { $config } = useNuxtApp();
   const apiUrl = $config.public.snapApiUrl;
 
@@ -24,6 +24,7 @@ export const useDataStore = defineStore("data", () => {
 
     loading.value = true;
     error.value = null;
+    errorType.value = null;
 
     try {
       const response = await $fetch<LandslideData>(
@@ -50,18 +51,21 @@ export const useDataStore = defineStore("data", () => {
         } else {
           error.value = "The data is out of sync";
         }
+        errorType.value = "data";
         data.value = null;
         return;
       }
 
       data.value = response;
       error.value = null;
+      errorType.value = null;
     } catch (err: any) {
       console.error("Failed to fetch landslide data:", err);
 
       if (err.statusCode === 500) {
         error.value =
           "Unable to format the data from the database. Please try again later.";
+        errorType.value = "critical";
         data.value = null;
         return;
       }
@@ -69,6 +73,7 @@ export const useDataStore = defineStore("data", () => {
       if (err.statusCode === 502) {
         error.value =
           "The database is currently inaccessible. Please try again later.";
+        errorType.value = "critical";
         data.value = null;
         return;
       }
@@ -114,6 +119,7 @@ export const useDataStore = defineStore("data", () => {
     data: readonly(data),
     loading: readonly(loading),
     error: readonly(error),
+    errorType: readonly(errorType),
     fetchLandslideData,
     getRiskLevelText,
     getCommunityName,

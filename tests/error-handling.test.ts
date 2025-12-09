@@ -55,8 +55,16 @@ test.describe("Error Handling Test Suite", () => {
     // Check that loading is complete
     expect(await testUtils.isLoading()).toBeFalsy();
 
-    // Verify that no data is displayed
-    await expect(page.locator('text="')).not.toBeVisible();
+    // For critical errors, verify that ONLY error message is shown
+    // and all other content is hidden
+    await expect(page.locator("h1")).not.toBeVisible(); // No title
+    await expect(page.locator('text="Switch Location"')).not.toBeVisible(); // No switch link
+    await expect(page.locator("#map")).not.toBeVisible(); // No map
+
+    // Verify error message is the only content visible
+    await expect(
+      page.locator('p:has-text("Unable to format the data from the database")'),
+    ).toBeVisible();
   });
 
   test("should display database inaccessible error for HTTP 502 status", async ({
@@ -76,8 +84,16 @@ test.describe("Error Handling Test Suite", () => {
     // Check that loading is complete
     expect(await testUtils.isLoading()).toBeFalsy();
 
-    // Verify that no data is displayed
-    await expect(page.locator('text="')).not.toBeVisible();
+    // For critical errors, verify that ONLY error message is shown
+    // and all other content is hidden
+    await expect(page.locator("h1")).not.toBeVisible(); // No title
+    await expect(page.locator('text="Switch Location"')).not.toBeVisible(); // No switch link
+    await expect(page.locator("#map")).not.toBeVisible(); // No map
+
+    // Verify error message is the only content visible
+    await expect(
+      page.locator('p:has-text("The database is currently inaccessible")'),
+    ).toBeVisible();
   });
 
   test("should display valid data for successful API response", async ({
