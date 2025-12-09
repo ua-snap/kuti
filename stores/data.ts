@@ -17,11 +17,6 @@ export const useDataStore = defineStore("data", () => {
   const apiUrl = $config.public.snapApiUrl;
 
   const fetchLandslideData = async (community: CommunityId): Promise<void> => {
-    if (!community) {
-      error.value = "No community selected. Please choose Craig or Kasaan.";
-      return;
-    }
-
     loading.value = true;
     error.value = null;
     errorType.value = null;
