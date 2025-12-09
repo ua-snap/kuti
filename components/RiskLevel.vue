@@ -11,7 +11,11 @@
     </h2>
     <p>
       Last updated
-      {{ formatDistanceToNow(new Date(dataStore.data.timestamp)) }} ago
+      {{
+        formatDistanceToNow(new Date(dataStore.data.timestamp), {
+          addSuffix: true,
+        })
+      }}
     </p>
 
     <h3>24 hour forecast</h3>
