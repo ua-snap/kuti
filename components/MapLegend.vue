@@ -135,9 +135,9 @@
 }
 
 .main-road {
-  border-top: 4px solid #666666;
+  border-top: 2px solid #666666;
 }
 .fish-stream {
-  border-top: 4px solid #1e88e5;
+  border-top: 3px solid #1e88e5;
 }
 </style>
