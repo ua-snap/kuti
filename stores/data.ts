@@ -96,12 +96,7 @@ export const useDataStore = defineStore("data", () => {
   };
 
   const getCommunityName = (communityId: CommunityId): string | null => {
-    // This is to allow for the community name to still be returned
-    // for the title even if the API data fails to load.
-    return (
-      data.value?.community?.name ||
-      ("AK91" === communityId ? "Craig" : "Kasaan")
-    );
+    return data.value?.community?.name;
   };
 
   const getCommunityLocation = (communityId: CommunityId) => {
