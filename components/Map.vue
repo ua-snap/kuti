@@ -1,9 +1,7 @@
 <template>
   <div class="map-container">
     <div :key="mapStore.selectedCommunity" id="map"></div>
-    <div class="map-legend-overlay">
-      <MapLegend />
-    </div>
+    <MapLegend />
   </div>
 </template>
 
