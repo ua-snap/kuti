@@ -33,11 +33,7 @@ export const useDataStore = defineStore("data", () => {
         },
       );
 
-      if (
-        response &&
-        typeof response === "object" &&
-        (response as any).error_code === 409
-      ) {
+      if (response?.error_code === 409) {
         const timestamp = (response as any).timestamp;
         if (timestamp) {
           const lastUpdate = new Date(timestamp);
