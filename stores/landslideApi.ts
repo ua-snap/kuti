@@ -5,13 +5,13 @@ import {
   type LandslideData,
   ApiResponse,
 } from "~/types/custom";
-import { formatDistanceToNow } from "date-fns";
 
 export function isCommunityId(value: unknown): value is CommunityId {
   return typeof value === "string" && (value === "AK91" || value === "AK182");
 }
 
 export const useLandslideApiStore = defineStore("landslideApi", () => {
+  const { start, finish, isLoading } = useLoadingIndicator();
   const communityLandslideData = ref<LandslideData | null>(null);
   const loading = ref<boolean>(false);
   const httpError = ref<number | null>(null);
@@ -20,8 +20,8 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
   const apiUrl = $config.public.snapApiUrl;
 
   const fetchLandslideData = async (community: CommunityId): Promise<void> => {
-    loading.value = true;
-    httpError.value = null;
+    // loading.value = true;
+    start({ force: true });
 
     try {
       const response = await $fetch<LandslideData>(
@@ -49,7 +49,8 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
         httpError.value = ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR;
       }
     } finally {
-      loading.value = false;
+      // loading.value = false;
+      finish();
     }
   };
 
@@ -80,7 +81,7 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
 
   return {
     data: readonly(communityLandslideData),
-    loading: readonly(loading),
+    loading: readonly(isLoading),
     httpError: readonly(httpError),
     fetchLandslideData,
     getRiskLevelText,

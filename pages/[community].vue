@@ -1,56 +1,58 @@
 <template>
   <div>
-    <div v-if="landslideApiStore.loading">
-      <p>Loading landslide risk data...</p>
-    </div>
-
-    <div v-else-if="landslideApiStore.httpError">
-      <div
-        v-if="
-          landslideApiStore.httpError ==
-          ApiResponse.API_HTTP_RESPONSE_STALE_DATA
-        "
-      >
-        <p>
-          The landslide risk data is currently stale. Please try again later.
-        </p>
-      </div>
-      <div
-        v-if="
-          landslideApiStore.httpError ===
-          ApiResponse.API_HTTP_RESPONSE_DATABASE_UNREACHABLE
-        "
-      >
-        <p>The database is currently inaccessible. Please try again later.</p>
-      </div>
-      <div
-        v-if="
-          landslideApiStore.httpError ===
-          ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR
-        "
-      >
-        <p>
-          An unexpected error occurred while fetching landslide risk data.
-          Please try again later.
-        </p>
-      </div>
-      <div>
-        <NuxtLink to="/">Switch Location</NuxtLink>
-      </div>
-    </div>
-
-    <div v-else>
-      <div>
-        <h1>{{ communityName }}, Alaska</h1>
-      </div>
-      <div>
-        <NuxtLink to="/">Switch Location</NuxtLink>
+    <ClientOnly>
+      <div v-if="landslideApiStore.loading">
+        <p>Loading landslide risk data...</p>
       </div>
 
-      <RiskLevel />
-      <Map />
-      <Resources />
-    </div>
+      <div v-else-if="landslideApiStore.httpError">
+        <div
+          v-if="
+            landslideApiStore.httpError ==
+            ApiResponse.API_HTTP_RESPONSE_STALE_DATA
+          "
+        >
+          <p>
+            The landslide risk data is currently stale. Please try again later.
+          </p>
+        </div>
+        <div
+          v-if="
+            landslideApiStore.httpError ===
+            ApiResponse.API_HTTP_RESPONSE_DATABASE_UNREACHABLE
+          "
+        >
+          <p>The database is currently inaccessible. Please try again later.</p>
+        </div>
+        <div
+          v-if="
+            landslideApiStore.httpError ===
+            ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR
+          "
+        >
+          <p>
+            An unexpected error occurred while fetching landslide risk data.
+            Please try again later.
+          </p>
+        </div>
+        <div>
+          <NuxtLink to="/">Switch Location</NuxtLink>
+        </div>
+      </div>
+
+      <div v-else>
+        <div>
+          <h1>{{ communityName }}, Alaska</h1>
+        </div>
+        <div>
+          <NuxtLink to="/">Switch Location</NuxtLink>
+        </div>
+
+        <RiskLevel />
+        <Map />
+        <Resources />
+      </div>
+    </ClientOnly>
   </div>
 </template>
 
