@@ -11,7 +11,6 @@ export function isCommunityId(value: unknown): value is CommunityId {
 }
 
 export const useLandslideApiStore = defineStore("landslideApi", () => {
-  const { start, finish, isLoading } = useLoadingIndicator();
   const communityLandslideData = ref<LandslideData | null>(null);
   const loading = ref<boolean>(false);
   const httpError = ref<number | null>(null);
@@ -20,8 +19,7 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
   const apiUrl = $config.public.snapApiUrl;
 
   const fetchLandslideData = async (community: CommunityId): Promise<void> => {
-    // loading.value = true;
-    start({ force: true });
+    loading.value = true;
 
     try {
       const response = await $fetch<LandslideData>(
@@ -49,8 +47,7 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
         httpError.value = ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR;
       }
     } finally {
-      // loading.value = false;
-      finish();
+      loading.value = false;
     }
   };
 
@@ -81,7 +78,7 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
 
   return {
     data: readonly(communityLandslideData),
-    loading: readonly(isLoading),
+    loading: readonly(loading),
     httpError: readonly(httpError),
     fetchLandslideData,
     getRiskLevelText,
