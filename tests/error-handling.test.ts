@@ -106,7 +106,7 @@ test.describe("Error Handling Test Suite", () => {
 
     await expect(page.locator('text="')).toBeVisible();
 
-    await expect(page.locator('text=/2.5.*"/')).toBeVisible();
+    await expect(page.locator('text=/2\.50\"/')).toBeVisible();
 
     await expect(
       page.locator("text=/Medium risk of landslide now/"),
