@@ -1,10 +1,5 @@
 <template>
-  <div v-if="landslideApiStore.error">
-    <p>{{ landslideApiStore.error }}</p>
-  </div>
-
-  <!-- Data loaded successfully -->
-  <div v-else-if="landslideApiStore.data">
+  <div v-if="landslideApiStore.data">
     <h2>
       {{
         landslideApiStore.getRiskLevelText(landslideApiStore.data.risk_level)
@@ -49,13 +44,6 @@
         landslideApiStore.getRiskLevelText(landslideApiStore.data.risk_3days)
       }}</span>
     </div>
-  </div>
-
-  <!-- No data state -->
-  <div v-else>
-    <p>
-      No landslide risk data available. Please select a community to view data.
-    </p>
   </div>
 </template>
 
