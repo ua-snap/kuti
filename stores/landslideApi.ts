@@ -35,17 +35,11 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
 
       communityLandslideData.value = response;
     } catch (err: any) {
-      console.error("Failed to fetch landslide data:", err);
-      console.log("Error status code:", err.statusCode);
-
-      if (err.statusCode === 409) {
-        httpError.value = ApiResponse.API_HTTP_RESPONSE_STALE_DATA;
-        console.log("Setting httpError to 409:", httpError.value);
-      } else if (err.statusCode === 502) {
-        httpError.value = ApiResponse.API_HTTP_RESPONSE_DATABASE_UNREACHABLE;
-      } else {
-        httpError.value = ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR;
-      }
+      // Use a reverse enum lookup to assign the proper error code,
+      // which the UI code will adapt to.
+      httpError.value =
+        ApiResponse[ApiResponse[err.statusCode]] ||
+        ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR;
     } finally {
       loading.value = false;
     }
