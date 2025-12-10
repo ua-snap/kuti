@@ -4,9 +4,38 @@
       <p>Loading landslide risk data...</p>
     </div>
 
-    <div v-else-if="is500Error">
+    <div v-else-if="landslideApiStore.httpError">
+      <div
+        v-if="
+          landslideApiStore.httpError ==
+          ApiResponse.API_HTTP_RESPONSE_STALE_DATA
+        "
+      >
+        <p>
+          The landslide risk data is currently stale. Please try again later.
+        </p>
+      </div>
+      <div
+        v-if="
+          landslideApiStore.httpError ===
+          ApiResponse.API_HTTP_RESPONSE_DATABASE_UNREACHABLE
+        "
+      >
+        <p>The database is currently inaccessible. Please try again later.</p>
+      </div>
+      <div
+        v-if="
+          landslideApiStore.httpError ===
+          ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR
+        "
+      >
+        <p>
+          An unexpected error occurred while fetching landslide risk data.
+          Please try again later.
+        </p>
+      </div>
       <div>
-        <p>{{ landslideApiStore.error }}</p>
+        <NuxtLink to="/">Switch Location</NuxtLink>
       </div>
     </div>
 
@@ -28,7 +57,7 @@
 <script setup lang="ts">
 import { useMapStore } from "~/stores/map";
 import { useLandslideApiStore, isCommunityId } from "~/stores/landslideApi";
-import { type CommunityId } from "~/types/custom";
+import { type CommunityId, ApiResponse } from "~/types/custom";
 
 const route = useRoute();
 const mapStore = useMapStore();
@@ -44,10 +73,6 @@ const communityId = computed(() => route.params.community as CommunityId);
 const communityName = computed(() =>
   landslideApiStore.getCommunityName(communityId.value),
 );
-
-const is500Error = computed(() => {
-  return landslideApiStore.errorType === "critical";
-});
 
 watch(
   communityId,

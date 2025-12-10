@@ -1,6 +1,10 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { type CommunityId, type LandslideData } from "~/types/custom";
+import {
+  type CommunityId,
+  type LandslideData,
+  ApiResponse,
+} from "~/types/custom";
 import { formatDistanceToNow } from "date-fns";
 
 export function isCommunityId(value: unknown): value is CommunityId {
@@ -10,16 +14,14 @@ export function isCommunityId(value: unknown): value is CommunityId {
 export const useLandslideApiStore = defineStore("landslideApi", () => {
   const communityLandslideData = ref<LandslideData | null>(null);
   const loading = ref<boolean>(false);
-  const error = ref<string | null>(null);
-  const errorType = ref<"critical" | "data" | null>(null);
+  const httpError = ref<number | null>(null);
 
   const { $config } = useNuxtApp();
   const apiUrl = $config.public.snapApiUrl;
 
   const fetchLandslideData = async (community: CommunityId): Promise<void> => {
     loading.value = true;
-    error.value = null;
-    errorType.value = null;
+    httpError.value = null;
 
     try {
       const response = await $fetch<LandslideData>(
@@ -33,44 +35,19 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
         },
       );
 
-      if (response?.error_code === 409) {
-        const timestamp = (response as any).timestamp;
-        if (timestamp) {
-          const lastUpdate = new Date(timestamp);
-          const sinceLastUpdate = formatDistanceToNow(lastUpdate);
-          error.value = `The data is out of sync. It has been ${sinceLastUpdate} since the last update.`;
-        } else {
-          error.value = "The data is out of sync";
-        }
-        errorType.value = "data";
-        communityLandslideData.value = null;
-        return;
-      }
-
       communityLandslideData.value = response;
-      error.value = null;
-      errorType.value = null;
     } catch (err: any) {
       console.error("Failed to fetch landslide data:", err);
+      console.log("Error status code:", err.statusCode);
 
-      if (err.statusCode === 500) {
-        error.value =
-          "Unable to format the data from the database. Please try again later.";
-        errorType.value = "critical";
-        communityLandslideData.value = null;
-        return;
+      if (err.statusCode === 409) {
+        httpError.value = ApiResponse.API_HTTP_RESPONSE_STALE_DATA;
+        console.log("Setting httpError to 409:", httpError.value);
+      } else if (err.statusCode === 502) {
+        httpError.value = ApiResponse.API_HTTP_RESPONSE_DATABASE_UNREACHABLE;
+      } else {
+        httpError.value = ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR;
       }
-
-      if (err.statusCode === 502) {
-        error.value =
-          "The database is currently inaccessible. Please try again later.";
-        errorType.value = "critical";
-        communityLandslideData.value = null;
-        return;
-      }
-
-      error.value = "Failed to fetch landslide data. Please try again.";
-      communityLandslideData.value = null;
     } finally {
       loading.value = false;
     }
@@ -104,8 +81,7 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
   return {
     data: readonly(communityLandslideData),
     loading: readonly(loading),
-    error: readonly(error),
-    errorType: readonly(errorType),
+    httpError: readonly(httpError),
     fetchLandslideData,
     getRiskLevelText,
     getCommunityName,

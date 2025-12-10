@@ -20,3 +20,9 @@ export interface LandslideData {
   risk_probability: number;
   timestamp: string;
 }
+
+export enum ApiResponse {
+  API_HTTP_RESPONSE_STALE_DATA = 409,
+  API_HTTP_RESPONSE_DATABASE_UNREACHABLE = 502,
+  API_HTTP_RESPONSE_GENERAL_ERROR = 500,
+}
