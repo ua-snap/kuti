@@ -3,7 +3,6 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   css: ["leaflet/dist/leaflet.css"],
   devtools: { enabled: true },
-  ssr: false,
   modules: ["@pinia/nuxt"],
   pages: true,
   app: {
