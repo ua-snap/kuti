@@ -86,6 +86,6 @@ watch(
 );
 
 useHead({
-  title: computed(() => `Landslide risk for ${communityName.value}, Alaska`),
+  title: "Landslide risk for Alaskan communities",
 });
 </script>

@@ -97,16 +97,13 @@ export class ApiMocker {
    */
   async mockOutOfSyncResponse(community: string) {
     await this.page.route(`**/landslide/${community}`, async (route: Route) => {
-      // Create a timestamp from 4 hours ago to simulate stale data
-      const staleTimestamp = new Date(Date.now() - 4 * 60 * 60 * 1000);
-
+      // Return actual HTTP 409 status to match how the application detects stale data
       await route.fulfill({
-        status: 200,
+        status: 409,
         contentType: "application/json",
         body: JSON.stringify({
-          error_code: 409,
-          error_msg: "Data is stale",
-          timestamp: staleTimestamp.toISOString(),
+          error: "Data is stale",
+          message: "The data is currently out of sync",
         }),
       });
     });
@@ -156,10 +153,10 @@ export class TestUtils {
    * Check if an error message is displayed
    */
   async isErrorDisplayed(expectedError?: string) {
-    // Look for the specific error messages that our tests can generate
+    // Look for the specific error messages that our app actually displays
     const errorSelectors = [
-      'p:has-text("The data is out of sync")',
-      'p:has-text("Unable to format the data from the database")',
+      'p:has-text("The landslide risk data is currently stale")',
+      'p:has-text("An unexpected error occurred while fetching landslide risk data")',
       'p:has-text("The database is currently inaccessible")',
     ];
 

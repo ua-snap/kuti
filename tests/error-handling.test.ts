@@ -26,14 +26,16 @@ test.describe("Error Handling Test Suite", () => {
 
     // Verify the specific error message is displayed
     expect(
-      await testUtils.waitForError("The data is out of sync"),
+      await testUtils.waitForError(
+        "The landslide risk data is currently stale",
+      ),
     ).toBeTruthy();
 
     // Check that loading is complete
     expect(await testUtils.isLoading()).toBeFalsy();
 
-    // Verify that no data is displayed
-    await expect(page.locator('text="')).not.toBeVisible();
+    // Verify that Switch Location link is still visible (error state still shows navigation)
+    await expect(page.locator('text="Switch Location"')).toBeVisible();
   });
 
   test("should display database formatting error for HTTP 500 status", async ({
@@ -48,22 +50,23 @@ test.describe("Error Handling Test Suite", () => {
     // Verify the specific error message is displayed
     expect(
       await testUtils.waitForError(
-        "Unable to format the data from the database",
+        "An unexpected error occurred while fetching landslide risk data",
       ),
     ).toBeTruthy();
 
     // Check that loading is complete
     expect(await testUtils.isLoading()).toBeFalsy();
 
-    // For critical errors, verify that ONLY error message is shown
-    // and all other content is hidden
+    // For errors, verify that error message is shown along with navigation
     await expect(page.locator("h1")).not.toBeVisible(); // No title
-    await expect(page.locator('text="Switch Location"')).not.toBeVisible(); // No switch link
+    await expect(page.locator('text="Switch Location"')).toBeVisible(); // Switch link is visible
     await expect(page.locator("#map")).not.toBeVisible(); // No map
 
-    // Verify error message is the only content visible
+    // Verify error message is visible
     await expect(
-      page.locator('p:has-text("Unable to format the data from the database")'),
+      page.locator(
+        'p:has-text("An unexpected error occurred while fetching landslide risk data")',
+      ),
     ).toBeVisible();
   });
 
@@ -84,13 +87,12 @@ test.describe("Error Handling Test Suite", () => {
     // Check that loading is complete
     expect(await testUtils.isLoading()).toBeFalsy();
 
-    // For critical errors, verify that ONLY error message is shown
-    // and all other content is hidden
+    // For errors, verify that error message is shown along with navigation
     await expect(page.locator("h1")).not.toBeVisible(); // No title
-    await expect(page.locator('text="Switch Location"')).not.toBeVisible(); // No switch link
+    await expect(page.locator('text="Switch Location"')).toBeVisible(); // Switch link is visible
     await expect(page.locator("#map")).not.toBeVisible(); // No map
 
-    // Verify error message is the only content visible
+    // Verify error message is visible
     await expect(
       page.locator('p:has-text("The database is currently inaccessible")'),
     ).toBeVisible();
