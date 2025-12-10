@@ -8,7 +8,7 @@ export function isCommunityId(value: unknown): value is CommunityId {
 }
 
 export const useLandslideApiStore = defineStore("landslideApi", () => {
-  const data = ref<LandslideData | null>(null);
+  const communityLandslideData = ref<LandslideData | null>(null);
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
   const errorType = ref<"critical" | "data" | null>(null);
@@ -43,11 +43,11 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
           error.value = "The data is out of sync";
         }
         errorType.value = "data";
-        data.value = null;
+        communityLandslideData.value = null;
         return;
       }
 
-      data.value = response;
+      communityLandslideData.value = response;
       error.value = null;
       errorType.value = null;
     } catch (err: any) {
@@ -57,7 +57,7 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
         error.value =
           "Unable to format the data from the database. Please try again later.";
         errorType.value = "critical";
-        data.value = null;
+        communityLandslideData.value = null;
         return;
       }
 
@@ -65,12 +65,12 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
         error.value =
           "The database is currently inaccessible. Please try again later.";
         errorType.value = "critical";
-        data.value = null;
+        communityLandslideData.value = null;
         return;
       }
 
       error.value = "Failed to fetch landslide data. Please try again.";
-      data.value = null;
+      communityLandslideData.value = null;
     } finally {
       loading.value = false;
     }
@@ -87,22 +87,22 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
   };
 
   const getCommunityName = (communityId: CommunityId): string | null => {
-    return data.value?.community?.name;
+    return communityLandslideData.value?.community?.name || null;
   };
 
   const getCommunityLocation = (communityId: CommunityId) => {
-    if (data.value?.community) {
+    if (communityLandslideData.value?.community) {
       return {
-        name: data.value.community.name,
-        lat: data.value.community.latitude,
-        lng: data.value.community.longitude,
+        name: communityLandslideData.value.community.name,
+        lat: communityLandslideData.value.community.latitude,
+        lng: communityLandslideData.value.community.longitude,
       };
     }
     return null;
   };
 
   return {
-    data: readonly(data),
+    data: readonly(communityLandslideData),
     loading: readonly(loading),
     error: readonly(error),
     errorType: readonly(errorType),
