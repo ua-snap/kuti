@@ -63,6 +63,28 @@ export class ApiMocker {
   }
 
   /**
+   * Setup global API mocks to prevent real API calls during SSR/hydration
+   */
+  async setupGlobalMocks() {
+    // Mock all possible community endpoints to prevent any real API calls
+    const communities = ["AK91", "AK182", "CRAIG", "NENANA"];
+
+    for (const community of communities) {
+      await this.page.route(
+        `**/landslide/${community}`,
+        async (route: Route) => {
+          const response = createValidLandslideData();
+          await route.fulfill({
+            status: 200,
+            contentType: "application/json",
+            body: JSON.stringify(response),
+          });
+        },
+      );
+    }
+  }
+
+  /**
    * Mock successful API response
    */
   async mockSuccessfulResponse(
