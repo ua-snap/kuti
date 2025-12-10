@@ -7,7 +7,7 @@ export function isCommunityId(value: unknown): value is CommunityId {
   return typeof value === "string" && (value === "AK91" || value === "AK182");
 }
 
-export const useDataStore = defineStore("data", () => {
+export const useLandslideApiStore = defineStore("landslideApi", () => {
   const data = ref<LandslideData | null>(null);
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div v-if="dataStore.loading">
+    <div v-if="landslideApiStore.loading">
       <p>Loading landslide risk data...</p>
     </div>
 
     <div v-else-if="is500Error">
       <div>
-        <p>{{ dataStore.error }}</p>
+        <p>{{ landslideApiStore.error }}</p>
       </div>
     </div>
 
@@ -27,12 +27,12 @@
 
 <script setup lang="ts">
 import { useMapStore } from "~/stores/map";
-import { useDataStore, isCommunityId } from "~/stores/data";
+import { useLandslideApiStore, isCommunityId } from "~/stores/landslideApi";
 import { type CommunityId } from "~/types/custom";
 
 const route = useRoute();
 const mapStore = useMapStore();
-const dataStore = useDataStore();
+const landslideApiStore = useLandslideApiStore();
 
 definePageMeta({
   validate: (route) => {
@@ -42,18 +42,18 @@ definePageMeta({
 
 const communityId = computed(() => route.params.community as CommunityId);
 const communityName = computed(() =>
-  dataStore.getCommunityName(communityId.value),
+  landslideApiStore.getCommunityName(communityId.value),
 );
 
 const is500Error = computed(() => {
-  return dataStore.errorType === "critical";
+  return landslideApiStore.errorType === "critical";
 });
 
 watch(
   communityId,
   async (newCommunityId) => {
     mapStore.setLocation(newCommunityId);
-    await dataStore.fetchLandslideData(newCommunityId);
+    await landslideApiStore.fetchLandslideData(newCommunityId);
   },
   { immediate: true },
 );

@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { useDataStore } from "~/stores/data";
+import { useLandslideApiStore } from "~/stores/landslideApi";
 import { type CommunityId } from "~/types/custom";
 
 export const useMapStore = defineStore("map", () => {
   const { $L } = useNuxtApp();
-  const dataStore = useDataStore();
+  const landslideApiStore = useLandslideApiStore();
   const selectedCommunity = ref<CommunityId | null>(null);
   const map = ref<any>(null);
 
@@ -30,7 +30,7 @@ export const useMapStore = defineStore("map", () => {
 
     if (!selectedCommunity.value) return;
 
-    const communityData = dataStore.getCommunityLocation(
+    const communityData = landslideApiStore.getCommunityLocation(
       selectedCommunity.value,
     );
 
