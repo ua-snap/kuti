@@ -13,7 +13,7 @@ export default defineConfig({
     ignoreHTTPSErrors: true,
     navigationTimeout: 30_000,
     actionTimeout: 15_000,
-    screenshot: "on-first-retry",
+    screenshot: "on-first-failure",
     video: "retain-on-failure",
     baseURL: "http://localhost:3000",
   },
