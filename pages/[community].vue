@@ -1,21 +1,20 @@
 <template>
-  <div>
-    <div v-if="dataStore.loading">
-      <p>Loading landslide risk data...</p>
-    </div>
-    <div v-else>
-      <div>
-        <h1>{{ communityName }}, Alaska</h1>
-      </div>
-      <div>
-        <NuxtLink to="/">Switch Location</NuxtLink>
-      </div>
-
-      <RiskLevel />
-      <Map />
-      <Resources />
-    </div>
+  <div v-if="dataStore.loading">
+    <p>Loading landslide risk data...</p>
   </div>
+  <div v-else>
+    <div>
+      <h1>{{ communityName }}, Alaska</h1>
+    </div>
+    <div>
+      <NuxtLink to="/">Switch Location</NuxtLink>
+    </div>
+
+    <RiskLevel />
+    <Map />
+    <Resources />
+  </div>
+  <Footer />
 </template>
 
 <script setup lang="ts">
