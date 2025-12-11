@@ -3,4 +3,5 @@
     <NuxtRouteAnnouncer />
     <slot />
   </div>
+  <Footer />
 </template>
