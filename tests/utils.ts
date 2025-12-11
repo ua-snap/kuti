@@ -1,4 +1,4 @@
-import { Page, Route } from "@playwright/test";
+import { Page, Route, expect } from "@playwright/test";
 
 export interface MockLandslideData {
   community: {
@@ -129,94 +129,6 @@ export class ApiMocker {
         }),
       });
     });
-  }
-}
-
-/**
- * Test utilities for common operations
- */
-export class TestUtils {
-  private page: Page;
-
-  constructor(page: Page) {
-    this.page = page;
-  }
-
-  /**
-   * Navigate to a specific community page
-   */
-  async navigateToCommunity(community: string) {
-    await this.page.goto(`/${community}`);
-  }
-
-  /**
-   * Wait for the data loading to complete
-   */
-  async waitForDataLoad() {
-    // Wait for any loading spinners to disappear and data to load
-    await this.page.waitForTimeout(500);
-  }
-
-  /**
-   * Wait for error message to appear
-   */
-  async waitForError(expectedError?: string, timeout: number = 5000) {
-    const start = Date.now();
-    while (Date.now() - start < timeout) {
-      if (await this.isErrorDisplayed(expectedError)) {
-        return true;
-      }
-      await this.page.waitForTimeout(100);
-    }
-    return false;
-  }
-
-  /**
-   * Check if an error message is displayed
-   */
-  async isErrorDisplayed(expectedError?: string) {
-    // Look for the specific error messages that our app actually displays
-    const errorSelectors = [
-      'p:has-text("The landslide risk data is currently stale")',
-      'p:has-text("An unexpected error occurred while fetching landslide risk data")',
-      'p:has-text("The database is currently inaccessible")',
-    ];
-
-    for (const selector of errorSelectors) {
-      const errorElement = this.page.locator(selector).first();
-
-      if (await errorElement.isVisible()) {
-        if (expectedError) {
-          const errorText = await errorElement.textContent();
-          if (errorText?.includes(expectedError)) {
-            return true;
-          }
-        } else {
-          return true;
-        }
-      }
-    }
-
-    // If looking for specific error, check if it exists anywhere on page
-    if (expectedError) {
-      const specificError = this.page.locator(`text=${expectedError}`).first();
-      if (await specificError.isVisible()) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  /**
-   * Check if loading state is displayed
-   */
-  async isLoading() {
-    // Look for the actual loading text that appears in the app
-    const loadingText = this.page
-      .locator('text="Loading landslide risk data..."')
-      .first();
-    return await loadingText.isVisible();
   }
 }
 
