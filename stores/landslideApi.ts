@@ -55,22 +55,11 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
     return riskLevels[riskLevel] || "Unknown";
   };
 
-  const getCommunityLocation = (communityId: CommunityId) => {
-    if (communityLandslideData.value?.community) {
-      return {
-        lat: communityLandslideData.value.community.latitude,
-        lng: communityLandslideData.value.community.longitude,
-      };
-    }
-    return null;
-  };
-
   return {
     data: readonly(communityLandslideData),
     loading: readonly(loading),
     httpError: readonly(httpError),
     fetchLandslideData,
     getRiskLevelText,
-    getCommunityLocation,
   };
 });
