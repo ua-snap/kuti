@@ -34,22 +34,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.map-container {
-  position: relative;
-  min-height: 50vh;
-  width: 100%;
-}
-
 #map {
   height: 100vh;
   aspect-ratio: 1 / 1;
-}
-
-.map-legend-overlay {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  z-index: 1000;
-  pointer-events: auto;
 }
 </style>
