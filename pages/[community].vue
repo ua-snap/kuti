@@ -1,6 +1,7 @@
 <template>
   <div>
-    <ClientOnly>
+    <h1>Current landslide risk near {{ communityName }}</h1>
+    <ClientOnly fallback-tag="p" fallback="Loading landslide risk data...">
       <div v-if="landslideApiStore.loading" class="async-loading">
         <p>Loading landslide risk data...</p>
       </div>
@@ -41,31 +42,22 @@
               Please try again later.
             </p>
           </div>
-          <div>
-            <NuxtLink to="/">Switch Location</NuxtLink>
-          </div>
         </div>
         <div v-else class="forecast-loaded">
-          <div>
-            <h1>{{ communityName }}, Alaska</h1>
-          </div>
-          <div>
-            <NuxtLink to="/">Switch Location</NuxtLink>
-          </div>
-
           <RiskLevel />
-          <Map />
-          <Resources />
         </div>
       </div>
+      <Map />
     </ClientOnly>
+    <Resources />
+    <NuxtLink to="/">Switch Location</NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useMapStore } from "~/stores/map";
 import { useLandslideApiStore, isCommunityId } from "~/stores/landslideApi";
-import { type CommunityId, ApiResponse } from "~/types/custom";
+import { type CommunityId, CommunityNames, ApiResponse } from "~/types/custom";
 
 const route = useRoute();
 const mapStore = useMapStore();
@@ -78,9 +70,7 @@ definePageMeta({
 });
 
 const communityId = computed(() => route.params.community as CommunityId);
-const communityName = computed(() =>
-  landslideApiStore.getCommunityName(communityId.value),
-);
+const communityName = CommunityNames[communityId.value];
 
 watch(
   communityId,

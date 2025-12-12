@@ -25,9 +25,7 @@ test.describe("Error Handling Test Suite", () => {
 
     expect(page.locator(".http-error")).toBeVisible();
     expect(page.locator(".stale-data")).toBeVisible();
-    expect(page.locator("h1")).not.toBeVisible(); // No title
     expect(page.locator('text="Switch Location"')).toBeVisible(); // Switch link is visible
-    expect(page.locator("#map")).not.toBeVisible(); // No map
   });
 
   test("should display general error for HTTP 500 status", async ({ page }) => {
@@ -37,9 +35,7 @@ test.describe("Error Handling Test Suite", () => {
 
     expect(page.locator(".http-error")).toBeVisible();
     expect(page.locator(".general-error")).toBeVisible();
-    expect(page.locator("h1")).not.toBeVisible(); // No title
     expect(page.locator('text="Switch Location"')).toBeVisible(); // Switch link is visible
-    expect(page.locator("#map")).not.toBeVisible(); // No map
   });
 
   test("should display database inaccessible error for HTTP 502 status", async ({
@@ -51,9 +47,7 @@ test.describe("Error Handling Test Suite", () => {
 
     expect(page.locator(".http-error")).toBeVisible();
     expect(page.locator(".database-inaccessible")).toBeVisible();
-    expect(page.locator("h1")).not.toBeVisible(); // No title
     expect(page.locator('text="Switch Location"')).toBeVisible(); // Switch link is visible
-    expect(page.locator("#map")).not.toBeVisible(); // No map
   });
 
   test("should display valid data for successful API response", async ({

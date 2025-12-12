@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useLandslideApiStore } from "~/stores/landslideApi";
-import { type CommunityId } from "~/types/custom";
+import { type CommunityId, communityLocations } from "~/types/custom";
 
 export const useMapStore = defineStore("map", () => {
   const { $L } = useNuxtApp();
   const landslideApiStore = useLandslideApiStore();
   const selectedCommunity = ref<CommunityId | null>(null);
-  const map = ref<any>(null);
+  var map = markRaw({}); // We don't want this to be reactive.
 
   const setLocation = (communityId: CommunityId) => {
     selectedCommunity.value = communityId;
@@ -15,8 +15,8 @@ export const useMapStore = defineStore("map", () => {
 
   const clearMap = () => {
     if (map.value) {
-      map.value.remove();
-      map.value = null;
+      map.remove();
+      map = null;
     }
   };
 
@@ -30,15 +30,12 @@ export const useMapStore = defineStore("map", () => {
 
     if (!selectedCommunity.value) return;
 
-    const communityData = landslideApiStore.getCommunityLocation(
-      selectedCommunity.value,
-    );
-
-    if (!communityData) return;
-
-    map.value = $L.map("map", {
+    map = $L.map("map", {
       zoom: 14,
-      center: $L.latLng(communityData.lat, communityData.lng),
+      center: $L.latLng(
+        communityLocations[selectedCommunity.value].lat,
+        communityLocations[selectedCommunity.value].lng,
+      ),
       scrollWheelZoom: false,
       zoomControl: true,
       doubleClickZoom: false,
@@ -47,11 +44,19 @@ export const useMapStore = defineStore("map", () => {
       attributionControl: false,
     });
 
+    // Expose map for testing in non-production environments
+    if (
+      typeof window !== "undefined" &&
+      process.env.NODE_ENV !== "production"
+    ) {
+      (window as any).__leafletMap = map;
+    }
+
     const baseLayer = $L.tileLayer(
       "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}",
     );
 
-    baseLayer.addTo(map.value);
+    baseLayer.addTo(map);
 
     const kutiLayersConfig = [
       { name: "kuti:craig_hillshade", opacity: 1.0 },
@@ -75,7 +80,7 @@ export const useMapStore = defineStore("map", () => {
           opacity: layerConfig.opacity,
         },
       );
-      wmsLayer.addTo(map.value);
+      wmsLayer.addTo(map);
     });
   };
 
