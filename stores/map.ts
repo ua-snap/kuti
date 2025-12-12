@@ -47,8 +47,8 @@ export const useMapStore = defineStore("map", () => {
       attributionControl: false,
     });
 
-    // Expose map for testing
-    if (typeof window !== "undefined") {
+    // Expose map for testing in non-production environments
+    if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
       (window as any).__leafletMap = map.value;
     }
 

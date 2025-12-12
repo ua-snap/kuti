@@ -36,8 +36,10 @@ test.describe("Map Coordinates Test Suite", () => {
     // Wait for the map to be visible
     await expect(page.locator("#map")).toBeVisible();
 
-    // Wait a bit for Leaflet to initialize
-    await page.waitForTimeout(1000);
+    // Wait for the Leaflet map to be initialized on the window object
+    await page.waitForFunction(() => {
+      return typeof (window as any).__leafletMap !== 'undefined' && (window as any).__leafletMap !== null;
+    }, { timeout: 10000 });
 
     // Access the Leaflet map object and verify its center coordinates
     const mapCenter = await page.evaluate(() => {
@@ -58,8 +60,8 @@ test.describe("Map Coordinates Test Suite", () => {
     expect(mapCenter?.lng).toBeDefined();
 
     // Verify that the map center coordinates match Craig's coordinates
-    // Using toBeCloseTo for floating point comparison with 4 decimal places
+    // Using toBeCloseTo for floating point comparison with 4 decimal places for both
     expect(mapCenter?.lat).toBeCloseTo(55.4764, 4);
-    expect(mapCenter?.lng).toBeCloseTo(-133.148, 3);
+    expect(mapCenter?.lng).toBeCloseTo(-133.148, 4);
   });
 });
