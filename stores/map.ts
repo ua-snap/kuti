@@ -47,6 +47,11 @@ export const useMapStore = defineStore("map", () => {
       attributionControl: false,
     });
 
+    // Expose map for testing
+    if (typeof window !== "undefined") {
+      (window as any).__leafletMap = map.value;
+    }
+
     const baseLayer = $L.tileLayer(
       "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}",
     );
