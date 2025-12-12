@@ -1,4 +1,8 @@
 export type CommunityId = "AK91" | "AK182";
+export enum CommunityNames {
+  AK91 = "Craig (Sháan Séet)",
+  AK182 = "Kasaan (Gasa'áan)",
+}
 
 export interface LandslideData {
   community: {

@@ -57,7 +57,7 @@
 <script setup lang="ts">
 import { useMapStore } from "~/stores/map";
 import { useLandslideApiStore, isCommunityId } from "~/stores/landslideApi";
-import { type CommunityId, ApiResponse } from "~/types/custom";
+import { type CommunityId, CommunityNames, ApiResponse } from "~/types/custom";
 
 const route = useRoute();
 const mapStore = useMapStore();
@@ -70,9 +70,7 @@ definePageMeta({
 });
 
 const communityId = computed(() => route.params.community as CommunityId);
-const communityName = computed(() =>
-  landslideApiStore.getCommunityName(communityId.value),
-);
+const communityName = CommunityNames[communityId.value];
 
 watch(
   communityId,
