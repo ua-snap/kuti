@@ -1,14 +1,8 @@
 import { test, expect } from "@playwright/test";
-import {
-  ApiMocker,
-  TestUtils,
-  TEST_COMMUNITIES,
-  createValidLandslideData,
-} from "./utils";
+import { ApiMocker, TEST_COMMUNITIES, createValidLandslideData } from "./utils";
 
 test.describe("Error Handling Test Suite", () => {
   let apiMocker: ApiMocker;
-  let testUtils: TestUtils;
 
   test.beforeEach(async ({ page }) => {
     apiMocker = new ApiMocker(page);
@@ -65,7 +59,34 @@ test.describe("Error Handling Test Suite", () => {
     // No HTTP error block, no error block, and response matches (mock) API result
     expect(page.locator(".http-error")).toBeHidden();
     expect(page.locator(".async-loading")).toBeHidden();
-    expect(page.locator('text=/2\.50\"/')).toBeVisible();
+    expect(page.locator('text=/2.50"/')).toBeVisible();
     expect(page.locator("text=/Medium risk of landslide now/")).toBeVisible();
+  });
+
+  test("should display timeout error when API takes longer than 10 seconds to respond", async ({
+    page,
+  }) => {
+    // Install clock to control time
+    await page.clock.install({ time: new Date("2024-02-14T10:00:00") });
+
+    // Set up a route that will hang indefinitely
+    await apiMocker.mockSlowResponse(TEST_COMMUNITIES.CRAIG);
+
+    // Navigate to the page
+    await page.goto(`/${TEST_COMMUNITIES.CRAIG}`);
+
+    // Wait for loading to start
+    await expect(page.locator(".async-loading")).toBeVisible();
+
+    // Advance time by 11 seconds to exceed the 10-second timeout
+    await page.clock.runFor(11000);
+
+    // Wait for the async state to finish
+    await expect(page.locator(".async-finished")).toBeVisible();
+
+    // The clock approach may not work perfectly with all timeout mechanisms,
+    // so we verify that some error is shown (could be timeout or general)
+    expect(page.locator(".http-error")).toBeVisible();
+    expect(page.locator(".timeout-error")).toBeVisible();
   });
 });

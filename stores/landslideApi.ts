@@ -36,11 +36,11 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
 
       communityLandslideData.value = response;
     } catch (err: any) {
-      if (err.name === "AbortError") {
+      if (err.cause?.name === "TimeoutError") {
         httpError.value = ApiResponse.API_HTTP_RESPONSE_TIMEOUT;
       } else {
         httpError.value =
-          err.statusCode || ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR;
+          err.statusCode ?? ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR;
       }
     } finally {
       loading.value = false;

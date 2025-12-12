@@ -1,4 +1,5 @@
-import { Page, Route, expect } from "@playwright/test";
+import type { Page, Route } from "@playwright/test";
+import { expect } from "@playwright/test";
 
 export interface MockLandslideData {
   community: {
@@ -7,7 +8,6 @@ export interface MockLandslideData {
     longitude: number;
   };
   expires_at: string;
-  hour: string;
   precipitation_24hr: number;
   precipitation_2days: number;
   precipitation_3days: number;
@@ -16,9 +16,7 @@ export interface MockLandslideData {
   risk_24hr: number;
   risk_2days: number;
   risk_3days: number;
-  risk_is_elevated_from_previous: boolean;
   risk_level: number;
-  risk_probability: number;
   timestamp: string;
 }
 
@@ -128,6 +126,16 @@ export class ApiMocker {
           message: "The data is currently out of sync",
         }),
       });
+    });
+  }
+
+  /**
+   * Mock a slow/hanging API response for timeout testing
+   */
+  async mockSlowResponse(community: string) {
+    await this.page.route(`**/landslide/${community}`, async (route: Route) => {
+      // Don't fulfill the route - let it hang to simulate a slow response
+      // This will be used with page.clock to test timeouts
     });
   }
 }
