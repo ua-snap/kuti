@@ -1,6 +1,7 @@
 <template>
   <div>
-    <ClientOnly>
+    <h1>Current landslide risk near {{ communityName }}</h1>
+    <ClientOnly fallback-tag="p" fallback="Loading landslide risk data...">
       <div v-if="landslideApiStore.loading" class="async-loading">
         <p>Loading landslide risk data...</p>
       </div>
@@ -41,24 +42,15 @@
               Please try again later.
             </p>
           </div>
-          <div>
-            <NuxtLink to="/">Switch Location</NuxtLink>
-          </div>
         </div>
         <div v-else class="forecast-loaded">
-          <div>
-            <h1>{{ communityName }}, Alaska</h1>
-          </div>
-          <div>
-            <NuxtLink to="/">Switch Location</NuxtLink>
-          </div>
-
           <RiskLevel />
-          <Map />
-          <Resources />
         </div>
       </div>
+      <Map />
     </ClientOnly>
+    <Resources />
+    <NuxtLink to="/">Switch Location</NuxtLink>
   </div>
 </template>
 
