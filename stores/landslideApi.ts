@@ -30,16 +30,18 @@ export const useLandslideApiStore = defineStore("landslideApi", () => {
             Pragma: "no-cache",
             Expires: "0",
           },
+          timeout: 10000,
         },
       );
 
       communityLandslideData.value = response;
     } catch (err: any) {
-      // Use a reverse enum lookup to assign the proper error code,
-      // which the UI code will adapt to.
-      httpError.value =
-        ApiResponse[ApiResponse[err.statusCode]] ||
-        ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR;
+      if (err.cause?.name === "TimeoutError") {
+        httpError.value = ApiResponse.API_HTTP_RESPONSE_TIMEOUT;
+      } else {
+        httpError.value =
+          err.statusCode ?? ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR;
+      }
     } finally {
       loading.value = false;
     }

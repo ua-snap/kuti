@@ -42,6 +42,18 @@
               Please try again later.
             </p>
           </div>
+          <div
+            v-if="
+              landslideApiStore.httpError ===
+              ApiResponse.API_HTTP_RESPONSE_TIMEOUT
+            "
+            class="timeout-error"
+          >
+            <p>
+              The request timed out while fetching landslide risk data. Please
+              check your connection and try again.
+            </p>
+          </div>
         </div>
         <div v-else class="forecast-loaded">
           <RiskLevel />
