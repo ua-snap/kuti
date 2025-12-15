@@ -1,5 +1,4 @@
 import type { Page, Route } from "@playwright/test";
-import { expect } from "@playwright/test";
 
 export interface MockLandslideData {
   community: {
