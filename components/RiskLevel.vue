@@ -9,6 +9,10 @@
       risk of landslide now
     </h2>
     <p>
+      Precipitation:
+      {{ landslideApiStore.data.realtime_rainfall_mm }} mm
+    </p>
+    <p>
       Last updated
       {{
         formatDistanceToNow(new Date(landslideApiStore.data.timestamp), {
@@ -26,35 +30,62 @@
       }}
       risk for the next 24 hours
     </p>
-    <p>
-      Precipitation:
-      {{ landslideApiStore.data.realtime_rainfall_mm }} mm
-    </p>
 
     <h3>3 day forecast</h3>
     <div>
       <h4>24 hours</h4>
-      <span>{{
-        landslideApiStore.getRiskLevelText(
-          landslideApiStore.data["block_24hr"].risk_level,
-        )
-      }}</span>
+      <p>
+        Risk Level:
+        {{
+          landslideApiStore.getRiskLevelText(
+            landslideApiStore.data["block_24hr"].risk_level,
+          )
+        }}
+      </p>
+      <p>
+        Precipitation:
+        {{ landslideApiStore.data["block_24hr"].intensity_mm }} mm
+      </p>
+      <p>
+        Previous 24 hours:
+        {{ landslideApiStore.data["block_24hr"].antecedent_mm }} mm
+      </p>
     </div>
     <div>
       <h4>2 days</h4>
-      <span>{{
-        landslideApiStore.getRiskLevelText(
-          landslideApiStore.data["block_2days"].risk_level,
-        )
-      }}</span>
+      <p>
+        {{
+          landslideApiStore.getRiskLevelText(
+            landslideApiStore.data["block_2days"].risk_level,
+          )
+        }}
+      </p>
+      <p>
+        Precipitation:
+        {{ landslideApiStore.data["block_2days"].intensity_mm }} mm
+      </p>
+      <p>
+        Previous 24 hours:
+        {{ landslideApiStore.data["block_2days"].antecedent_mm }} mm
+      </p>
     </div>
     <div>
       <h4>3 days</h4>
-      <span>{{
-        landslideApiStore.getRiskLevelText(
-          landslideApiStore.data["block_3days"].risk_level,
-        )
-      }}</span>
+      <p>
+        {{
+          landslideApiStore.getRiskLevelText(
+            landslideApiStore.data["block_3days"].risk_level,
+          )
+        }}
+      </p>
+      <p>
+        Precipitation:
+        {{ landslideApiStore.data["block_3days"].intensity_mm }} mm
+      </p>
+      <p>
+        Previous 24 hours:
+        {{ landslideApiStore.data["block_3days"].antecedent_mm }} mm
+      </p>
     </div>
   </div>
 </template>
