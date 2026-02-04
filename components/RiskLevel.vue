@@ -13,6 +13,10 @@
       {{ landslideApiStore.data.realtime_rainfall_mm }} mm
     </p>
     <p>
+      Previous 24 hours:
+      {{ landslideApiStore.data.realtime_antecedent_mm }} mm
+    </p>
+    <p>
       Last updated
       {{
         formatDistanceToNow(new Date(landslideApiStore.data.timestamp), {
