@@ -1,0 +1,134 @@
+<template>
+  <div class="container">
+    <div class="content">
+      <h1 class="title is-1">Published work</h1>
+      <h2 class="title is-3">Peer-reviewed publications</h2>
+      <p>
+        Chu M, Patton A, Roering J, Siebert C, Selker J, Walter C, Udell C.
+        <a
+          href="https://www.sciencedirect.com/science/article/pii/S2468067221000201"
+          >SitkaNet: A low-cost, distributed sensor network for landslide
+          monitoring and study</a
+        >. HardwareX. 2021 Apr 1;9:e00191.
+      </p>
+
+      <p>
+        Izenberg M, Brown R, Siebert C, Heinz R, Rahmattalabi A, Vayanos P.
+        <a href="https://journals.sagepub.com/doi/abs/10.1177/1525822X221074769"
+          >A Community-Partnered Approach to Social Network Data Collection for
+          a Large and Partial Network</a
+        >. Field Methods. 2022 Feb 15:1525822X221074769.
+      </p>
+
+      <p>
+        Orland E, Roering JJ, Thomas MA, Mirus BB.
+        <a href="https://par.nsf.gov/servlets/purl/10296491"
+          >Deep learning as a tool to forecast hydrologic response for
+          landslide&ndash;prone hillslopes</a
+        >. Geophysical Research Letters. 2020 Aug 28;47(16):e2020GL088731.
+      </p>
+
+      <p>
+        Patton, A., J.J. Roering, and E. Orland, (2022),
+        <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/esp.5336"
+          >Debris flow initiation in postglacial terrain: Insights from shallow
+          landslide initiation models and geomorphic mapping in Southeast
+          Alaska</a
+        >, Earth Surface Processes and Landforms,
+        https://doi.org/10.1002/esp.5336.
+      </p>
+
+      <p>
+        Busch, Lempert, Izenberg, Patton, 2021,
+        <a
+          href="https://issues.org/wp-content/uploads/2021/10/40-46-Busch-et-al.-Run-Uphill-for-a-Tsunami-Downhill-for-a-Landslide-Fall-2021.pdf"
+          >Run Uphill for a Tsunami, Downhill for a Landslide</a
+        >. Issues in Science and Technology.
+      </p>
+
+      <h2 class="title is-3">Conference Proceedings</h2>
+      <p>
+        Patton AI, Roering JJ, Lempert RJ, Chu M, Orland ED, Siebert C, Turner
+        SD. Landslide Warning Systems with Short-Term Observation: Using
+        Available Data for Adaptive Thresholds. InAGU Fall Meeting Abstracts
+        2020 Dec (Vol. 2020, pp. NH031-04).
+      </p>
+
+      <p>
+        Patton, A., Roering, J., Luna, L., Landslide-Initiating Storms and
+        Hydrologic Response in Southeast Alaska: Lessons for Landslide Warning,
+        Abstract NH22B-09, Presented at 2021 Meeting, AGU,
+        <a href="https://agu.confex.com/agu/fm21/meetingapp.cgi/Paper/984811"
+          >https://agu.confex.com/agu/fm21/meetingapp.cgi/Paper/984811</a
+        >, 13-17 December.
+      </p>
+
+      <p>
+        Patton, A., Roering, J., Orland, E., Lempert, R., Mirus, B.,
+        Cerovski-Darriau, C., Busch, L., Siebert, C., Foss, J., Prussian, K.,
+        Chu, M., Udell, C., Selker, J., Walter, C., Hydrologic Monitoring and
+        morphometric analysis to characterize debris flow initiation at multiple
+        temporal scales in Southeast Alaska, Abstract NH43B-05, Presented at
+        2019 Meeting, AGU, San Francisco, CA, 9-13 December.
+      </p>
+
+      <p>
+        Siebert C, Jacobs AB, Johnson BC, Turner SD, Patton A, Roering JJ,
+        Izenberg M, Brown R, Busch L, Lempert RJ. The inclusion of citizen
+        collected rainfall data in a debris flow warning system. InAGU Fall
+        Meeting Abstracts 2020 Dec (Vol. 2020, pp. NH030-0031).
+      </p>
+
+      <p>
+        Siebert C, Jacobs AB, Johnson BC, Turner SD, Patton A, Roering JJ, Brown
+        R, Busch L, Lempert RJ, Izenberg M. Mitigating debris flow hazard
+        through a community designed warning system and citizen scientist
+        operated sensor network. InAGU Fall Meeting Abstracts 2020 Dec (Vol.
+        2020, pp. SY011-0016).
+      </p>
+
+      <p>
+        Turner SD, Lempert RJ, Patton A, Izenberg M, Siebert C, Roering JJ,
+        Brown R. Deliberative-Analytic Processes for Participatory Warning
+        System Design for Landslide Hazards in Sitka, AK: Theory and
+        Implementation. InAGU Fall Meeting Abstracts 2020 Dec (Vol. 2020, pp.
+        SY042-07).
+      </p>
+
+      <p>
+        Seibert, C., Landslide Research at the Sitka Sound Science Center,
+        Presented at 2020 Southeast Environmental Conference, Craig, Alaska.
+      </p>
+
+      <p>
+        Schmidt, J., Sitka Landslide Research Updates, Presented at 2021
+        Southeast Environmental Conference, virtual, 23 September
+      </p>
+
+      <p>
+        Schmidt, J., Development of Sitka Landslide Risk Dashboard, Presented at
+        Drought and Extreme Events Workshop: Building collaborations to enhance
+        data, decision making, and adaptation planning in Southeast Alaska, Sea
+        Grant Alaska, Elizabeth Peratrovich Hall Juneau, AK, 30-31 March
+      </p>
+
+      <p>
+        Patton, A., Kutí: Geohazards in Southeast Alaska, Presented at Drought
+        and Extreme Events Workshop: Building collaborations to enhance data,
+        decision making, and adaptation planning in Southeast Alaska, Sea Grant
+        Alaska, Elizabeth Peratrovich Hall Juneau, AK, 30-31 March
+      </p>
+
+      <p>
+        Rahmattalabi, A., Jabbari, S., Lakkaraju, H., Vayanos, P., Izenberg, M.,
+        Brown, R., Rice, E., & Tambe, M. (2021). Fair Influence Maximization: a
+        Welfare Optimization Approach. Proceedings of the AAAI Conference on
+        Artificial Intelligence, 35(13), 11630-11638.
+        <a href="https://ojs.aaai.org/index.php/AAAI/article/view/17383"
+          >https://ojs.aaai.org/index.php/AAAI/article/view/17383</a
+        >.
+      </p>
+    </div>
+    <Resources />
+  </div>
+</template>

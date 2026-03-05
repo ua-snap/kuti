@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>Current landslide risk near {{ communityName }}</h1>
+  <div class="container">
+    <h1 class="title is-3">Current landslide risk near {{ communityName }}</h1>
     <ClientOnly fallback-tag="p" fallback="Loading landslide risk data...">
       <div v-if="landslideApiStore.loading" class="async-loading">
         <p>Loading landslide risk data...</p>

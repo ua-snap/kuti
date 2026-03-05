@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h1>Landslide Risk for Alaskan Communities</h1>
-    <h3>Where are you?</h3>
+  <div class="container">
+    <h1 class="title is-1">Landslide Risk for Alaskan Communities</h1>
+    <h3 class="title is-4">Where are you?</h3>
 
     <div>
       <NuxtLink to="/AK91">Craig</NuxtLink>
