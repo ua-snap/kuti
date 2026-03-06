@@ -48,8 +48,8 @@ test.describe("Error Handling Test Suite", () => {
     page,
   }) => {
     const validData = createValidLandslideData({
-      precipitation_inches: 2.5,
-      risk_level: 1, // Medium risk
+      realtime_rainfall_mm: "2.5",
+      realtime_risk_level: 1, // Medium risk
     });
 
     await apiMocker.mockSuccessfulResponse(TEST_COMMUNITIES.CRAIG, validData);
@@ -59,7 +59,7 @@ test.describe("Error Handling Test Suite", () => {
     // No HTTP error block, no error block, and response matches (mock) API result
     expect(page.locator(".http-error")).toBeHidden();
     expect(page.locator(".async-loading")).toBeHidden();
-    expect(page.locator('text=/2.50"/')).toBeVisible();
+    expect(page.locator("text=/Precipitation:.*2.5 mm/")).toBeVisible();
     expect(page.locator("text=/Medium risk of landslide now/")).toBeVisible();
   });
 

@@ -1,22 +1,61 @@
 import type { Page, Route } from "@playwright/test";
 
+export interface MockForecastBlock {
+  antecedent_mm: number;
+  forecast_hour: number;
+  intensity_mm: number;
+  risk_level: number;
+  risk_threshold_upper: number;
+  timestamp: string;
+}
+
 export interface MockLandslideData {
   community: {
+    alt_name?: string;
+    country?: string;
+    id?: string;
+    is_coastal?: number;
     name: string;
     latitude: number;
     longitude: number;
+    ocean_lat1?: number;
+    ocean_lon1?: number;
+    region?: string;
+    tags?: string;
+    type?: string;
   };
   expires_at: string;
-  precipitation_24hr: number;
-  precipitation_2days: number;
-  precipitation_3days: number;
-  precipitation_inches: number;
-  precipitation_mm: number;
-  risk_24hr: number;
-  risk_2days: number;
-  risk_3days: number;
-  risk_level: number;
+  forecast_blocks: MockForecastBlock[];
+  gauge_id: string;
+  place_id: string;
+  place_name: string;
+  realtime_antecedent_mm: string;
+  realtime_rainfall_mm: string;
+  realtime_risk_level: number;
+  realtime_threshold_upper: string;
   timestamp: string;
+}
+
+/**
+ * Generate forecast blocks for testing (24 blocks spanning 72 hours)
+ */
+function generateForecastBlocks(startTime: Date): MockForecastBlock[] {
+  const blocks: MockForecastBlock[] = [];
+  const threeHoursInMs = 3 * 60 * 60 * 1000;
+
+  for (let i = 0; i < 24; i++) {
+    const blockTime = new Date(startTime.getTime() + i * threeHoursInMs);
+    blocks.push({
+      antecedent_mm: parseFloat((Math.random() * 10 + 1).toFixed(2)),
+      forecast_hour: (i + 1) * 3,
+      intensity_mm: parseFloat((Math.random() * 5).toFixed(2)),
+      risk_level: Math.floor(Math.random() * 3), // 0, 1, or 2
+      risk_threshold_upper: parseFloat((Math.random() * 5 + 12).toFixed(2)),
+      timestamp: blockTime.toISOString(),
+    });
+  }
+
+  return blocks;
 }
 
 /**
@@ -30,11 +69,30 @@ export function createValidLandslideData(
 
   return {
     community: {
+      alt_name: "Sháan Séet",
+      country: "US",
+      id: "AK91",
+      is_coastal: 1,
       name: "Craig",
       latitude: 55.4764,
       longitude: -133.148,
+      ocean_lat1: 55.5688,
+      ocean_lon1: -133.2313,
+      region: "Alaska",
+      tags: "ardac,awe,eds",
+      type: "community",
     },
     expires_at: futureExpiry.toISOString(),
+    forecast_blocks: generateForecastBlocks(now),
+    gauge_id: "CRGA2",
+    place_id: "AK91",
+    place_name: "Craig",
+    realtime_antecedent_mm: "7.62",
+    realtime_rainfall_mm: "0.508",
+    realtime_risk_level: 0,
+    realtime_threshold_upper: "12.648245515533398",
+    timestamp: now.toISOString(),
+    // Legacy fields for backward compatibility
     precipitation_24hr: 10.5,
     precipitation_2days: 25.2,
     precipitation_3days: 45.8,
@@ -44,7 +102,6 @@ export function createValidLandslideData(
     risk_2days: 1,
     risk_3days: 2,
     risk_level: 1,
-    timestamp: now.toISOString(),
     ...overrides,
   };
 }

@@ -23,24 +23,39 @@ export const communityLocations: CommunityLocation[] = {
   },
 };
 
+export interface ForecastBlock {
+  antecedent_mm: number;
+  forecast_hour: number;
+  intensity_mm: number;
+  risk_level: number;
+  risk_threshold_upper: number;
+  timestamp: string;
+}
+
 export interface LandslideData {
   community: {
+    alt_name?: string;
+    country?: string;
+    id?: string;
+    is_coastal?: number;
     name: string;
     latitude: number;
     longitude: number;
+    ocean_lat1?: number;
+    ocean_lon1?: number;
+    region?: string;
+    tags?: string;
+    type?: string;
   };
   expires_at: string;
-  hour: string;
-  precipitation_24hr: number;
-  precipitation_2days: number;
-  precipitation_3days: number;
-  precipitation_inches: number;
-  precipitation_mm: number;
-  risk_24hr: number;
-  risk_2days: number;
-  risk_3days: number;
-  risk_level: number;
-  risk_probability: number;
+  forecast_blocks: ForecastBlock[];
+  gauge_id: string;
+  place_id: string;
+  place_name: string;
+  realtime_antecedent_mm: string;
+  realtime_rainfall_mm: string;
+  realtime_risk_level: number;
+  realtime_threshold_upper: string;
   timestamp: string;
 }
 
