@@ -38,20 +38,20 @@
       <div
         v-for="(dayGroup, dayIndex) in groupedForecastsByDay"
         :key="dayGroup.label"
-        class="box mb-4"
-        style="min-width: 540px"
+        class="forecast-day mb-4"
+        style=""
       >
         <details :open="dayIndex === 0">
           <summary
-            class="is-flex is-justify-content-space-between is-align-items-center is-clickable py-2"
+            class="is-flex is-clickable"
           >
-            <h4 class="title is-5 mb-0">{{ dayGroup.label }}</h4>
+            <h4 class="title is-5 mb-0 is-flex is-align-items-center">{{ dayGroup.label }}</h4>
             <span
-              class="tag is-medium"
+              class="tag is-medium ml-auto"
               :class="{
-                'is-success': dayGroup.maxRiskLevel === 0,
-                'is-warning': dayGroup.maxRiskLevel === 1,
-                'is-danger': dayGroup.maxRiskLevel === 2,
+              'is-success': dayGroup.maxRiskLevel === 0,
+              'is-warning': dayGroup.maxRiskLevel === 1,
+              'is-danger': dayGroup.maxRiskLevel === 2,
               }"
             >
               {{ landslideApiStore.getRiskLevelText(dayGroup.maxRiskLevel) }}
@@ -210,15 +210,21 @@ details summary::marker {
 details summary::before {
   content: "▶";
   margin-right: 0.75rem;
+  margin-top: 5px;
   transition: transform 0.2s;
   display: inline-block;
 }
 
 details[open] summary::before {
   transform: rotate(90deg);
+  vertical-align: middle;
+  margin-top: 0;
 }
 
-details summary:hover {
-  background-color: #f5f5f5;
+.forecast-day {
+  min-width: 540px; 
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  padding: 1rem;
 }
 </style>
