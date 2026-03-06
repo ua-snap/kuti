@@ -33,8 +33,7 @@
               <a href="mailto:uaf-snap-data-tools@alaska.edu"
                 >uaf-snap-data-tools@alaska.edu</a
               >
-              with questions or comments.</strong
-            >
+              with questions or comments.</strong> <span></span>
             <a href="https://uaf-snap.org">Visit the SNAP website</a>
             to see all of our climate tools.
           </p>
