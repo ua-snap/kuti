@@ -85,6 +85,7 @@ export default {
   background-position: bottom;
   text-align: center;
   padding-bottom: 14rem;
+  margin-top: 2rem;
   border-top: 1px solid #dbdbdb;
   color: #5a4f72;
 
