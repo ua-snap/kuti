@@ -42,19 +42,19 @@
         style=""
       >
         <details :open="dayIndex === 0">
-          <summary
-            class="is-flex is-clickable"
-          >
-            <h4 class="title is-5 mb-0 is-flex is-align-items-center">{{ dayGroup.label }}</h4>
+          <summary class="is-flex is-clickable">
+            <h4 class="title is-5 mb-0 is-flex is-align-items-center">
+              {{ dayGroup.label }}
+            </h4>
             <span
               class="tag is-medium ml-auto"
               :class="{
-              'is-success': dayGroup.maxRiskLevel === 0,
-              'is-warning': dayGroup.maxRiskLevel === 1,
-              'is-danger': dayGroup.maxRiskLevel === 2,
+                'is-success': dayGroup.riskLevel === 0,
+                'is-warning': dayGroup.riskLevel === 1,
+                'is-danger': dayGroup.riskLevel === 2,
               }"
             >
-              {{ landslideApiStore.getRiskLevelText(dayGroup.maxRiskLevel) }}
+              {{ landslideApiStore.getRiskLevelText(dayGroup.riskLevel) }}
             </span>
           </summary>
           <div class="pt-4">
@@ -69,7 +69,7 @@
             >
               <div class="is-flex is-align-items-center" style="gap: 1rem">
                 <p class="title is-5 mb-0" style="min-width: 80px">
-                  {{ formatBlockTime(block.timestamp, dayIndex, index) }}
+                  {{ formatBlockTime(block.timestamp) }}
                 </p>
                 <span
                   class="tag"
@@ -105,14 +105,7 @@
 
 <script setup lang="ts">
 import { useLandslideApiStore } from "~/stores/landslideApi";
-import {
-  formatDistanceToNow,
-  format,
-  isSameDay,
-  isToday,
-  isTomorrow,
-  addDays,
-} from "date-fns";
+import { formatDistanceToNow, format, isSameDay, isToday } from "date-fns";
 import { computed } from "vue";
 import type { ForecastBlock } from "~/types/custom";
 
@@ -121,13 +114,10 @@ const landslideApiStore = useLandslideApiStore();
 interface DayGroup {
   label: string;
   blocks: ForecastBlock[];
-  maxRiskLevel: number;
+  riskLevel: number;
   date: Date;
 }
 
-/**
- * Group forecast blocks by day and label them appropriately
- */
 const groupedForecastsByDay = computed<DayGroup[]>(() => {
   if (
     !landslideApiStore.data?.forecast_blocks ||
@@ -138,11 +128,8 @@ const groupedForecastsByDay = computed<DayGroup[]>(() => {
 
   const blocks = landslideApiStore.data.forecast_blocks;
   const groups: DayGroup[] = [];
-  const now = new Date();
-  const tomorrow = addDays(now, 1);
-  const dayAfterTomorrow = addDays(now, 2);
 
-  // Group blocks by day
+  // Group forecast blocks into days
   blocks.forEach((block) => {
     const blockDate = new Date(block.timestamp);
     let existingGroup = groups.find((g) => isSameDay(g.date, blockDate));
@@ -151,44 +138,33 @@ const groupedForecastsByDay = computed<DayGroup[]>(() => {
       let label = "";
       if (isToday(blockDate)) {
         label = "Today";
-      } else if (isTomorrow(blockDate)) {
-        label = format(blockDate, "EEEE"); // Day name like "Thursday"
       } else {
-        label = format(blockDate, "EEEE"); // Day name for other days
+        // Label with name of the day of the week
+        label = format(blockDate, "EEEE");
       }
 
       existingGroup = {
         label,
         blocks: [],
-        maxRiskLevel: 0,
+        riskLevel: block.risk_level,
         date: blockDate,
       };
       groups.push(existingGroup);
     }
 
+    // Finds maximum risk level for the day to give risk level for the day
+    if (block.risk_level > existingGroup.riskLevel) {
+      existingGroup.riskLevel = block.risk_level;
+    }
+
     existingGroup.blocks.push(block);
-    existingGroup.maxRiskLevel = Math.max(
-      existingGroup.maxRiskLevel,
-      block.risk_level,
-    );
   });
 
-  // Only return the first 3 days
+  // Returns the first 3 days for today, tomorrow, and the day after
   return groups.slice(0, 3);
 });
 
-/**
- * Format the forecast block time display
- * @param timestamp - ISO timestamp string
- * @param dayIndex - Index of the day (0 = Today)
- * @param blockIndex - Index of the block within the day
- * @returns Formatted time string
- */
-function formatBlockTime(
-  timestamp: string,
-  dayIndex: number,
-  blockIndex: number,
-): string {
+function formatBlockTime(timestamp: string): string {
   const date = new Date(timestamp);
   return format(date, "h a");
 }
@@ -222,7 +198,7 @@ details[open] summary::before {
 }
 
 .forecast-day {
-  min-width: 540px; 
+  min-width: 540px;
   border: 1px solid #cccccc;
   border-radius: 5px;
   padding: 1rem;
