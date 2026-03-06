@@ -90,11 +90,6 @@ export default {
         background-color: rgba(255, 255, 255, 0.1);
         color: #ffffff;
       }
-
-      &.router-link-active {
-        background-color: #6e30f5;
-        color: #ffffff;
-      }
     }
   }
 }
