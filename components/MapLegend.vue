@@ -1,8 +1,10 @@
 <template>
   <table aria-label="Map legend">
-    <caption>
-      Legend
-    </caption>
+    <thead>
+      <tr>
+        <th colspan="2">Legend</th>
+      </tr>
+    </thead>
     <tbody>
       <tr>
         <td><span class="swatch-initiation"></span></td>
@@ -32,8 +34,16 @@
 </template>
 
 <style scoped lang="scss">
+table {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+th {
+  height: 2.5rem;
+}
 td {
-  height: 2rem;
+  height: 2.5rem;
 }
 
 %swatch-base {
@@ -41,6 +51,7 @@ td {
   width: 20px;
   height: 20px;
   border: 1px solid #000;
+  margin-right: 0.5rem;
 }
 
 %line-base {
@@ -49,6 +60,7 @@ td {
   height: 4px;
   border-radius: 2px;
   vertical-align: middle;
+  margin-right: 0.5rem;
 }
 
 .swatch {
