@@ -24,6 +24,7 @@
           <a href="/" class="navbar-item">Home</a>
           <a href="/AK91" class="navbar-item">Craig</a>
           <a href="/AK182" class="navbar-item">Kasaan</a>
+          <a href="/maps" class="navbar-item">Maps</a>
         </div>
       </div>
     </nav>

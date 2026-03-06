@@ -62,7 +62,6 @@
       <Map />
     </ClientOnly>
     <Resources />
-    <NuxtLink to="/">Switch Location</NuxtLink>
   </div>
 </template>
 
