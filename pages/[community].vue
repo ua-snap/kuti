@@ -59,19 +59,16 @@
           <RiskLevel />
         </div>
       </div>
-      <Map />
     </ClientOnly>
     <Resources />
   </div>
 </template>
 
 <script setup lang="ts">
-import { useMapStore } from "~/stores/map";
 import { useLandslideApiStore, isCommunityId } from "~/stores/landslideApi";
 import { type CommunityId, CommunityNames, ApiResponse } from "~/types/custom";
 
 const route = useRoute();
-const mapStore = useMapStore();
 const landslideApiStore = useLandslideApiStore();
 
 definePageMeta({
@@ -86,7 +83,6 @@ const communityName = CommunityNames[communityId.value];
 watch(
   communityId,
   async (newCommunityId) => {
-    mapStore.setLocation(newCommunityId);
     await landslideApiStore.fetchLandslideData(newCommunityId);
   },
   { immediate: true },

@@ -20,6 +20,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
+      geoserverUrl:
+        process.env.GEOSERVER_URL || "https://gs.earthmaps.io/geoserver/wms",
       snapApiUrl: process.env.SNAP_API_URL || "https://earthmaps.io",
     },
   },

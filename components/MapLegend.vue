@@ -35,8 +35,7 @@
 
 <style scoped lang="scss">
 table {
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+  margin: 1rem;
 }
 
 th {
