@@ -153,8 +153,6 @@ export const useMapStore = defineStore("map", () => {
   const initializeMap = () => {
     clearMap();
 
-    if (!selectedCommunity.value) return;
-
     // Start at a zoomed out view showing the region
     // Shifted slightly east to ensure both Craig and Kasaan are visible
     map = $L.map("map", {
