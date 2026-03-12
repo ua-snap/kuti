@@ -20,7 +20,7 @@ export const useMapStore = defineStore("map", () => {
 
   const INITIAL_ZOOM = 10;
   const INITIAL_CENTER_LAT = 55.5077;
-  const INITIAL_CENTER_LNG = -132.65;
+  const INITIAL_CENTER_LNG = -132.5;
 
   const layers = ref<MapLayer[]>([
     {
