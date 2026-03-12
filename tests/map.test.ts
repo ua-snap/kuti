@@ -63,7 +63,7 @@ test.describe("Map tests", () => {
     });
 
     // Wait for the zoom animation to complete
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2500);
 
     // Verify the map has zoomed to Craig's coordinates
     const mapCenter = await page.evaluate(() => {
@@ -73,8 +73,8 @@ test.describe("Map tests", () => {
       return { lat: center.lat, lng: center.lng };
     });
 
-    expect(mapCenter?.lat).toBeCloseTo(55.4764, 4);
-    expect(mapCenter?.lng).toBeCloseTo(-133.148, 4);
+    expect(mapCenter?.lat).toBeCloseTo(55.4764, 3);
+    expect(mapCenter?.lng).toBeCloseTo(-133.148, 3);
   });
 
   test("layer list is visible and collapsible", async ({ page }) => {

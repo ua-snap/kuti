@@ -161,6 +161,22 @@ export const useMapStore = defineStore("map", () => {
   const zoomToCommunity = (communityId: CommunityId) => {
     if (map && communityLocations[communityId]) {
       selectedCommunity.value = communityId;
+
+      // Hide all WMS layers during animation to prevent flickering
+      layers.value.forEach((layerConfig) => {
+        if (layerConfig.leafletLayers) {
+          layerConfig.leafletLayers.forEach((layer) => {
+            if (layer.getContainer()) {
+              layer.getContainer().style.opacity = '0';
+            }
+          });
+        } else if (layerConfig.leafletLayer) {
+          if (layerConfig.leafletLayer.getContainer()) {
+            layerConfig.leafletLayer.getContainer().style.opacity = '0';
+          }
+        }
+      });
+
       map.flyTo(
         $L.latLng(
           communityLocations[communityId].lat,
@@ -171,12 +187,45 @@ export const useMapStore = defineStore("map", () => {
           duration: 1.5,
         },
       );
+
+      // Restore layer opacity after animation completes
+      setTimeout(() => {
+        layers.value.forEach((layerConfig) => {
+          if (layerConfig.leafletLayers) {
+            layerConfig.leafletLayers.forEach((layer) => {
+              if (layer.getContainer()) {
+                layer.getContainer().style.opacity = '1';
+              }
+            });
+          } else if (layerConfig.leafletLayer) {
+            if (layerConfig.leafletLayer.getContainer()) {
+              layerConfig.leafletLayer.getContainer().style.opacity = '1';
+            }
+          }
+        });
+      }, 1500);
     }
   };
 
   const resetView = () => {
     if (map) {
       selectedCommunity.value = null;
+
+      // Hide all WMS layers during animation to prevent flickering
+      layers.value.forEach((layerConfig) => {
+        if (layerConfig.leafletLayers) {
+          layerConfig.leafletLayers.forEach((layer) => {
+            if (layer.getContainer()) {
+              layer.getContainer().style.opacity = '0';
+            }
+          });
+        } else if (layerConfig.leafletLayer) {
+          if (layerConfig.leafletLayer.getContainer()) {
+            layerConfig.leafletLayer.getContainer().style.opacity = '0';
+          }
+        }
+      });
+
       map.flyTo(
         $L.latLng(INITIAL_CENTER_LAT, INITIAL_CENTER_LNG),
         INITIAL_ZOOM,
@@ -187,6 +236,21 @@ export const useMapStore = defineStore("map", () => {
 
       setTimeout(() => {
         updateMarkerVisibility();
+        
+        // Restore layer opacity after animation completes
+        layers.value.forEach((layerConfig) => {
+          if (layerConfig.leafletLayers) {
+            layerConfig.leafletLayers.forEach((layer) => {
+              if (layer.getContainer()) {
+                layer.getContainer().style.opacity = '1';
+              }
+            });
+          } else if (layerConfig.leafletLayer) {
+            if (layerConfig.leafletLayer.getContainer()) {
+              layerConfig.leafletLayer.getContainer().style.opacity = '1';
+            }
+          }
+        });
       }, 1500);
     }
   };
