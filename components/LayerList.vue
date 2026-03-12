@@ -1,20 +1,27 @@
 <template>
-  <div class="box layer-list" :class="{ collapsed: isCollapsed }">
+  <div
+    class="box layer-list"
+    :class="{ collapsed: isCollapsed }"
+    data-testid="layer-list"
+  >
     <div
       class="is-flex is-justify-content-space-between is-align-items-center header-row"
     >
-      <h3 v-show="!isCollapsed" class="title">Landslide Hazard</h3>
+      <h3 v-if="!isCollapsed" class="title" data-testid="layer-list-title">
+        Landslide Hazard
+      </h3>
       <button
         class="button is-small toggle-button"
         @click="isCollapsed = !isCollapsed"
         :title="isCollapsed ? 'Show Layers' : 'Hide Layers'"
+        data-testid="layer-list-toggle"
       >
         <span v-if="isCollapsed">+</span>
         <span v-else>−</span>
       </button>
     </div>
 
-    <div v-show="!isCollapsed" class="layer-content">
+    <div v-if="!isCollapsed" class="layer-content">
       <ul>
         <li>
           <MapLayer id="initiation" />
@@ -95,11 +102,9 @@ h3.title {
   font-weight: 600;
   margin: 1.5rem 0 0.5rem;
   color: #000;
-  display: block;
 
   .header-row & {
     margin: 0;
-    display: block;
   }
 }
 

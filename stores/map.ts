@@ -139,6 +139,7 @@ export const useMapStore = defineStore("map", () => {
   const updateMarkerVisibility = () => {
     if (!map) return;
 
+    // Only show the community name markers if zoomed out
     const currentZoom = map.getZoom();
     const showMarkers = currentZoom < 12;
 
@@ -193,8 +194,6 @@ export const useMapStore = defineStore("map", () => {
   const initializeMap = () => {
     clearMap();
 
-    // Start at a zoomed out view showing the region
-    // Shifted slightly east to ensure both Craig and Kasaan are visible
     map = $L.map("map", {
       zoom: INITIAL_ZOOM,
       minZoom: 9,
@@ -207,6 +206,10 @@ export const useMapStore = defineStore("map", () => {
       dragging: true,
       attributionControl: false,
     });
+
+    if (typeof window !== "undefined") {
+      (window as any).__leafletMap = map;
+    }
 
     const baseLayer = $L.tileLayer(
       "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}",
