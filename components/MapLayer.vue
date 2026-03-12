@@ -14,6 +14,7 @@
         </span>
       </a>
     </span>
+    <span v-if="legendClass" :class="['legend-symbol', legendClass]"></span>
   </div>
 </template>
 
@@ -29,6 +30,18 @@ const mapStore = useMapStore();
 
 const layer = computed(() => {
   return mapStore.layers.find((l) => l.id === props.id);
+});
+
+const legendMap: Record<string, string> = {
+  initiation: "swatch-initiation",
+  runout: "swatch-runout",
+  tongass: "swatch-inventory",
+  roads: "line-road",
+  streams: "line-stream",
+};
+
+const legendClass = computed(() => {
+  return legendMap[props.id] || null;
 });
 
 const toggleLayer = (layerId: string) => {
@@ -55,6 +68,9 @@ a {
 .layer {
   margin: 5px 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .visible {
@@ -67,6 +83,7 @@ a {
 .layer-title {
   display: inline-block;
   padding-left: 1ex;
+  flex: 1;
 }
 
 .checkmark {
@@ -75,5 +92,50 @@ a {
 
 .invisible {
   visibility: hidden;
+}
+
+.legend-symbol {
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+
+%swatch-base {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #000;
+}
+
+%line-base {
+  display: inline-block;
+  width: 30px;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.swatch-initiation {
+  @extend %swatch-base;
+  background-color: red;
+}
+
+.swatch-runout {
+  @extend %swatch-base;
+  background-color: #eeb63d;
+}
+
+.swatch-inventory {
+  @extend %swatch-base;
+  background-color: #cccccc;
+  border: 3px solid black;
+}
+
+.line-road {
+  @extend %line-base;
+  background-color: #333;
+}
+
+.line-stream {
+  @extend %line-base;
+  background-color: #3399ff;
 }
 </style>

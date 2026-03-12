@@ -15,14 +15,12 @@
       </div>
     </main>
   </div>
-  <MapLegend />
 </template>
 
 <script setup lang="ts">
 import { onMounted, nextTick } from "vue";
 import { useMapStore } from "~/stores/map";
 import LayerList from "~/components/LayerList.vue";
-import MapLegend from "./MapLegend.vue";
 
 const mapStore = useMapStore();
 

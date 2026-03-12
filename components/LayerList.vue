@@ -42,7 +42,7 @@ import MapLayer from "./MapLayer.vue";
   padding: 1.25rem;
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  width: 330px;
+  width: 380px;
   z-index: 1000;
   font-size: 1.1rem;
 }
