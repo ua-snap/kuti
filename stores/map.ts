@@ -162,17 +162,16 @@ export const useMapStore = defineStore("map", () => {
     if (map && communityLocations[communityId]) {
       selectedCommunity.value = communityId;
 
-      // Hide all WMS layers during animation to prevent flickering
       layers.value.forEach((layerConfig) => {
         if (layerConfig.leafletLayers) {
           layerConfig.leafletLayers.forEach((layer) => {
             if (layer.getContainer()) {
-              layer.getContainer().style.opacity = '0';
+              layer.getContainer().style.opacity = "0";
             }
           });
         } else if (layerConfig.leafletLayer) {
           if (layerConfig.leafletLayer.getContainer()) {
-            layerConfig.leafletLayer.getContainer().style.opacity = '0';
+            layerConfig.leafletLayer.getContainer().style.opacity = "0";
           }
         }
       });
@@ -188,18 +187,17 @@ export const useMapStore = defineStore("map", () => {
         },
       );
 
-      // Restore layer opacity after animation completes
       setTimeout(() => {
         layers.value.forEach((layerConfig) => {
           if (layerConfig.leafletLayers) {
             layerConfig.leafletLayers.forEach((layer) => {
               if (layer.getContainer()) {
-                layer.getContainer().style.opacity = '1';
+                layer.getContainer().style.opacity = "1";
               }
             });
           } else if (layerConfig.leafletLayer) {
             if (layerConfig.leafletLayer.getContainer()) {
-              layerConfig.leafletLayer.getContainer().style.opacity = '1';
+              layerConfig.leafletLayer.getContainer().style.opacity = "1";
             }
           }
         });
@@ -216,12 +214,12 @@ export const useMapStore = defineStore("map", () => {
         if (layerConfig.leafletLayers) {
           layerConfig.leafletLayers.forEach((layer) => {
             if (layer.getContainer()) {
-              layer.getContainer().style.opacity = '0';
+              layer.getContainer().style.opacity = "0";
             }
           });
         } else if (layerConfig.leafletLayer) {
           if (layerConfig.leafletLayer.getContainer()) {
-            layerConfig.leafletLayer.getContainer().style.opacity = '0';
+            layerConfig.leafletLayer.getContainer().style.opacity = "0";
           }
         }
       });
@@ -236,18 +234,18 @@ export const useMapStore = defineStore("map", () => {
 
       setTimeout(() => {
         updateMarkerVisibility();
-        
+
         // Restore layer opacity after animation completes
         layers.value.forEach((layerConfig) => {
           if (layerConfig.leafletLayers) {
             layerConfig.leafletLayers.forEach((layer) => {
               if (layer.getContainer()) {
-                layer.getContainer().style.opacity = '1';
+                layer.getContainer().style.opacity = "1";
               }
             });
           } else if (layerConfig.leafletLayer) {
             if (layerConfig.leafletLayer.getContainer()) {
-              layerConfig.leafletLayer.getContainer().style.opacity = '1';
+              layerConfig.leafletLayer.getContainer().style.opacity = "1";
             }
           }
         });
