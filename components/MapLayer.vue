@@ -126,7 +126,6 @@ a {
 .swatch-inventory {
   @extend %swatch-base;
   background-color: #cccccc;
-  border: 3px solid black;
 }
 
 .line-road {
