@@ -1,9 +1,9 @@
 <template>
-  <div class="map-layers-panel">
+  <div class="box map-layers-panel">
     <h3>Map Layers</h3>
-    <div class="layers-list">
+    <div class="is-flex is-flex-direction-column layers-list">
       <div v-for="layer in mapStore.layers" :key="layer.id" class="layer-item">
-        <label class="layer-toggle">
+        <label class="is-flex is-align-items-center layer-toggle">
           <input
             type="checkbox"
             :checked="layer.visible"
@@ -27,10 +27,6 @@ const mapStore = useMapStore();
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: white;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   width: 500px;
   z-index: 1000;
 
@@ -44,8 +40,6 @@ const mapStore = useMapStore();
 }
 
 .layers-list {
-  display: flex;
-  flex-direction: column;
   gap: 0.75rem;
 }
 
@@ -56,8 +50,6 @@ const mapStore = useMapStore();
 }
 
 .layer-toggle {
-  display: flex;
-  align-items: center;
   gap: 0.5rem;
   cursor: pointer;
   user-select: none;

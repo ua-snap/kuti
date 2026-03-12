@@ -1,5 +1,8 @@
 <template>
-  <div v-if="layer" class="layer">
+  <div
+    v-if="layer"
+    class="is-flex is-align-items-center is-justify-content-space-between layer"
+  >
     <span class="layer-title">
       <a @click.prevent="toggleLayer(id)">
         <span class="checkmark" :class="{ invisible: !layer.visible }"
@@ -68,9 +71,6 @@ a {
 .layer {
   margin: 5px 0;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .visible {

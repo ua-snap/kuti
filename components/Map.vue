@@ -1,12 +1,12 @@
 <template>
-  <div class="interactive-map-page">
-    <main>
+  <div class="is-flex">
+    <main class="is-flex is-flex-direction-column is-flex-grow-1">
       <h1 class="title is-3 mx-5 mt-4 mb-2">Landslide Hazard Map</h1>
       <div class="map-wrapper">
         <div id="map"></div>
         <LayerList />
         <button
-          class="reset-map-button"
+          class="button is-light reset-map-button"
           @click="mapStore.resetView()"
           title="Reset to overview"
         >
@@ -37,16 +37,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-.interactive-map-page {
-  display: flex;
-
-  main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-}
-
 .map-wrapper {
   position: relative;
   flex: 1;
@@ -62,28 +52,8 @@ onMounted(() => {
   position: absolute;
   bottom: 1.5rem;
   right: 1rem;
-  padding: 0.5rem 1rem;
-  background: white;
-  border: 2px solid rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #333;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease;
   z-index: 900;
-  white-space: nowrap;
-
-  &:hover {
-    background: #f4f4f4;
-    border-color: rgba(0, 0, 0, 0.3);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
+  font-weight: 600;
 }
 
 .community-marker {

@@ -1,9 +1,11 @@
 <template>
-  <div class="layer-list" :class="{ collapsed: isCollapsed }">
-    <div class="header-row">
+  <div class="box layer-list" :class="{ collapsed: isCollapsed }">
+    <div
+      class="is-flex is-justify-content-space-between is-align-items-center header-row"
+    >
       <h3 v-show="!isCollapsed" class="title">Landslide Hazard</h3>
       <button
-        class="toggle-button"
+        class="button is-small toggle-button"
         @click="isCollapsed = !isCollapsed"
         :title="isCollapsed ? 'Show Layers' : 'Hide Layers'"
       >
@@ -54,10 +56,6 @@ const isCollapsed = ref(false);
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: white;
-  padding: 1.25rem;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   width: 380px;
   z-index: 1000;
   font-size: 1.1rem;
@@ -72,9 +70,6 @@ const isCollapsed = ref(false);
 }
 
 .header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 0.5rem;
 
   .collapsed & {
@@ -83,22 +78,9 @@ const isCollapsed = ref(false);
 }
 
 .toggle-button {
-  background: white;
-  border: 1px solid #ddd;
   font-size: 1.2rem;
-  cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  color: #333;
   line-height: 1;
-  border-radius: 3px;
   min-width: 30px;
-  flex-shrink: 0;
-
-  &:hover {
-    color: #000;
-    background: rgba(200, 200, 200, 0.5);
-    border-color: #999;
-  }
 }
 
 ul {

@@ -71,7 +71,7 @@ export const useMapStore = defineStore("map", () => {
 
     layer.visible = !layer.visible;
 
-    // Handle layers with multiple leaflet layers (like hillshade)
+    // Handle layers with multiple leaflet layers i.e. Hillshade
     if (layer.leafletLayers) {
       layer.leafletLayers.forEach((leafletLayer) => {
         if (layer.visible) {
@@ -81,7 +81,6 @@ export const useMapStore = defineStore("map", () => {
         }
       });
     } else if (layer.leafletLayer) {
-      // Handle single layer
       if (layer.visible) {
         layer.leafletLayer.addTo(map);
       } else {
@@ -118,7 +117,6 @@ export const useMapStore = defineStore("map", () => {
 
     layers.value.forEach((layerConfig) => {
       if (layerConfig.leafletLayers) {
-        // Handle multiple layers (like hillshade)
         layerConfig.leafletLayers.forEach((leafletLayer) => {
           const isOnMap = map.hasLayer(leafletLayer);
           if (layerConfig.visible && !isOnMap) {
@@ -128,7 +126,6 @@ export const useMapStore = defineStore("map", () => {
           }
         });
       } else if (layerConfig.leafletLayer) {
-        // Handle single layer
         const isOnMap = map.hasLayer(layerConfig.leafletLayer);
         if (layerConfig.visible && !isOnMap) {
           layerConfig.leafletLayer.addTo(map);
