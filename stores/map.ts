@@ -103,6 +103,42 @@ export const useMapStore = defineStore("map", () => {
     selectedCommunity.value = null;
   };
 
+  const hideMarkers = () => {
+    if (!map) return;
+
+    Object.values(communityMarkers).forEach((marker: any) => {
+      if (map.hasLayer(marker)) {
+        map.removeLayer(marker);
+      }
+    });
+  };
+
+  const refreshLayers = () => {
+    if (!map) return;
+
+    layers.value.forEach((layerConfig) => {
+      if (layerConfig.leafletLayers) {
+        // Handle multiple layers (like hillshade)
+        layerConfig.leafletLayers.forEach((leafletLayer) => {
+          const isOnMap = map.hasLayer(leafletLayer);
+          if (layerConfig.visible && !isOnMap) {
+            leafletLayer.addTo(map);
+          } else if (!layerConfig.visible && isOnMap) {
+            map.removeLayer(leafletLayer);
+          }
+        });
+      } else if (layerConfig.leafletLayer) {
+        // Handle single layer
+        const isOnMap = map.hasLayer(layerConfig.leafletLayer);
+        if (layerConfig.visible && !isOnMap) {
+          layerConfig.leafletLayer.addTo(map);
+        } else if (!layerConfig.visible && isOnMap) {
+          map.removeLayer(layerConfig.leafletLayer);
+        }
+      }
+    });
+  };
+
   const updateMarkerVisibility = () => {
     if (!map) return;
 
@@ -120,6 +156,8 @@ export const useMapStore = defineStore("map", () => {
         }
       }
     });
+
+    refreshLayers();
   };
 
   const zoomToCommunity = (communityId: CommunityId) => {
@@ -140,6 +178,7 @@ export const useMapStore = defineStore("map", () => {
 
   const resetView = () => {
     if (map) {
+      selectedCommunity.value = null;
       map.flyTo(
         $L.latLng(INITIAL_CENTER_LAT, INITIAL_CENTER_LNG),
         INITIAL_ZOOM,
@@ -147,6 +186,10 @@ export const useMapStore = defineStore("map", () => {
           duration: 1.5,
         },
       );
+
+      setTimeout(() => {
+        updateMarkerVisibility();
+      }, 1500);
     }
   };
 
@@ -174,6 +217,7 @@ export const useMapStore = defineStore("map", () => {
 
     baseLayer.addTo(map);
 
+    map.on("zoomstart", hideMarkers);
     map.on("zoomend", updateMarkerVisibility);
 
     const communityMarkersData = [
