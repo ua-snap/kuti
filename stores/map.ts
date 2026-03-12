@@ -188,19 +188,33 @@ export const useMapStore = defineStore("map", () => {
       );
 
       setTimeout(() => {
+        // First redraw layers at new zoom level while still hidden
         layers.value.forEach((layerConfig) => {
           if (layerConfig.leafletLayers) {
             layerConfig.leafletLayers.forEach((layer) => {
-              if (layer.getContainer()) {
-                layer.getContainer().style.opacity = "1";
-              }
+              layer.redraw();
             });
           } else if (layerConfig.leafletLayer) {
-            if (layerConfig.leafletLayer.getContainer()) {
-              layerConfig.leafletLayer.getContainer().style.opacity = "1";
-            }
+            layerConfig.leafletLayer.redraw();
           }
         });
+
+        // Wait for new tiles to load before showing layers
+        setTimeout(() => {
+          layers.value.forEach((layerConfig) => {
+            if (layerConfig.leafletLayers) {
+              layerConfig.leafletLayers.forEach((layer) => {
+                if (layer.getContainer()) {
+                  layer.getContainer().style.opacity = "1";
+                }
+              });
+            } else if (layerConfig.leafletLayer) {
+              if (layerConfig.leafletLayer.getContainer()) {
+                layerConfig.leafletLayer.getContainer().style.opacity = "1";
+              }
+            }
+          });
+        }, 300);
       }, 1500);
     }
   };
@@ -235,20 +249,33 @@ export const useMapStore = defineStore("map", () => {
       setTimeout(() => {
         updateMarkerVisibility();
 
-        // Restore layer opacity after animation completes
+        // First redraw layers at new zoom level while still hidden
         layers.value.forEach((layerConfig) => {
           if (layerConfig.leafletLayers) {
             layerConfig.leafletLayers.forEach((layer) => {
-              if (layer.getContainer()) {
-                layer.getContainer().style.opacity = "1";
-              }
+              layer.redraw();
             });
           } else if (layerConfig.leafletLayer) {
-            if (layerConfig.leafletLayer.getContainer()) {
-              layerConfig.leafletLayer.getContainer().style.opacity = "1";
-            }
+            layerConfig.leafletLayer.redraw();
           }
         });
+
+        // Wait for new tiles to load before showing layers
+        setTimeout(() => {
+          layers.value.forEach((layerConfig) => {
+            if (layerConfig.leafletLayers) {
+              layerConfig.leafletLayers.forEach((layer) => {
+                if (layer.getContainer()) {
+                  layer.getContainer().style.opacity = "1";
+                }
+              });
+            } else if (layerConfig.leafletLayer) {
+              if (layerConfig.leafletLayer.getContainer()) {
+                layerConfig.leafletLayer.getContainer().style.opacity = "1";
+              }
+            }
+          });
+        }, 300);
       }, 1500);
     }
   };
