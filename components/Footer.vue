@@ -6,9 +6,18 @@
           <img src="~/assets/images/UAFLogo_A_black_horiz.svg" alt="UAF Logo" />
 
           <p>
-            Developed by the &#x1E34;ut&#x00ed; Geohazards Project in
-            collaboration with the University of Oregon Geoscience and the
-            University of Alaska Fairbanks.
+            Developed by the
+            <a href="https://www.kutiproject.org"
+              >&#x1E34;ut&#x00ed; Geohazards Project</a
+            >
+            in collaboration with the communities of Craig and Kasaan, the
+            <a href="https://sitkascience.org">Sitka Sound Science Center</a>,
+            the
+            <a href="https://naturalsciences.uoregon.edu/earth-sciences"
+              >University of Oregon Geoscience program</a
+            >
+            and the
+            <a href="https://www.uaf.edu/">University of Alaska Fairbanks</a>.
           </p>
 
           <p>
