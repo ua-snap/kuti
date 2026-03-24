@@ -15,7 +15,7 @@ export enum CommunityNames {
 export const communityLocations: CommunityLocation[] = {
   AK91: {
     lat: 55.4764,
-    lng: -133.148,
+    lng: -133.118,
   },
   AK182: {
     lat: 55.5389,
