@@ -96,11 +96,11 @@
                 style="gap: 2rem"
               >
                 <div style="min-width: 120px">
-                  <span class="has-text-grey">Intensity:</span>
+                  <span class="has-text-grey">Precipitation:</span>
                   <strong class="ml-2">{{ block.intensity_mm }} mm</strong>
                 </div>
                 <div style="min-width: 140px">
-                  <span class="has-text-grey">Antecedent:</span>
+                  <span class="has-text-grey">Past 24 hours:</span>
                   <strong class="ml-2">{{ block.antecedent_mm }} mm</strong>
                 </div>
               </div>
