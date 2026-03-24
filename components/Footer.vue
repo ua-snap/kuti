@@ -3,8 +3,6 @@
     <div class="columns">
       <div class="column is-three-fifths is-offset-one-fifth">
         <div class="content is-size-5">
-          <img src="~/assets/images/UAFLogo_A_black_horiz.svg" alt="UAF Logo" />
-
           <p>
             Developed by the
             <a href="https://www.kutiproject.org"
