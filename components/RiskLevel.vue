@@ -2,12 +2,21 @@
   <div v-if="landslideApiStore.data" class="content">
     <div class="box">
       <h2 class="title is-4">
-        {{
-          landslideApiStore.getRiskLevelText(
-            landslideApiStore.data.realtime_risk_level,
-          )
-        }}
-        risk of landslide now
+        <span
+          class="tag is-medium"
+          :class="{
+            'is-success': landslideApiStore.data.realtime_risk_level === 0,
+            'is-warning': landslideApiStore.data.realtime_risk_level === 1,
+            'is-danger': landslideApiStore.data.realtime_risk_level === 2,
+          }"
+        >
+          {{
+            landslideApiStore.getRiskLevelText(
+              landslideApiStore.data.realtime_risk_level,
+            )
+          }}
+          risk of landslide now
+        </span>
       </h2>
       <p>
         <strong>Precipitation:</strong>
