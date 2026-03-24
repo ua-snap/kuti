@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <h1 class="title is-3">Current landslide risk near {{ communityName }}</h1>
-    <ClientOnly fallback-tag="p" fallback="Loading landslide risk data...">
-      <div v-if="landslideApiStore.loading" class="async-loading">
+    <ClientOnly>
+      <div v-if="showLoading">
         <p>Loading landslide risk data...</p>
       </div>
-      <div v-else class="async-finished">
+      <div v-else-if="!landslideApiStore.loading">
         <div v-if="landslideApiStore.httpError" class="http-error">
           <div
             v-if="
@@ -67,6 +67,7 @@
 <script setup lang="ts">
 import { useLandslideApiStore, isCommunityId } from "~/stores/landslideApi";
 import { type CommunityId, CommunityNames, ApiResponse } from "~/types/custom";
+import { ref, watch, computed } from "vue";
 
 const route = useRoute();
 const landslideApiStore = useLandslideApiStore();
@@ -79,6 +80,27 @@ definePageMeta({
 
 const communityId = computed(() => route.params.community as CommunityId);
 const communityName = CommunityNames[communityId.value];
+
+const showLoading = ref(false);
+let loadingTimeout: NodeJS.Timeout | null = null;
+
+watch(
+  () => landslideApiStore.loading,
+  (isLoading) => {
+    if (isLoading) {
+      loadingTimeout = setTimeout(() => {
+        showLoading.value = true;
+      }, 2000);
+    } else {
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+        loadingTimeout = null;
+      }
+      showLoading.value = false;
+    }
+  },
+  { immediate: true },
+);
 
 watch(
   communityId,
