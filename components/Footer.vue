@@ -33,7 +33,9 @@
               <a href="mailto:uaf-snap-data-tools@alaska.edu"
                 >uaf-snap-data-tools@alaska.edu</a
               >
-              with questions or comments.</strong> <span></span>
+              with questions or comments.</strong
+            >
+            <span></span>
             <a href="https://uaf-snap.org">Visit the SNAP website</a>
             to see all of our climate tools.
           </p>
@@ -78,12 +80,8 @@ export default {
 
 <style lang="scss" scoped>
 .footer {
-  background-image: url("~/assets/images/footer-image_2000.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: bottom;
   text-align: center;
-  padding-bottom: 14rem;
+  padding-bottom: 2rem;
   margin-top: 2rem;
   border-top: 1px solid #dbdbdb;
   color: #5a4f72;
