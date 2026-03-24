@@ -1,8 +1,5 @@
 <template>
   <header class="header">
-    <div class="banner">
-      <img src="~/assets/images/landslide.png" alt="Landslide banner" />
-    </div>
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a
@@ -49,20 +46,6 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  .banner {
-    width: 100%;
-    overflow: hidden;
-    max-height: 200px;
-
-    img {
-      width: 100%;
-      height: auto;
-      display: block;
-      object-fit: cover;
-      margin-top: -130px;
-    }
-  }
-
   .navbar {
     background-color: #5a4f72;
     border-bottom: 0.3rem solid #5a0072;
