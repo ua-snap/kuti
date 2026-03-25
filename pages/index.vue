@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <h1 class="title is-1">Landslide Risk for Alaskan Communities</h1>
+    <h1 class="title is-1">
+      Landslide Risk for Prince of Wales Island Communities
+    </h1>
     <h3 class="title is-4">Where are you?</h3>
 
     <div>
@@ -13,6 +15,6 @@
 
 <script setup>
 useHead({
-  title: `Landslide Risk for Alaskan Communities`,
+  title: `Landslide Risk for Prince of Wales Island Communities`,
 });
 </script>
