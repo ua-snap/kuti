@@ -1,6 +1,6 @@
 <template>
   <div v-if="landslideApiStore.data" class="content">
-    <div class="box">
+    <div class="box content">
       <h2 class="title is-4">
         <span
           class="tag is-medium"
@@ -26,7 +26,7 @@
         <strong>Previous 24 hours:</strong>
         {{ landslideApiStore.data.realtime_antecedent_mm }} mm
       </p>
-      <p class="is-size-7 has-text-grey">
+      <p>
         Last updated
         {{
           formatDistanceToNow(new Date(landslideApiStore.data.timestamp), {
@@ -70,13 +70,13 @@
             <div
               v-for="(block, index) in dayGroup.blocks"
               :key="block.forecast_hour"
-              class="is-flex is-justify-content-space-between is-align-items-center py-3 px-4"
+              class="is-flex is-justify-content-space-between is-align-items-left py-3 px-4"
               :class="{
                 'has-background-info-light': dayIndex === 0 && index === 0,
               }"
               style="border-bottom: 1px solid #dbdbdb"
             >
-              <div class="is-flex is-align-items-center" style="gap: 1rem">
+              <div class="is-flex is-align-items-left" style="gap: 1rem">
                 <p class="title is-5 mb-0" style="min-width: 80px">
                   {{ formatBlockTime(block.timestamp) }}
                 </p>
@@ -92,7 +92,7 @@
                 </span>
               </div>
               <div
-                class="is-flex is-align-items-center is-size-7"
+                class="is-flex is-align-items-left is-size-7"
                 style="gap: 2rem"
               >
                 <div style="min-width: 120px">

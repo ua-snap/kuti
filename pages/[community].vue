@@ -2,8 +2,8 @@
   <div class="container">
     <h1 class="title is-3">Current landslide risk near {{ communityName }}</h1>
     <ClientOnly>
-      <div v-if="showLoading">
-        <p>Loading landslide risk data...</p>
+      <div v-if="showLoading" class="block content is-size-5">
+        <p>Loading landslide risk data&hellip;</p>
       </div>
       <div v-else-if="!landslideApiStore.loading">
         <div v-if="landslideApiStore.httpError" class="http-error">
@@ -90,7 +90,7 @@ watch(
     if (isLoading) {
       loadingTimeout = setTimeout(() => {
         showLoading.value = true;
-      }, 2000);
+      }, 1500);
     } else {
       if (loadingTimeout) {
         clearTimeout(loadingTimeout);
