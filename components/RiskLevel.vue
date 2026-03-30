@@ -1,6 +1,6 @@
 <template>
   <div v-if="landslideApiStore.data" class="content">
-    <div class="box content">
+    <div class="box content" style="max-width: 800px">
       <h2 class="title is-4">
         <span
           class="tag is-medium"
@@ -67,44 +67,49 @@
             </span>
           </summary>
           <div class="pt-4">
-            <div
-              v-for="(block, index) in dayGroup.blocks"
-              :key="block.forecast_hour"
-              class="is-flex is-justify-content-space-between is-align-items-left py-3 px-4"
-              :class="{
-                'has-background-info-light': dayIndex === 0 && index === 0,
-              }"
-              style="border-bottom: 1px solid #dbdbdb"
-            >
-              <div class="is-flex is-align-items-left" style="gap: 1rem">
-                <p class="title is-5 mb-0" style="min-width: 80px">
-                  {{ formatBlockTime(block.timestamp) }}
-                </p>
-                <span
-                  class="tag"
+            <table class="forecast-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Risk</th>
+                  <th>Precipitation</th>
+                  <th>Past 24 hours</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(block, index) in dayGroup.blocks"
+                  :key="block.forecast_hour"
                   :class="{
-                    'is-success': block.risk_level === 0,
-                    'is-warning': block.risk_level === 1,
-                    'is-danger': block.risk_level === 2,
+                    'has-background-info-light': dayIndex === 0 && index === 0,
                   }"
                 >
-                  {{ landslideApiStore.getRiskLevelText(block.risk_level) }}
-                </span>
-              </div>
-              <div
-                class="is-flex is-align-items-left is-size-7"
-                style="gap: 2rem"
-              >
-                <div style="min-width: 120px">
-                  <span class="has-text-grey">Precipitation:</span>
-                  <strong class="ml-2">{{ block.intensity_mm }} mm</strong>
-                </div>
-                <div style="min-width: 140px">
-                  <span class="has-text-grey">Past 24 hours:</span>
-                  <strong class="ml-2">{{ block.antecedent_mm }} mm</strong>
-                </div>
-              </div>
-            </div>
+                  <td class="time-cell">
+                    <p class="title is-5 mb-0">
+                      {{ formatBlockTime(block.timestamp) }}
+                    </p>
+                  </td>
+                  <td>
+                    <span
+                      class="tag"
+                      :class="{
+                        'is-success': block.risk_level === 0,
+                        'is-warning': block.risk_level === 1,
+                        'is-danger': block.risk_level === 2,
+                      }"
+                    >
+                      {{ landslideApiStore.getRiskLevelText(block.risk_level) }}
+                    </span>
+                  </td>
+                  <td class="data-cell">
+                    <strong>{{ block.intensity_mm }} mm</strong>
+                  </td>
+                  <td class="data-cell">
+                    <strong>{{ block.antecedent_mm }} mm</strong>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </details>
       </div>
@@ -180,7 +185,6 @@ function formatBlockTime(timestamp: string): string {
 </script>
 
 <style scoped>
-/* Minimal custom styles - using Bulma classes for most styling */
 details summary {
   list-style: none;
   cursor: pointer;
@@ -207,9 +211,35 @@ details[open] summary::before {
 }
 
 .forecast-day {
-  min-width: 540px;
+  max-width: 800px;
   border: 1px solid #cccccc;
   border-radius: 5px;
   padding: 1rem;
+}
+
+.forecast-table {
+  width: 100%;
+}
+
+.forecast-table thead th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  border-bottom: 2px solid #dbdbdb;
+  background-color: #f5f5f5;
+}
+
+.forecast-table tbody tr {
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.forecast-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.data-cell {
+  font-size: 0.875rem;
 }
 </style>
