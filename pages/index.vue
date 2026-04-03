@@ -5,8 +5,8 @@
         Landslide Risk for Prince of Wales Island Communities
       </h1>
       <h2 class="title is-4">
-        This tool will show if there is an elevated risk of landslide by
-        calculating risk level based on recent rainfall.
+        This tool shows if there is an elevated risk of landslide by calculating
+        risk level based on recent rainfall.
       </h2>
 
       <div class="content is-size-5 mt-4">
