@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="title is-3 ml-2">
+    <h1 class="title is-3 ml-2 mt-2">
       Current landslide risk near {{ communityName }}
     </h1>
     <ClientOnly>

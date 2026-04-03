@@ -35,7 +35,7 @@ useHead({
 
 @media screen and (max-width: 768px) {
   .wrapper {
-    margin: 0 10px;
+    margin: 10px;
     text-align: center;
   }
 }
