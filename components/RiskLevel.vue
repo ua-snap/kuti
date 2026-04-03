@@ -185,6 +185,10 @@ function formatBlockTime(timestamp: string): string {
 </script>
 
 <style scoped>
+p {
+  color: #000000;
+}
+
 th[scope="col"] {
   vertical-align: bottom;
 }
