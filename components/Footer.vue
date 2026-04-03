@@ -73,15 +73,10 @@
   </footer>
 </template>
 
-<script>
-export default {
-  name: "Footer",
-  data() {
-    return {
-      year: new Date().getFullYear(),
-    };
-  },
-};
+<script setup>
+import { computed } from "vue";
+
+const year = computed(() => new Date().getFullYear());
 </script>
 
 <style lang="scss" scoped>
