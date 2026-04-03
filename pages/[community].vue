@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <h1 class="title is-3">Current landslide risk near {{ communityName }}</h1>
+    <h1 class="title is-3 ml-2">
+      Current landslide risk near {{ communityName }}
+    </h1>
     <ClientOnly>
       <div v-if="showLoading" class="block content is-size-5">
         <p>Loading landslide risk data&hellip;</p>

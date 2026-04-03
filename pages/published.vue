@@ -132,3 +132,11 @@
     <Resources />
   </div>
 </template>
+
+<style lang="scss" scoped>
+@media screen and (max-width: 768px) {
+  .content {
+    margin: 0 10px;
+  }
+}
+</style>

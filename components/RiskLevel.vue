@@ -43,7 +43,7 @@
       "
       class="block"
     >
-      <h3 class="title is-4">3 Day Forecast</h3>
+      <h3 class="title is-4 ml-2">3 Day Forecast</h3>
       <div
         v-for="(dayGroup, dayIndex) in groupedForecastsByDay"
         :key="dayGroup.label"
