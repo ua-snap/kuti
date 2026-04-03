@@ -78,10 +78,8 @@ export default {
 }
 
 @media screen and (max-width: 1023px) {
-  .navbar-menu {
-    &.is-active {
-      display: block;
-    }
+  .header {
+    display: none;
   }
 }
 </style>
