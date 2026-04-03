@@ -54,17 +54,17 @@
           <summary class="is-flex is-clickable">
             <h4 class="title is-5 mb-0 is-flex is-align-items-center">
               {{ dayGroup.label }}
+              <span
+                class="tag is-medium ml-3"
+                :class="{
+                  'is-success': dayGroup.riskLevel === 0,
+                  'is-warning': dayGroup.riskLevel === 1,
+                  'is-danger': dayGroup.riskLevel === 2,
+                }"
+              >
+                {{ landslideApiStore.getRiskLevelText(dayGroup.riskLevel) }}
+              </span>
             </h4>
-            <span
-              class="tag is-medium ml-auto"
-              :class="{
-                'is-success': dayGroup.riskLevel === 0,
-                'is-warning': dayGroup.riskLevel === 1,
-                'is-danger': dayGroup.riskLevel === 2,
-              }"
-            >
-              {{ landslideApiStore.getRiskLevelText(dayGroup.riskLevel) }}
-            </span>
           </summary>
           <div class="pt-4">
             <table class="forecast-table">
