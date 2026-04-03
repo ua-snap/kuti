@@ -70,10 +70,10 @@
             <table class="forecast-table">
               <thead>
                 <tr>
-                  <th>Time</th>
-                  <th>Risk</th>
-                  <th>Precipitation</th>
-                  <th>Past 24 hours</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Risk</th>
+                  <th scope="col">Precipitation</th>
+                  <th scope="col">Past 24 hours</th>
                 </tr>
               </thead>
               <tbody>
@@ -185,6 +185,10 @@ function formatBlockTime(timestamp: string): string {
 </script>
 
 <style scoped>
+th[scope="col"] {
+  vertical-align: bottom;
+}
+
 details summary {
   list-style: none;
   cursor: pointer;
