@@ -50,8 +50,8 @@ onMounted(() => {
 
 .reset-map-button {
   position: absolute;
-  bottom: 1.5rem;
-  right: 1rem;
+  top: 1rem;
+  left: 1rem;
   z-index: 900;
   font-weight: 600;
 }
