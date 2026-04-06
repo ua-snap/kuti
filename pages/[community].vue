@@ -17,8 +17,9 @@
             class="stale-data"
           >
             <p>
-              The landslide risk data is currently stale. Please try again
-              later.
+              Sorry! The data sources that this tool uses have not been
+              available to the app for a while, so we can&apos;t report on the
+              current landslide risk.
             </p>
           </div>
           <div
@@ -29,7 +30,9 @@
             class="database-inaccessible"
           >
             <p>
-              The database is currently inaccessible. Please try again later.
+              The database is temporarily offline. We&apos;re actively
+              investigating and working to restore service, please try again
+              shortly.
             </p>
           </div>
           <div
@@ -40,8 +43,9 @@
             class="general-error"
           >
             <p>
-              An unexpected error occurred while fetching landslide risk data.
-              Please try again later.
+              We&apos;re unable to retrieve landslide risk data right now due to
+              an unexpected error. We&apos;re actively working on a fix—please
+              try again soon.
             </p>
           </div>
           <div
@@ -52,7 +56,7 @@
             class="timeout-error"
           >
             <p>
-              The request timed out while fetching landslide risk data. Please
+              The request timed out while retrieving landslide risk data. Please
               check your connection and try again.
             </p>
           </div>
