@@ -11,6 +11,9 @@ export default defineNuxtConfig({
   pages: true,
   app: {
     head: {
+      htmlAttrs: {
+        "data-theme": "light",
+      },
       meta: [
         {
           name: "color-scheme",

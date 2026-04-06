@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-theme="light">
     <Header />
     <NuxtRouteAnnouncer />
     <slot />

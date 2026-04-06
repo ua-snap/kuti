@@ -1,9 +1,5 @@
-:root {
-  color-scheme: light only;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: light only;
-  }
+/* Force light mode - Bulma will respect the data-theme="light" attribute */
+html,
+body {
+  color-scheme: light;
 }
