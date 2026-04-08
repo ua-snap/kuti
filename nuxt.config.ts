@@ -1,11 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
-  css: [
-    "bulma/css/bulma.min.css",
-    "leaflet/dist/leaflet.css",
-    "~/assets/css/main.css",
-  ],
+  css: ["leaflet/dist/leaflet.css", "~/assets/css/main.scss"],
   devtools: { enabled: true },
   modules: ["@pinia/nuxt"],
   pages: true,

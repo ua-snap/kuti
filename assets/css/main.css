@@ -1,5 +1,0 @@
-/* Force light mode - Bulma will respect the data-theme="light" attribute */
-html,
-body {
-  color-scheme: light;
-}
