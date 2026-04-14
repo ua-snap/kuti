@@ -49,7 +49,6 @@ export default {
   .navbar {
     background-color: #ffffff;
     border-bottom: 1px solid #dbdbdb;
-    margin-bottom: 2rem;
 
     .navbar-burger {
       color: #000000;
