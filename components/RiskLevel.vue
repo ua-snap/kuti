@@ -47,8 +47,7 @@
       <div
         v-for="(dayGroup, dayIndex) in groupedForecastsByDay"
         :key="dayGroup.label"
-        class="forecast-day mb-4"
-        style=""
+        class="box mb-4 forecast-block"
       >
         <details :open="dayIndex === 0">
           <summary class="is-flex is-clickable">
@@ -185,10 +184,6 @@ function formatBlockTime(timestamp: string): string {
 </script>
 
 <style scoped>
-p {
-  color: #000000;
-}
-
 th[scope="col"] {
   vertical-align: bottom;
 }
@@ -218,36 +213,11 @@ details[open] summary::before {
   margin-top: 0;
 }
 
-.forecast-day {
+.forecast-block {
   max-width: 800px;
-  border: 1px solid #cccccc;
-  border-radius: 5px;
-  padding: 1rem;
 }
 
 .forecast-table {
   width: 100%;
-}
-
-.forecast-table thead th {
-  text-align: left;
-  padding: 0.75rem 1rem;
-  font-weight: 600;
-  border-bottom: 2px solid #dbdbdb;
-  background-color: #f5f5f5;
-}
-
-.forecast-table tbody tr {
-  border-bottom: 1px solid #dbdbdb;
-}
-
-.forecast-table td {
-  padding: 0.75rem 1rem;
-  text-align: left;
-  vertical-align: middle;
-}
-
-.data-cell {
-  font-size: 0.875rem;
 }
 </style>
