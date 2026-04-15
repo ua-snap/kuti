@@ -1,13 +1,22 @@
 <template>
   <div v-if="landslideApiStore.data" class="content">
-    <div class="box">
+    <div class="box content" style="max-width: 800px">
       <h2 class="title is-4">
-        {{
-          landslideApiStore.getRiskLevelText(
-            landslideApiStore.data.realtime_risk_level,
-          )
-        }}
-        risk of landslide now
+        <span
+          class="tag is-medium"
+          :class="{
+            'is-success': landslideApiStore.data.realtime_risk_level === 0,
+            'is-warning': landslideApiStore.data.realtime_risk_level === 1,
+            'is-danger': landslideApiStore.data.realtime_risk_level === 2,
+          }"
+        >
+          {{
+            landslideApiStore.getRiskLevelText(
+              landslideApiStore.data.realtime_risk_level,
+            )
+          }}
+          risk of landslide now
+        </span>
       </h2>
       <p>
         <strong>Precipitation:</strong>
@@ -17,7 +26,7 @@
         <strong>Previous 24 hours:</strong>
         {{ landslideApiStore.data.realtime_antecedent_mm }} mm
       </p>
-      <p class="is-size-7 has-text-grey">
+      <p>
         Last updated
         {{
           formatDistanceToNow(new Date(landslideApiStore.data.timestamp), {
@@ -34,68 +43,72 @@
       "
       class="block"
     >
-      <h3 class="title is-4">3 Day Forecast</h3>
+      <h3 class="title is-4 ml-2">3 Day Forecast</h3>
       <div
         v-for="(dayGroup, dayIndex) in groupedForecastsByDay"
         :key="dayGroup.label"
-        class="forecast-day mb-4"
-        style=""
+        class="box mb-4 forecast-block"
       >
         <details :open="dayIndex === 0">
           <summary class="is-flex is-clickable">
             <h4 class="title is-5 mb-0 is-flex is-align-items-center">
               {{ dayGroup.label }}
+              <span
+                class="tag is-medium ml-3"
+                :class="{
+                  'is-success': dayGroup.riskLevel === 0,
+                  'is-warning': dayGroup.riskLevel === 1,
+                  'is-danger': dayGroup.riskLevel === 2,
+                }"
+              >
+                {{ landslideApiStore.getRiskLevelText(dayGroup.riskLevel) }}
+              </span>
             </h4>
-            <span
-              class="tag is-medium ml-auto"
-              :class="{
-                'is-success': dayGroup.riskLevel === 0,
-                'is-warning': dayGroup.riskLevel === 1,
-                'is-danger': dayGroup.riskLevel === 2,
-              }"
-            >
-              {{ landslideApiStore.getRiskLevelText(dayGroup.riskLevel) }}
-            </span>
           </summary>
           <div class="pt-4">
-            <div
-              v-for="(block, index) in dayGroup.blocks"
-              :key="block.forecast_hour"
-              class="is-flex is-justify-content-space-between is-align-items-center py-3 px-4"
-              :class="{
-                'has-background-info-light': dayIndex === 0 && index === 0,
-              }"
-              style="border-bottom: 1px solid #dbdbdb"
-            >
-              <div class="is-flex is-align-items-center" style="gap: 1rem">
-                <p class="title is-5 mb-0" style="min-width: 80px">
-                  {{ formatBlockTime(block.timestamp) }}
-                </p>
-                <span
-                  class="tag"
+            <table class="forecast-table">
+              <thead>
+                <tr>
+                  <th scope="col">Time</th>
+                  <th scope="col">Risk</th>
+                  <th scope="col">Precipitation</th>
+                  <th scope="col">Past 24 hours</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(block, index) in dayGroup.blocks"
+                  :key="block.forecast_hour"
                   :class="{
-                    'is-success': block.risk_level === 0,
-                    'is-warning': block.risk_level === 1,
-                    'is-danger': block.risk_level === 2,
+                    'has-background-info-light': dayIndex === 0 && index === 0,
                   }"
                 >
-                  {{ landslideApiStore.getRiskLevelText(block.risk_level) }}
-                </span>
-              </div>
-              <div
-                class="is-flex is-align-items-center is-size-7"
-                style="gap: 2rem"
-              >
-                <div style="min-width: 120px">
-                  <span class="has-text-grey">Intensity:</span>
-                  <strong class="ml-2">{{ block.intensity_mm }} mm</strong>
-                </div>
-                <div style="min-width: 140px">
-                  <span class="has-text-grey">Antecedent:</span>
-                  <strong class="ml-2">{{ block.antecedent_mm }} mm</strong>
-                </div>
-              </div>
-            </div>
+                  <td class="time-cell">
+                    <p class="title is-5 mb-0">
+                      {{ formatBlockTime(block.timestamp) }}
+                    </p>
+                  </td>
+                  <td>
+                    <span
+                      class="tag"
+                      :class="{
+                        'is-success': block.risk_level === 0,
+                        'is-warning': block.risk_level === 1,
+                        'is-danger': block.risk_level === 2,
+                      }"
+                    >
+                      {{ landslideApiStore.getRiskLevelText(block.risk_level) }}
+                    </span>
+                  </td>
+                  <td class="data-cell">
+                    <strong>{{ block.intensity_mm }} mm</strong>
+                  </td>
+                  <td class="data-cell">
+                    <strong>{{ block.antecedent_mm }} mm</strong>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </details>
       </div>
@@ -171,7 +184,10 @@ function formatBlockTime(timestamp: string): string {
 </script>
 
 <style scoped>
-/* Minimal custom styles - using Bulma classes for most styling */
+th[scope="col"] {
+  vertical-align: bottom;
+}
+
 details summary {
   list-style: none;
   cursor: pointer;
@@ -197,10 +213,11 @@ details[open] summary::before {
   margin-top: 0;
 }
 
-.forecast-day {
-  min-width: 540px;
-  border: 1px solid #cccccc;
-  border-radius: 5px;
-  padding: 1rem;
+.forecast-block {
+  max-width: 800px;
+}
+
+.forecast-table {
+  width: 100%;
 }
 </style>

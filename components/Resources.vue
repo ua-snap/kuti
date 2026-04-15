@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="title is-3">Resources</h2>
+    <h2 class="title is-3 ml-2 mt-4">Resources</h2>
 
     <div class="columns is-multiline mb-2">
       <div class="column is-half-tablet is-one-third-desktop">

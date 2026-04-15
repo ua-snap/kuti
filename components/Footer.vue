@@ -3,12 +3,19 @@
     <div class="columns">
       <div class="column is-three-fifths is-offset-one-fifth">
         <div class="content is-size-5">
-          <img src="~/assets/images/UAFLogo_A_black_horiz.svg" alt="UAF Logo" />
-
           <p>
-            Developed by the &#x1E34;ut&#x00ed; Geohazards Project in
-            collaboration with the University of Oregon Geoscience and the
-            University of Alaska Fairbanks.
+            Developed by the
+            <a href="https://www.kutiproject.org"
+              >&#x1E34;ut&#x00ed; Geohazards Project</a
+            >
+            in collaboration with the communities of Craig and Kasaan, the
+            <a href="https://sitkascience.org">Sitka Sound Science Center</a>,
+            the
+            <a href="https://naturalsciences.uoregon.edu/earth-sciences"
+              >University of Oregon Geoscience program</a
+            >
+            and the
+            <a href="https://www.uaf.edu/">University of Alaska Fairbanks</a>.
           </p>
 
           <p>
@@ -33,7 +40,8 @@
               <a href="mailto:uaf-snap-data-tools@alaska.edu"
                 >uaf-snap-data-tools@alaska.edu</a
               >
-              with questions or comments.</strong> <span></span>
+              with questions or comments.
+            </strong>
             <a href="https://uaf-snap.org">Visit the SNAP website</a>
             to see all of our climate tools.
           </p>
@@ -65,25 +73,16 @@
   </footer>
 </template>
 
-<script>
-export default {
-  name: "Footer",
-  data() {
-    return {
-      year: new Date().getFullYear(),
-    };
-  },
-};
+<script setup>
+import { computed } from "vue";
+
+const year = computed(() => new Date().getFullYear());
 </script>
 
 <style lang="scss" scoped>
 .footer {
-  background-image: url("~/assets/images/footer-image_2000.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: bottom;
   text-align: center;
-  padding-bottom: 14rem;
+  padding-bottom: 2rem;
   margin-top: 2rem;
   border-top: 1px solid #dbdbdb;
   color: #5a4f72;

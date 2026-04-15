@@ -1,58 +1,18 @@
 <template>
   <div class="container">
-    <h1 class="title is-3">Current landslide risk near {{ communityName }}</h1>
-    <ClientOnly fallback-tag="p" fallback="Loading landslide risk data...">
-      <div v-if="landslideApiStore.loading" class="async-loading">
-        <p>Loading landslide risk data...</p>
+    <h1 class="title is-3 ml-2 mt-2">
+      Current landslide risk near {{ communityName }}
+    </h1>
+    <ClientOnly>
+      <div v-if="showLoading" class="block content is-size-5">
+        <p>Loading landslide risk data&hellip;</p>
       </div>
-      <div v-else class="async-finished">
-        <div v-if="landslideApiStore.httpError" class="http-error">
-          <div
-            v-if="
-              landslideApiStore.httpError ==
-              ApiResponse.API_HTTP_RESPONSE_STALE_DATA
-            "
-            class="stale-data"
-          >
-            <p>
-              The landslide risk data is currently stale. Please try again
-              later.
-            </p>
-          </div>
-          <div
-            v-if="
-              landslideApiStore.httpError ===
-              ApiResponse.API_HTTP_RESPONSE_DATABASE_UNREACHABLE
-            "
-            class="database-inaccessible"
-          >
-            <p>
-              The database is currently inaccessible. Please try again later.
-            </p>
-          </div>
-          <div
-            v-if="
-              landslideApiStore.httpError ===
-              ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR
-            "
-            class="general-error"
-          >
-            <p>
-              An unexpected error occurred while fetching landslide risk data.
-              Please try again later.
-            </p>
-          </div>
-          <div
-            v-if="
-              landslideApiStore.httpError ===
-              ApiResponse.API_HTTP_RESPONSE_TIMEOUT
-            "
-            class="timeout-error"
-          >
-            <p>
-              The request timed out while fetching landslide risk data. Please
-              check your connection and try again.
-            </p>
+      <div v-else-if="!landslideApiStore.loading">
+        <div v-if="landslideApiStore.httpError">
+          <div class="message is-warning">
+            <div class="message-body">
+              ⚠️ <span v-html="errorMessage"></span>
+            </div>
           </div>
         </div>
         <div v-else class="forecast-loaded">
@@ -67,6 +27,7 @@
 <script setup lang="ts">
 import { useLandslideApiStore, isCommunityId } from "~/stores/landslideApi";
 import { type CommunityId, CommunityNames, ApiResponse } from "~/types/custom";
+import { ref, watch, computed, onBeforeUnmount } from "vue";
 
 const route = useRoute();
 const landslideApiStore = useLandslideApiStore();
@@ -77,8 +38,45 @@ definePageMeta({
   },
 });
 
+const errorMessage = computed(() => {
+  switch (landslideApiStore.httpError) {
+    case ApiResponse.API_HTTP_RESPONSE_STALE_DATA:
+      return `Sorry! The data sources that this tool uses have not been
+              available to the app for a while, so we can&apos;t report on the
+              current landslide risk.`;
+    case ApiResponse.API_HTTP_RESPONSE_TIMEOUT:
+      return "Sorry, we cannot reach our data sources from your device.  Please check your internet connection and try again.";
+
+    case ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR: // fallthru
+    case ApiResponse.API_HTTP_RESPONSE_DATABASE_UNREACHABLE:
+    default:
+      return "Sorry, we cannot access the data sources that provide current landslide risk right now.  Please try again later.";
+  }
+});
+
 const communityId = computed(() => route.params.community as CommunityId);
 const communityName = CommunityNames[communityId.value];
+
+const showLoading = ref(false);
+let loadingTimeout: ReturnType<typeof setTimeout> | null = null;
+
+watch(
+  () => landslideApiStore.loading,
+  (isLoading) => {
+    if (isLoading) {
+      loadingTimeout = setTimeout(() => {
+        showLoading.value = true;
+      }, 1500);
+    } else {
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+        loadingTimeout = null;
+      }
+      showLoading.value = false;
+    }
+  },
+  { immediate: true },
+);
 
 watch(
   communityId,
@@ -87,6 +85,13 @@ watch(
   },
   { immediate: true },
 );
+
+onBeforeUnmount(() => {
+  if (loadingTimeout) {
+    clearTimeout(loadingTimeout);
+    loadingTimeout = null;
+  }
+});
 
 useHead({
   title: "Landslide risk for Alaskan communities",
