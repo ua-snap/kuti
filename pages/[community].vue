@@ -8,57 +8,11 @@
         <p>Loading landslide risk data&hellip;</p>
       </div>
       <div v-else-if="!landslideApiStore.loading">
-        <div v-if="landslideApiStore.httpError" class="http-error">
-          <div
-            v-if="
-              landslideApiStore.httpError ==
-              ApiResponse.API_HTTP_RESPONSE_STALE_DATA
-            "
-            class="stale-data"
-          >
-            <p>
-              Sorry! The data sources that this tool uses have not been
-              available to the app for a while, so we can&apos;t report on the
-              current landslide risk.
-            </p>
-          </div>
-          <div
-            v-if="
-              landslideApiStore.httpError ===
-              ApiResponse.API_HTTP_RESPONSE_DATABASE_UNREACHABLE
-            "
-            class="database-inaccessible"
-          >
-            <p>
-              The database is temporarily offline. We&apos;re actively
-              investigating and working to restore service, please try again
-              shortly.
-            </p>
-          </div>
-          <div
-            v-if="
-              landslideApiStore.httpError ===
-              ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR
-            "
-            class="general-error"
-          >
-            <p>
-              We&apos;re unable to retrieve landslide risk data right now due to
-              an unexpected error. We&apos;re actively working on a fix—please
-              try again soon.
-            </p>
-          </div>
-          <div
-            v-if="
-              landslideApiStore.httpError ===
-              ApiResponse.API_HTTP_RESPONSE_TIMEOUT
-            "
-            class="timeout-error"
-          >
-            <p>
-              The request timed out while retrieving landslide risk data. Please
-              check your connection and try again.
-            </p>
+        <div v-if="landslideApiStore.httpError">
+          <div class="message is-warning">
+            <div class="message-body">
+              ⚠️ <span v-html="errorMessage"></span>
+            </div>
           </div>
         </div>
         <div v-else class="forecast-loaded">
@@ -82,6 +36,22 @@ definePageMeta({
   validate: (route) => {
     return isCommunityId(route.params.community);
   },
+});
+
+const errorMessage = computed(() => {
+  switch (landslideApiStore.httpError) {
+    case ApiResponse.API_HTTP_RESPONSE_STALE_DATA:
+      return `Sorry! The data sources that this tool uses have not been
+              available to the app for a while, so we can&apos;t report on the
+              current landslide risk.`;
+    case ApiResponse.API_HTTP_RESPONSE_TIMEOUT:
+      return "Sorry, we cannot reach our data sources from your device.  Please check your internet connection and try again.";
+
+    case ApiResponse.API_HTTP_RESPONSE_GENERAL_ERROR: // fallthru
+    case ApiResponse.API_HTTP_RESPONSE_DATABASE_UNREACHABLE:
+    default:
+      return "Sorry, we cannot access the data sources that provide current landslide risk right now.  Please try again later.";
+  }
 });
 
 const communityId = computed(() => route.params.community as CommunityId);
