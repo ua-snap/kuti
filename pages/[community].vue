@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { useLandslideApiStore, isCommunityId } from "~/stores/landslideApi";
 import { type CommunityId, CommunityNames, ApiResponse } from "~/types/custom";
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, onBeforeUnmount } from "vue";
 
 const route = useRoute();
 const landslideApiStore = useLandslideApiStore();
@@ -58,7 +58,7 @@ const communityId = computed(() => route.params.community as CommunityId);
 const communityName = CommunityNames[communityId.value];
 
 const showLoading = ref(false);
-let loadingTimeout: NodeJS.Timeout | null = null;
+let loadingTimeout: ReturnType<typeof setTimeout> | null = null;
 
 watch(
   () => landslideApiStore.loading,
@@ -85,6 +85,13 @@ watch(
   },
   { immediate: true },
 );
+
+onBeforeUnmount(() => {
+  if (loadingTimeout) {
+    clearTimeout(loadingTimeout);
+    loadingTimeout = null;
+  }
+});
 
 useHead({
   title: "Landslide risk for Alaskan communities",
