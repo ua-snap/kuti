@@ -24,7 +24,7 @@ useHead({
 </script>
 
 <style lang="scss" scoped>
-// Use flexbox to center the content horizonally
+// Use flexbox to center the content horizontally
 .wrapper {
   height: 50vh;
   display: flex;
