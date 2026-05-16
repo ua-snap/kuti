@@ -17,8 +17,8 @@ test.describe("Error Handling Test Suite", () => {
     await page.goto(`/${TEST_COMMUNITIES.CRAIG}`);
     await expect(page.locator(".async-finished")).toBeVisible();
 
-    expect(page.locator(".http-error")).toBeVisible();
-    expect(page.locator(".stale-data")).toBeVisible();
+    await expect(page.locator(".http-error")).toBeVisible();
+    await expect(page.locator(".stale-data")).toBeVisible();
   });
 
   test("should display general error for HTTP 500 status", async ({ page }) => {
@@ -26,8 +26,8 @@ test.describe("Error Handling Test Suite", () => {
     await page.goto(`/${TEST_COMMUNITIES.CRAIG}`);
     await expect(page.locator(".async-finished")).toBeVisible();
 
-    expect(page.locator(".http-error")).toBeVisible();
-    expect(page.locator(".general-error")).toBeVisible();
+    await expect(page.locator(".http-error")).toBeVisible();
+    await expect(page.locator(".general-error")).toBeVisible();
   });
 
   test("should display database inaccessible error for HTTP 502 status", async ({
@@ -37,8 +37,8 @@ test.describe("Error Handling Test Suite", () => {
     await page.goto(`/${TEST_COMMUNITIES.CRAIG}`);
     await expect(page.locator(".async-finished")).toBeVisible();
 
-    expect(page.locator(".http-error")).toBeVisible();
-    expect(page.locator(".database-inaccessible")).toBeVisible();
+    await expect(page.locator(".http-error")).toBeVisible();
+    await expect(page.locator(".database-inaccessible")).toBeVisible();
   });
 
   test("should display valid data for successful API response", async ({
@@ -54,10 +54,10 @@ test.describe("Error Handling Test Suite", () => {
     await expect(page.locator(".async-finished")).toBeVisible();
 
     // No HTTP error block, no error block, and response matches (mock) API result
-    expect(page.locator(".http-error")).toBeHidden();
-    expect(page.locator(".async-loading")).toBeHidden();
-    expect(page.locator("text=/Precipitation:.*2.5 mm/")).toBeVisible();
-    expect(page.locator("text=/Medium risk of landslide now/")).toBeVisible();
+    await expect(page.locator(".http-error")).toBeHidden();
+    await expect(page.locator(".async-loading")).toBeHidden();
+    await expect(page.locator("text=/Precipitation:.*2.5 mm/")).toBeVisible();
+    await expect(page.locator("text=/Medium risk of landslide now/")).toBeVisible();
   });
 
   test("should display timeout error when API takes longer than 10 seconds to respond", async ({
@@ -75,7 +75,7 @@ test.describe("Error Handling Test Suite", () => {
 
     await expect(page.locator(".async-finished")).toBeVisible();
 
-    expect(page.locator(".http-error")).toBeVisible();
-    expect(page.locator(".timeout-error")).toBeVisible();
+    await expect(page.locator(".http-error")).toBeVisible();
+    await expect(page.locator(".timeout-error")).toBeVisible();
   });
 });
