@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header class="header is-hidden-mobile">
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a
@@ -53,6 +53,7 @@ export default {
 
     .navbar-burger {
       color: #000000;
+      display: none;
 
       &:hover {
         background-color: rgba(0, 0, 0, 0.05);
