@@ -5,14 +5,15 @@
         Landslide Risk for Prince of Wales Island Communities
       </h1>
       <h2 class="title is-4">
-        This tool will show if there is an elevated risk of landslide by
-        calculating risk level based on recent rainfall.
+        This tool shows landslide risk based on recent and forecasted rainfall.
       </h2>
-
       <div class="content is-size-5 mt-4">
-        <NuxtLink class="button is-large" to="/AK91"> Craig</NuxtLink>
-        <NuxtLink class="button is-large ml-4" to="/AK182"> Kasaan</NuxtLink>
+        <NuxtLink class="button is-large" to="/AK91">West (Craig)</NuxtLink>
+        <NuxtLink class="button is-large ml-4" to="/AK182"
+          >East (Kasaan)</NuxtLink
+        >
       </div>
+      <HomeMap />
     </div>
   </div>
 </template>
@@ -26,7 +27,7 @@ useHead({
 <style lang="scss" scoped>
 // Use flexbox to center the content horizonally
 .wrapper {
-  height: 50vh;
+  min-height: 50vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
