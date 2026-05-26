@@ -58,3 +58,11 @@
     <Resources />
   </div>
 </template>
+
+<style lang="scss" scoped>
+@media screen and (max-width: 768px) {
+  .content {
+    margin: 10px;
+  }
+}
+</style>

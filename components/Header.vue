@@ -1,8 +1,5 @@
 <template>
   <header class="header">
-    <div class="banner">
-      <img src="~/assets/images/landslide.png" alt="Landslide banner" />
-    </div>
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a
@@ -49,56 +46,39 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  .banner {
-    width: 100%;
-    overflow: hidden;
-    max-height: 200px;
-
-    img {
-      width: 100%;
-      height: auto;
-      display: block;
-      object-fit: cover;
-      margin-top: -130px;
-    }
-  }
-
   .navbar {
-    background-color: #5a4f72;
-    border-bottom: 0.3rem solid #5a0072;
-    margin-bottom: 2rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dbdbdb;
 
     .navbar-burger {
-      color: #ffffff;
+      color: #000000;
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(0, 0, 0, 0.05);
       }
     }
 
     .navbar-menu {
-      background-color: #5a4f72;
+      background-color: #ffffff;
     }
 
     .navbar-item {
-      color: #ffffff;
+      color: #000000;
       font-weight: 500;
       padding: 1rem 1.5rem;
       transition: background-color 0.2s ease;
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-        color: #ffffff;
+        background-color: rgba(0, 0, 0, 0.05);
+        color: #000000;
       }
     }
   }
 }
 
 @media screen and (max-width: 1023px) {
-  .navbar-menu {
-    &.is-active {
-      display: block;
-    }
+  .header {
+    display: none;
   }
 }
 </style>

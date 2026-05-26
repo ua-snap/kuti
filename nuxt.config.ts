@@ -1,12 +1,21 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
-  css: ["bulma/css/bulma.min.css", "leaflet/dist/leaflet.css"],
+  css: ["leaflet/dist/leaflet.css", "~/assets/css/main.scss"],
   devtools: { enabled: true },
   modules: ["@pinia/nuxt"],
   pages: true,
   app: {
     head: {
+      htmlAttrs: {
+        "data-theme": "light",
+      },
+      meta: [
+        {
+          name: "color-scheme",
+          content: "light",
+        },
+      ],
       script: [
         {
           src: "https://umami.snap.uaf.edu/script.js",

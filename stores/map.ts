@@ -289,12 +289,14 @@ export const useMapStore = defineStore("map", () => {
       maxZoom: 15,
       center: $L.latLng(INITIAL_CENTER_LAT, INITIAL_CENTER_LNG),
       scrollWheelZoom: false,
-      zoomControl: true,
+      zoomControl: false,
       doubleClickZoom: false,
       touchZoom: false,
       dragging: true,
       attributionControl: false,
     });
+
+    $L.control.zoom({ position: "bottomleft" }).addTo(map);
 
     if (typeof window !== "undefined") {
       (window as any).__leafletMap = map;

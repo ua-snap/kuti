@@ -1,61 +1,37 @@
 <template>
-  <div
-    class="box layer-list"
-    :class="{ collapsed: isCollapsed }"
-    data-testid="layer-list"
-  >
-    <div
-      class="is-flex is-justify-content-space-between is-align-items-center header-row"
-    >
-      <h3 v-if="!isCollapsed" class="title" data-testid="layer-list-title">
-        Landslide Hazard
-      </h3>
-      <button
-        class="button is-small toggle-button"
-        @click="isCollapsed = !isCollapsed"
-        :title="isCollapsed ? 'Show Layers' : 'Hide Layers'"
-        data-testid="layer-list-toggle"
-      >
-        <span v-if="isCollapsed">+</span>
-        <span v-else>−</span>
-      </button>
-    </div>
+  <div class="box layer-list" data-testid="layer-list">
+    <h3 class="title" data-testid="layer-list-title">Landslide Hazard</h3>
 
-    <div v-if="!isCollapsed" class="layer-content">
-      <ul>
-        <li>
-          <MapLayer id="initiation" />
-        </li>
-        <li>
-          <MapLayer id="runout" />
-        </li>
-        <li>
-          <MapLayer id="tongass" />
-        </li>
-      </ul>
+    <ul>
+      <li>
+        <MapLayer id="initiation" />
+      </li>
+      <li>
+        <MapLayer id="runout" />
+      </li>
+      <li>
+        <MapLayer id="tongass" />
+      </li>
+    </ul>
 
-      <h3 class="title">Terrain &amp; Features</h3>
-      <ul>
-        <li>
-          <MapLayer id="hillshade" />
-        </li>
+    <h3 class="title">Terrain &amp; Features</h3>
+    <ul>
+      <li>
+        <MapLayer id="hillshade" />
+      </li>
 
-        <li>
-          <MapLayer id="roads" />
-        </li>
-        <li>
-          <MapLayer id="streams" />
-        </li>
-      </ul>
-    </div>
+      <li>
+        <MapLayer id="roads" />
+      </li>
+      <li>
+        <MapLayer id="streams" />
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import MapLayer from "./MapLayer.vue";
-
-const isCollapsed = ref(false);
 </script>
 
 <style scoped lang="scss">
@@ -66,28 +42,6 @@ const isCollapsed = ref(false);
   width: 380px;
   z-index: 1000;
   font-size: 1.1rem;
-  transition: all 0.3s ease;
-
-  &.collapsed {
-    width: auto;
-    padding: 0;
-    background: transparent;
-    box-shadow: none;
-  }
-}
-
-.header-row {
-  margin-bottom: 0.5rem;
-
-  .collapsed & {
-    margin-bottom: 0;
-  }
-}
-
-.toggle-button {
-  font-size: 1.2rem;
-  line-height: 1;
-  min-width: 30px;
 }
 
 ul {
@@ -103,8 +57,8 @@ h3.title {
   margin: 1.5rem 0 0.5rem;
   color: #000;
 
-  .header-row & {
-    margin: 0;
+  &:first-child {
+    margin-top: 0;
   }
 }
 
