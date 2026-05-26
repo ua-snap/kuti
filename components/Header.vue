@@ -19,8 +19,8 @@
       <div class="navbar-menu" :class="{ 'is-active': isMenuActive }">
         <div class="navbar-start">
           <a href="/" class="navbar-item">Home</a>
-          <a href="/AK91" class="navbar-item">Craig</a>
-          <a href="/AK182" class="navbar-item">Kasaan</a>
+          <a href="/AK91" class="navbar-item">West (Craig)</a>
+          <a href="/AK182" class="navbar-item">East (Kasaan)</a>
           <a href="/map" class="navbar-item">Map</a>
         </div>
       </div>
