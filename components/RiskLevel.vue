@@ -148,10 +148,9 @@ const groupedForecastsByDay = computed<DayGroup[]>(() => {
     if (!existingGroup) {
       let label = "";
       if (isToday(blockDate)) {
-        label = "Today";
+        label = `Today, ${format(blockDate, "MMMM d")}`;
       } else {
-        // Label with name of the day of the week
-        label = format(blockDate, "EEEE");
+        label = `${format(blockDate, "EEEE")}, ${format(blockDate, "MMMM d")}`;
       }
 
       existingGroup = {
