@@ -3,7 +3,7 @@
     <div class="box content" style="max-width: 800px">
       <h2 class="title is-4">
         <span
-          class="tag is-medium"
+          class="tag is-large"
           :class="{
             'is-success': landslideApiStore.data.realtime_risk_level === 0,
             'is-warning': landslideApiStore.data.realtime_risk_level === 1,
@@ -20,11 +20,11 @@
       </h2>
       <p>
         <strong>Precipitation:</strong>
-        {{ landslideApiStore.data.realtime_rainfall_mm }} mm
+        {{ mmToInches(landslideApiStore.data.realtime_rainfall_mm) }} in
       </p>
       <p>
         <strong>Previous 24 hours:</strong>
-        {{ landslideApiStore.data.realtime_antecedent_mm }} mm
+        {{ mmToInches(landslideApiStore.data.realtime_antecedent_mm) }} in
       </p>
       <p>
         Last updated at
@@ -67,7 +67,7 @@
                 <tr>
                   <th scope="col">Time</th>
                   <th scope="col">Risk</th>
-                  <th scope="col">Precipitation</th>
+                  <th scope="col">Precipitation - last 3hrs</th>
                   <th scope="col">Past 24 hours</th>
                 </tr>
               </thead>
@@ -86,21 +86,23 @@
                   </td>
                   <td>
                     <span
-                      class="tag"
+                      class="tag is-size-6"
                       :class="{
                         'is-success': block.risk_level === 0,
                         'is-warning': block.risk_level === 1,
                         'is-danger': block.risk_level === 2,
                       }"
                     >
-                      {{ landslideApiStore.getRiskLevelText(block.risk_level) }}
+                      <strong>{{
+                        landslideApiStore.getRiskLevelText(block.risk_level)
+                      }}</strong>
                     </span>
                   </td>
                   <td class="data-cell">
-                    <strong>{{ block.intensity_mm }} mm</strong>
+                    <strong>{{ mmToInches(block.intensity_mm) }} in</strong>
                   </td>
                   <td class="data-cell">
-                    <strong>{{ block.antecedent_mm }} mm</strong>
+                    <strong>{{ mmToInches(block.antecedent_mm) }} in</strong>
                   </td>
                 </tr>
               </tbody>
@@ -176,6 +178,11 @@ const groupedForecastsByDay = computed<DayGroup[]>(() => {
 function formatBlockTime(timestamp: string): string {
   const date = new Date(timestamp);
   return format(date, "h a");
+}
+
+function mmToInches(mm: number): string {
+  const inches = mm * 0.0393701;
+  return inches.toFixed(2);
 }
 </script>
 
