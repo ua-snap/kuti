@@ -27,12 +27,8 @@
         {{ landslideApiStore.data.realtime_antecedent_mm }} mm
       </p>
       <p>
-        Last updated
-        {{
-          formatDistanceToNow(new Date(landslideApiStore.data.timestamp), {
-            addSuffix: true,
-          })
-        }}
+        Last updated at
+        {{ format(new Date(landslideApiStore.data.timestamp), "h:mm a") }}
       </p>
     </div>
 
@@ -118,7 +114,7 @@
 
 <script setup lang="ts">
 import { useLandslideApiStore } from "~/stores/landslideApi";
-import { formatDistanceToNow, format, isSameDay, isToday } from "date-fns";
+import { format, isSameDay, isToday } from "date-fns";
 import { computed } from "vue";
 import type { ForecastBlock } from "~/types/custom";
 
