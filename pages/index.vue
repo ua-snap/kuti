@@ -13,7 +13,13 @@
           >East (Kasaan)</NuxtLink
         >
       </div>
-      <HomeMap />
+      <div class="map-container is-hidden-mobile">
+        <img
+          src="/static-map.png"
+          alt="Map showing Craig and Kasaan on Prince of Wales Island"
+          class="static-map"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -26,6 +32,20 @@ useHead({
 
 <style lang="scss" scoped>
 // Use flexbox to center the content horizontally
+.map-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem 0;
+}
+
+.static-map {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: block;
+}
+
 .wrapper {
   min-height: 50vh;
   display: flex;
