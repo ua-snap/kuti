@@ -26,6 +26,7 @@
           and the cumulative precipitation totals come from a weather model
           called the <a href="https://www.ecmwf.int/">ECMWF</a>.
         </div>
+        <RiskExplaination />
       </div>
     </ClientOnly>
     <Resources />
@@ -36,6 +37,7 @@
 import { useLandslideApiStore, isCommunityId } from "~/stores/landslideApi";
 import { type CommunityId, CommunityNames, ApiResponse } from "~/types/custom";
 import { ref, watch, computed, onBeforeUnmount } from "vue";
+import RiskExplaination from "~/components/RiskExplaination.vue";
 
 const route = useRoute();
 const landslideApiStore = useLandslideApiStore();
