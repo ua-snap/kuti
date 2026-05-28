@@ -23,6 +23,13 @@
           <a href="/AK182" class="navbar-item">East (Kasaan)</a>
           <a href="/map" class="navbar-item">Map</a>
         </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <a href="https://weather.gov/ajk" class="button is-link">
+              Check NWS Weather Advisory
+            </a>
+          </div>
+        </div>
       </div>
     </nav>
   </header>
