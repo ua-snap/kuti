@@ -3,7 +3,7 @@
     <div class="box content" style="max-width: 800px">
       <h2 class="title is-4">
         <span
-          class="tag is-medium"
+          class="tag is-large"
           :class="{
             'is-success': landslideApiStore.data.realtime_risk_level === 0,
             'is-warning': landslideApiStore.data.realtime_risk_level === 1,
@@ -20,19 +20,15 @@
       </h2>
       <p>
         <strong>Precipitation:</strong>
-        {{ landslideApiStore.data.realtime_rainfall_mm }} mm
+        {{ mmToInches(landslideApiStore.data.realtime_rainfall_mm) }} in
       </p>
       <p>
         <strong>Previous 24 hours:</strong>
-        {{ landslideApiStore.data.realtime_antecedent_mm }} mm
+        {{ mmToInches(landslideApiStore.data.realtime_antecedent_mm) }} in
       </p>
       <p>
-        Last updated
-        {{
-          formatDistanceToNow(new Date(landslideApiStore.data.timestamp), {
-            addSuffix: true,
-          })
-        }}
+        Last updated at
+        {{ format(new Date(landslideApiStore.data.timestamp), "h:mm a") }}
       </p>
     </div>
 
@@ -71,7 +67,7 @@
                 <tr>
                   <th scope="col">Time</th>
                   <th scope="col">Risk</th>
-                  <th scope="col">Precipitation</th>
+                  <th scope="col">Precipitation - last 3hrs</th>
                   <th scope="col">Past 24 hours</th>
                 </tr>
               </thead>
@@ -90,21 +86,23 @@
                   </td>
                   <td>
                     <span
-                      class="tag"
+                      class="tag is-size-6"
                       :class="{
                         'is-success': block.risk_level === 0,
                         'is-warning': block.risk_level === 1,
                         'is-danger': block.risk_level === 2,
                       }"
                     >
-                      {{ landslideApiStore.getRiskLevelText(block.risk_level) }}
+                      <strong>{{
+                        landslideApiStore.getRiskLevelText(block.risk_level)
+                      }}</strong>
                     </span>
                   </td>
                   <td class="data-cell">
-                    <strong>{{ block.intensity_mm }} mm</strong>
+                    <strong>{{ mmToInches(block.intensity_mm) }} in</strong>
                   </td>
                   <td class="data-cell">
-                    <strong>{{ block.antecedent_mm }} mm</strong>
+                    <strong>{{ mmToInches(block.antecedent_mm) }} in</strong>
                   </td>
                 </tr>
               </tbody>
@@ -118,7 +116,7 @@
 
 <script setup lang="ts">
 import { useLandslideApiStore } from "~/stores/landslideApi";
-import { formatDistanceToNow, format, isSameDay, isToday } from "date-fns";
+import { format, isSameDay, isToday } from "date-fns";
 import { computed } from "vue";
 import type { ForecastBlock } from "~/types/custom";
 
@@ -150,10 +148,9 @@ const groupedForecastsByDay = computed<DayGroup[]>(() => {
     if (!existingGroup) {
       let label = "";
       if (isToday(blockDate)) {
-        label = "Today";
+        label = `Today, ${format(blockDate, "MMMM d")}`;
       } else {
-        // Label with name of the day of the week
-        label = format(blockDate, "EEEE");
+        label = `${format(blockDate, "EEEE")}, ${format(blockDate, "MMMM d")}`;
       }
 
       existingGroup = {
@@ -180,6 +177,15 @@ const groupedForecastsByDay = computed<DayGroup[]>(() => {
 function formatBlockTime(timestamp: string): string {
   const date = new Date(timestamp);
   return format(date, "h a");
+}
+
+function mmToInches(mm: number): string {
+  const inches = mm * 0.0393701;
+  const fixedInches = inches.toFixed(2);
+  if (fixedInches === "0.00" && mm > 0) {
+    return "< 0.01";
+  }
+  return fixedInches;
 }
 </script>
 

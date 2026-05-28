@@ -18,6 +18,15 @@
         <div v-else class="forecast-loaded">
           <RiskLevel />
         </div>
+        <div class="column is-half">
+          Current precipitation comes from the
+          {{ communityId === "AK91" ? "CRGA2" : "PWKA2" }} rain gauge in
+          {{ communityName }}, which sends its data to
+          <a href="https://synopticdata.com/">Synoptic</a>. Future precipitation
+          and the cumulative precipitation totals come from a weather model
+          called the <a href="https://www.ecmwf.int/">ECMWF</a>.
+        </div>
+        <RiskExplaination />
       </div>
     </ClientOnly>
     <Resources />
@@ -28,6 +37,7 @@
 import { useLandslideApiStore, isCommunityId } from "~/stores/landslideApi";
 import { type CommunityId, CommunityNames, ApiResponse } from "~/types/custom";
 import { ref, watch, computed, onBeforeUnmount } from "vue";
+import RiskExplaination from "~/components/RiskExplaination.vue";
 
 const route = useRoute();
 const landslideApiStore = useLandslideApiStore();
