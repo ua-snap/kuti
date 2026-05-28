@@ -17,7 +17,10 @@
             and the
             <a href="https://www.uaf.edu/">University of Alaska Fairbanks</a>.
           </p>
-
+          <p>
+            Funding was provided by the NSF Coastlines and People Hubs for
+            Research and Broadening Participation (CoPe), Award #2052972.
+          </p>
           <p>
             Technology by the
             <a href="https://www.snap.uaf.edu/" title="🥦🥦🥦"
@@ -27,11 +30,6 @@
             <a href="https://uaf-iarc.org"
               >International Arctic Research Center</a
             >.
-          </p>
-
-          <p>
-            Funding was provided by the NSF Coastlines and People Hubs for
-            Research and Broadening Participation (CoPe), Award #2052972.
           </p>
 
           <p>
