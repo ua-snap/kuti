@@ -17,7 +17,10 @@
             and the
             <a href="https://www.uaf.edu/">University of Alaska Fairbanks</a>.
           </p>
-
+          <p>
+            Funding was provided by the NSF Coastlines and People Hubs for
+            Research and Broadening Participation (CoPe), Award #2052972.
+          </p>
           <p>
             Technology by the
             <a href="https://www.snap.uaf.edu/" title="🥦🥦🥦"
@@ -27,11 +30,6 @@
             <a href="https://uaf-iarc.org"
               >International Arctic Research Center</a
             >.
-          </p>
-
-          <p>
-            Funding was provided by the NSF Coastlines and People Hubs for
-            Research and Broadening Participation (CoPe), Award #2052972.
           </p>
 
           <p>
@@ -66,6 +64,15 @@
               >policy of non-discrimination</a
             >
             against individuals on the basis of any legally protected status.
+          </p>
+          <p>
+            This website provides information about landslide risk management in
+            an accessible way for the benefit of the general public. It is the
+            sole responsibility of the user to evaluate the accuracy,
+            completeness, or usefulness of any information, advice, or content
+            made available through this website. In no event shall the Sitka
+            Sound Science Center, project collaborators, or partners be liable
+            for any direct or indirect damages.
           </p>
         </div>
       </div>
