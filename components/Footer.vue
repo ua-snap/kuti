@@ -4,6 +4,16 @@
       <div class="column is-three-fifths is-offset-one-fifth">
         <div class="content is-size-5">
           <p>
+            This website provides information about landslide risk management in
+            an accessible way for the benefit of the general public. It is the
+            sole responsibility of the user to evaluate the accuracy,
+            completeness, or usefulness of any information, advice, or content
+            made available through this website. In no event shall the Sitka
+            Sound Science Center, project collaborators, or partners be liable
+            for any direct or indirect damages.
+          </p>
+          <hr/>
+          <p>
             Developed by the
             <a href="https://www.kutiproject.org"
               >&#x1E34;ut&#x00ed; Geohazards Project</a
@@ -64,15 +74,6 @@
               >policy of non-discrimination</a
             >
             against individuals on the basis of any legally protected status.
-          </p>
-          <p>
-            This website provides information about landslide risk management in
-            an accessible way for the benefit of the general public. It is the
-            sole responsibility of the user to evaluate the accuracy,
-            completeness, or usefulness of any information, advice, or content
-            made available through this website. In no event shall the Sitka
-            Sound Science Center, project collaborators, or partners be liable
-            for any direct or indirect damages.
           </p>
         </div>
       </div>
