@@ -8,8 +8,8 @@
       </h4>
       <p>
         Multiple landslides are very likely to occur in the area. There have
-        been storms with similarly intense rainfall, and all of them initiated
-        multiple landslides.
+        been two storms in the last 13 years with similar rainfall conditions,
+        and both of them initiated multiple landslides.
       </p>
     </div>
 
@@ -18,8 +18,8 @@
         <span class="tag is-warning is-medium">Medium</span>
       </h4>
       <p>
-        Landslides are possible. Isolated landslides have occurred in the area
-        with similarly intense rainfall in the past.
+        Landslides are possible. Landslides have occurred in the Craig/Klawock
+        area with similar rainfall conditions in the past.
       </p>
     </div>
 
@@ -28,8 +28,9 @@
         <span class="tag is-success is-medium">Low</span>
       </h4>
       <p>
-        Landslides are unlikely based on historic observations. Rainfall-induced
-        landslides have not been documented for these rainfall conditions.
+        Landslides are unlikely based on historic observations. Only one
+        rainfall-induced landslide has been documented for these rainfall
+        conditions in the last 13 years.
       </p>
     </div>
   </div>
