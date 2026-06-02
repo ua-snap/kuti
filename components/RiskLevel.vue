@@ -181,7 +181,11 @@ function formatBlockTime(timestamp: string): string {
 
 function mmToInches(mm: number): string {
   const inches = mm * 0.0393701;
-  return inches.toFixed(2);
+  const fixedInches = inches.toFixed(2);
+  if (fixedInches === "0.00" && mm > 0) {
+    return "< 0.01";
+  }
+  return fixedInches;
 }
 </script>
 
