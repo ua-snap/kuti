@@ -4,7 +4,7 @@
       <div class="navbar-brand">
         <a
           role="button"
-          class="navbar-burger"
+          class="navbar-burger is-hidden-touch"
           :class="{ 'is-active': isMenuActive }"
           aria-label="menu"
           :aria-expanded="isMenuActive"
@@ -14,6 +14,11 @@
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
+        <div class="navbar-item is-hidden-desktop">
+          <a href="https://weather.gov/ajk" class="button is-link is-small">
+            Check NWS Weather Advisory
+          </a>
+        </div>
       </div>
 
       <div class="navbar-menu" :class="{ 'is-active': isMenuActive }">
@@ -83,9 +88,4 @@ export default {
   }
 }
 
-@media screen and (max-width: 1023px) {
-  .header {
-    display: none;
-  }
-}
 </style>
