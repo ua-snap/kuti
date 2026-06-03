@@ -25,8 +25,8 @@
         </div>
         <div class="navbar-end">
           <div class="navbar-item">
-            <a href="https://weather.gov/ajk" class="button is-link">
-              Check NWS Weather Advisory
+            <a href="https://weather.gov/ajk">
+              Current Weather Advisories (NWS)
             </a>
           </div>
         </div>
