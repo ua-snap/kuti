@@ -21,7 +21,7 @@
           <a href="/" class="navbar-item">Home</a>
           <a href="/AK91" class="navbar-item">West (Craig)</a>
           <a href="/AK182" class="navbar-item">East (Kasaan)</a>
-          <a href="/map" class="navbar-item">Map</a>
+          <a href="/maps" class="navbar-item">Maps</a>
         </div>
       </div>
     </nav>
