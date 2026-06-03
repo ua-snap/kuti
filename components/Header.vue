@@ -16,7 +16,7 @@
         </a>
         <div class="navbar-item is-hidden-desktop">
           <a href="https://weather.gov/ajk" class="button is-link is-small">
-            Check NWS Weather Advisory
+            Check Weather Advisories (NWS)
           </a>
         </div>
       </div>
@@ -87,5 +87,4 @@ export default {
     }
   }
 }
-
 </style>
