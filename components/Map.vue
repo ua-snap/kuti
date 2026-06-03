@@ -2,7 +2,11 @@
   <div class="is-flex">
     <main class="is-flex is-flex-direction-column is-flex-grow-1">
       <div class="mx-5 mt-4 mb-2">
-        <h1 class="title is-3 mb-2">Landslide Hazard Map</h1>
+        <h1 class="title is-3 mb-2">Interactive Landslide Hazard Map</h1>
+        <p>
+          You can also use the interactive map below to explore the same
+          information shown above.
+        </p>
         <p class="block is-size-5">
           <a
             href="https://s3.us-west-2.amazonaws.com/downloads.powlandslides.org/landslide-layers.zip"

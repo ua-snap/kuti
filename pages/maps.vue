@@ -1,10 +1,12 @@
 <template>
-  <Maps />
-  <Map />
   <div class="container">
+    <Maps />
+    <div class="is-hidden-mobile">
+      <Map />
+    </div>
     <p>
-      Modeled Landslide Prone Areas not responsive to current or forecasted
-      rainfall
+      Modeled Landslide Prone Areas are do not integrate current or forecasted
+      rainfall.
     </p>
   </div>
 </template>
