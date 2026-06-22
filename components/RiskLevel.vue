@@ -139,10 +139,17 @@ const groupedForecastsByDay = computed<DayGroup[]>(() => {
 
   const blocks = landslideApiStore.data.forecast_blocks;
   const groups: DayGroup[] = [];
+  const now = new Date();
 
-  // Group forecast blocks into days
+  // Group forecast blocks into days, filtering out past time slots
   blocks.forEach((block) => {
     const blockDate = new Date(block.timestamp);
+
+    // Skip blocks that are in the past
+    if (blockDate <= now) {
+      return;
+    }
+
     let existingGroup = groups.find((g) => isSameDay(g.date, blockDate));
 
     if (!existingGroup) {
