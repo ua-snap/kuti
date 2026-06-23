@@ -4,7 +4,7 @@
       <div class="navbar-brand">
         <a
           role="button"
-          class="navbar-burger"
+          class="navbar-burger is-hidden-touch"
           :class="{ 'is-active': isMenuActive }"
           aria-label="menu"
           :aria-expanded="isMenuActive"
@@ -14,6 +14,11 @@
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
+        <div class="navbar-item is-hidden-desktop">
+          <a href="https://weather.gov/ajk" class="button is-link is-small">
+            Check Weather Advisories (NWS)
+          </a>
+        </div>
       </div>
 
       <div class="navbar-menu" :class="{ 'is-active': isMenuActive }">
@@ -21,7 +26,14 @@
           <a href="/" class="navbar-item">Home</a>
           <a href="/AK91" class="navbar-item">West (Craig)</a>
           <a href="/AK182" class="navbar-item">East (Kasaan)</a>
-          <a href="/map" class="navbar-item">Map</a>
+          <a href="/maps" class="navbar-item">Maps</a>
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <a href="https://weather.gov/ajk">
+              Current Weather Advisories (NWS)
+            </a>
+          </div>
         </div>
       </div>
     </nav>
@@ -73,12 +85,6 @@ export default {
         color: #000000;
       }
     }
-  }
-}
-
-@media screen and (max-width: 1023px) {
-  .header {
-    display: none;
   }
 }
 </style>
