@@ -38,8 +38,8 @@ export default defineNuxtConfig({
         {
           src: "https://umami.snap.uaf.edu/script.js",
           async: true,
-          "data-website-id": "57573294-19a7-419c-84d1-b8d3e7c3bc16",
-          "data-domains": "aklandslides.org",
+          "data-website-id": "75e40122-4e38-4823-8b53-227002d9281f",
+          "data-domains": "powlandslides.org",
           "data-do-not-track": "true",
         },
       ],
