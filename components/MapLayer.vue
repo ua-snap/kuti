@@ -125,7 +125,7 @@ a {
 
 .swatch-inventory {
   @extend %swatch-base;
-  background-color: #cccccc;
+  background-color: #a35e9d;
   border: 3px solid black;
 }
 
