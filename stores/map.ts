@@ -27,13 +27,13 @@ export const useMapStore = defineStore("map", () => {
       id: "hillshade",
       displayName: "Hillshade",
       layerName: ["kuti:craig_hillshade", "kuti:kasaan_hillshade"],
-      visible: true,
+      visible: false,
     },
     {
       id: "streams",
       displayName: "Fish-Bearing Streams",
       layerName: "kuti:streams",
-      visible: true,
+      visible: false,
     },
     {
       id: "tongass",
