@@ -288,7 +288,7 @@ export const useMapStore = defineStore("map", () => {
       minZoom: 9,
       maxZoom: 15,
       center: $L.latLng(INITIAL_CENTER_LAT, INITIAL_CENTER_LNG),
-      scrollWheelZoom: false,
+      scrollWheelZoom: true,
       zoomControl: false,
       doubleClickZoom: false,
       touchZoom: false,
