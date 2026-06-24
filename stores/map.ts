@@ -37,7 +37,7 @@ export const useMapStore = defineStore("map", () => {
     },
     {
       id: "tongass",
-      displayName: "Tongass Forest Landslides",
+      displayName: "Past Landslides",
       layerName: "kuti:tongass",
       visible: true,
     },
