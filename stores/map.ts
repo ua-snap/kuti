@@ -49,7 +49,7 @@ export const useMapStore = defineStore("map", () => {
     },
     {
       id: "initiation",
-      displayName: "Landslide Initiation",
+      displayName: "Potential Landslide Initiation",
       layerName: "kuti:initiation",
       visible: true,
     },
