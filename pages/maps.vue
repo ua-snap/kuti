@@ -5,7 +5,7 @@
       <Map />
     </div>
     <p>
-      Modeled Landslide Prone Areas are do not integrate current or forecasted
+      Modeled Landslide Prone Areas do not integrate current or forecasted
       rainfall.
     </p>
   </div>
